@@ -16,11 +16,23 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Simple Trader"
+                   Padding="15"
+                   FontSize="26"
+                   FontWeight="Bold"
+                   Foreground="#f0f0f0"
                    Background="{StaticResource BrushPrimary1}"
                    Grid.Row="0"/>
 
         <Grid Grid.Row="1"
               Background="{StaticResource BrushPrimary2}">
+
+            <!--
+                Every RadioButton in the NavigationBar will have the same style
+            -->
+            <Grid.Resources>
+                <Style TargetType="RadioButton" BasedOn="{StaticResource NavigationButtonStyle}"/>
+            </Grid.Resources>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
@@ -29,6 +41,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+                
             <RadioButton Grid.Column="0"
                          Content="Home"
                          Command="{Binding UpdateCurrentViewModelCommand}"

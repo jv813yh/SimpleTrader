@@ -14,5 +14,8 @@
            Color="{StaticResource ColorPrimary1}"/>
     <SolidColorBrush x:Key="BrushPrimary2"
            Color="{StaticResource ColorPrimary2}"/>
+    
+    
+    
 
 </ResourceDictionary>

@@ -9,13 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\crownIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SimpleTrader.Domain\SimpleTrader.Domain.csproj" />
     <ProjectReference Include="..\SimpleTrader.EntityFramework\SimpleTrader.EntityFramework.csproj" />
+    <ProjectReference Include="..\SimpleTrader.FinancialModelingAPI\SimpleTrader.FinancialModelingAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Stores\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\crownIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

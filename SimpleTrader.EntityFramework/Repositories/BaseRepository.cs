@@ -12,6 +12,7 @@ namespace SimpleTrader.EntityFramework.Repositories
      */
     public class BaseRepository<T> : IBaseRepository<T> where T : DomainObject
     {
+        // DesignTimeSimpleTraderDbContextFactory instance
         private readonly DesignTimeSimpleTraderDbContextFactory _contextFactory;
 
         public BaseRepository(DesignTimeSimpleTraderDbContextFactory contextFactory)
@@ -33,7 +34,9 @@ namespace SimpleTrader.EntityFramework.Repositories
                     try
                     {
                         // Add the entity to the database
-                        EntityEntry<T> createdResult = await context.Set<T>().AddAsync(entity);
+                        EntityEntry<T> createdResult = await context.Set<T>()
+                            .AddAsync(entity);
+
                         // Save the changes
                         await context.SaveChangesAsync();
                         // Commit the transaction
@@ -73,7 +76,8 @@ namespace SimpleTrader.EntityFramework.Repositories
                     try
                     {
                         // Find the entity by id
-                        T? entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+                        T? entity = await context.Set<T>()
+                            .FirstOrDefaultAsync(e => e.Id == id);
 
                         if(entity != null)
                         {
@@ -115,7 +119,8 @@ namespace SimpleTrader.EntityFramework.Repositories
             {
                 try
                 {
-                    IEnumerable<T> entities = await context.Set<T>().ToListAsync();
+                    IEnumerable<T> entities = await context.Set<T>()
+                        .ToListAsync();
 
                     return entities;
                 }
@@ -144,7 +149,8 @@ namespace SimpleTrader.EntityFramework.Repositories
             {
                 try
                 {
-                    var entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+                    T? entity = await context.Set<T>()
+                        .FirstOrDefaultAsync(e => e.Id == id);
 
                     if (entity != null)
                     {
@@ -175,19 +181,24 @@ namespace SimpleTrader.EntityFramework.Repositories
                 {
                     try
                     {
-                        T? findEntity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+                        T? findEntity = await context.Set<T>()
+                            .FirstOrDefaultAsync(e => e.Id == id);
 
                         if (findEntity != null)
                         {
                             // Detach the entity from the context
                             context.Entry(findEntity).State = EntityState.Detached;
 
-                            // Set the id of the entity to the id of the entity that we want to update
 
+                            // Set the id of the entity to the id of the entity that we want to update
                             if(id != entity.Id)
                             {
                                 entity.Id = id;
-                                EntityEntry<T> updatedResult = context.Set<T>().Update(entity);
+
+                                EntityEntry<T> updatedResult = context.Set<T>()
+                                    .Update(entity);
+
+
                                 await context.SaveChangesAsync();
                                 await transaction.CommitAsync();
 

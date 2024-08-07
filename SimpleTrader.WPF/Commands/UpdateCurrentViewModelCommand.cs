@@ -1,4 +1,5 @@
-﻿using SimpleTrader.WPF.State.Navigators;
+﻿using SimpleTrader.FinancialModelingAPI.Services;
+using SimpleTrader.WPF.State.Navigators;
 using SimpleTrader.WPF.VVM.ViewModels;
 
 namespace SimpleTrader.WPF.Commands
@@ -11,6 +12,11 @@ namespace SimpleTrader.WPF.Commands
         {
             _navigator = navigator;
         }
+
+        /// <summary>
+        /// Method to execute the command to update the current view model based on the parameter
+        /// </summary>
+        /// <param name="parameter"></param>
         public override void Execute(object? parameter)
         {
             if(parameter is ViewType viewType)
@@ -18,13 +24,13 @@ namespace SimpleTrader.WPF.Commands
                 switch(viewType)
                 {
                     case ViewType.Home:
-                        _navigator.CurrentViewModel = new HomeViewModel();
+                        _navigator.CurrentViewModel = new HomeViewModel(MajorIndexViewModel.CreateMajorIndexViewModel(new MajorIndexProvider()));
                         break;
                     case ViewType.Portfolio:
                         _navigator.CurrentViewModel = new PortfolioViewModel();
                         break;
                     default:
-                        _navigator.CurrentViewModel = new HomeViewModel();
+                        _navigator.CurrentViewModel = new HomeViewModel(MajorIndexViewModel.CreateMajorIndexViewModel(new MajorIndexProvider()));
                         break;
                 }
             }
