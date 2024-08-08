@@ -8,11 +8,17 @@
 
         <ResourceDictionary>
             
+            <!--
+                Styles
+            -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/Common.xaml"/>
                 <ResourceDictionary Source="/Styles/NavigationBarStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <!--
+                According to the ViewModel, the View is selected
+            -->
             <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
                 <views:HomeView/>
             </DataTemplate>

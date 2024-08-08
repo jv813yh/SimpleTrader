@@ -8,7 +8,7 @@
     }
     public class MajorIndex
     {
-        public double Prices { get; set; }
+        public double Price { get; set; }
         public double Changes { get; set; }
         public MajorIndexType MajoxIndexType { get; set; }
     }

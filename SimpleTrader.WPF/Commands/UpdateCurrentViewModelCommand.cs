@@ -24,13 +24,13 @@ namespace SimpleTrader.WPF.Commands
                 switch(viewType)
                 {
                     case ViewType.Home:
-                        _navigator.CurrentViewModel = new HomeViewModel(MajorIndexViewModel.CreateMajorIndexViewModel(new MajorIndexProvider()));
+                        _navigator.CurrentViewModel = new HomeViewModel(MajorIndexListingViewModel.CreateMajorIndexViewModel(new MajorIndexProvider()));
                         break;
                     case ViewType.Portfolio:
                         _navigator.CurrentViewModel = new PortfolioViewModel();
                         break;
                     default:
-                        _navigator.CurrentViewModel = new HomeViewModel(MajorIndexViewModel.CreateMajorIndexViewModel(new MajorIndexProvider()));
+                        _navigator.CurrentViewModel = new HomeViewModel(MajorIndexListingViewModel.CreateMajorIndexViewModel(new MajorIndexProvider()));
                         break;
                 }
             }

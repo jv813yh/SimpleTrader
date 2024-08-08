@@ -3,15 +3,42 @@ using SimpleTrader.Domain.Services.Interfaces;
 
 namespace SimpleTrader.WPF.VVM.ViewModels
 {
-    public class MajorIndexViewModel
+    public class MajorIndexListingViewModel : BaseViewModel
     {
         private readonly IMajorIndexService _majorIndexService;
 
-        public MajorIndex DowJones { get; set; }
-        public MajorIndex Nasdaq { get; set; }
-        public MajorIndex SP500 { get; set; }
+        private MajorIndex _dowJones;
+        private MajorIndex _nasdaq;
+        private MajorIndex _sP500;
+        public MajorIndex DowJones 
+        { 
+            get => _dowJones;
+            set
+            {
+                _dowJones = value;
+                OnPropertyChanged(nameof(DowJones));
+            }
+        }
+        public MajorIndex Nasdaq 
+        { 
+            get => _nasdaq;
+            set
+            {
+                _nasdaq = value;
+                OnPropertyChanged(nameof(Nasdaq));
+            }
+        }
+        public MajorIndex SP500 
+        {
+            get => _sP500;
+            set
+            {
+                _sP500 = value;
+                OnPropertyChanged(nameof(SP500));
+            }
+        }
 
-        public MajorIndexViewModel(IMajorIndexService majorIndexService)
+        public MajorIndexListingViewModel(IMajorIndexService majorIndexService)
         {
             _majorIndexService = majorIndexService;
         }
@@ -20,9 +47,9 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         /// </summary>
         /// <param name="majorIndexService"></param>
         /// <returns></returns>
-        public static MajorIndexViewModel CreateMajorIndexViewModel(IMajorIndexService majorIndexService)
+        public static MajorIndexListingViewModel CreateMajorIndexViewModel(IMajorIndexService majorIndexService)
         {
-            MajorIndexViewModel majorIndexViewModel = new MajorIndexViewModel(majorIndexService);
+            MajorIndexListingViewModel majorIndexViewModel = new MajorIndexListingViewModel(majorIndexService);
 
             // Load the major indexes 
             majorIndexViewModel.LoadMajorIndexex();
