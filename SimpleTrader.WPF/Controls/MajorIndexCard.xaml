@@ -19,7 +19,7 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding MajoxIndexType, FallbackValue=Name}"
+            <TextBlock Text="{Binding IndexName, FallbackValue=Name}"
                        FontSize="30"
                        FontWeight="Bold"
                        HorizontalAlignment="Center"

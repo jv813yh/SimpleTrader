@@ -1,6 +1,5 @@
 ﻿using SimpleTrader.WPF.Commands;
 using SimpleTrader.WPF.VVM.ViewModels;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace SimpleTrader.WPF.State.Navigators
@@ -20,6 +19,5 @@ namespace SimpleTrader.WPF.State.Navigators
 
         public ICommand UpdateCurrentViewModelCommand
             => new UpdateCurrentViewModelCommand(this);
-
     }
 }

@@ -8,9 +8,13 @@ namespace SimpleTrader.WPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is HomeViewModel homeViewModel)
+            if(value is BaseViewModel baseViewModel && 
+                parameter != null)
             {
-                return true;
+                if(parameter.ToString().Equals(baseViewModel.GetType().Name))
+                {
+                       return true;
+                }
             }
 
             return false;

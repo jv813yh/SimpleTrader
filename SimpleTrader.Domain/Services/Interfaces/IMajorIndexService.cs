@@ -4,7 +4,7 @@ namespace SimpleTrader.Domain.Services.Interfaces
 {
     public interface IMajorIndexService
     {
-        // https://site.financialmodelingprep.com/developer/docs
+        //https://site.financialmodelingprep.com/developer/docs
         Task<MajorIndex> GetMajorIndexAsync(MajorIndexType majorIndexType);
     }
 }

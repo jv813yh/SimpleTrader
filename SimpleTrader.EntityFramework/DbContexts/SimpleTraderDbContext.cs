@@ -27,7 +27,7 @@ namespace SimpleTrader.EntityFramework.DbContexts
             // Owned types (Stock) are special types that are tightly bound to their parent
             // entity (AssetTransaction) and do not have their own identity
             // (they do not have their own key).
-            modelBuilder.Entity<AssetTransaction>().OwnsOne(a => a.Stock);
+            modelBuilder.Entity<AssetTransaction>().OwnsOne(a => a.Asset);
 
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<AssetTransaction>().HasKey(a => a.Id);

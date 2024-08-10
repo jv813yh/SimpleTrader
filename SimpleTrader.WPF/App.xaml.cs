@@ -1,4 +1,5 @@
 ﻿using SimpleTrader.Domain.Models;
+using SimpleTrader.FinancialModelingAPI.Results;
 using SimpleTrader.FinancialModelingAPI.Services;
 using SimpleTrader.WPF.VVM.ViewModels;
 using System.Windows;
@@ -22,6 +23,11 @@ namespace SimpleTrader.WPF
             };
 
             window.Show();
+
+            new StockPriceProvider().GetPriceAsync("AAPL").ContinueWith(task =>
+            {
+                double? price = task.Result;
+            });
 
             base.OnStartup(e);
         }
