@@ -1,6 +1,6 @@
-﻿namespace SimpleTrader.Domain.Interfaces
+﻿namespace SimpleTrader.Common.Interfaces
 {
-    internal interface IBaseRepository<T> where T : class
+    public interface ICommonRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T?> GetByIdAsync(int id);

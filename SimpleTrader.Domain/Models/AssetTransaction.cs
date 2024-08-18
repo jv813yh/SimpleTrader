@@ -1,6 +1,8 @@
-﻿namespace SimpleTrader.Domain.Models
+﻿using SimpleTrader.Common.Models;
+
+namespace SimpleTrader.Domain.Models
 {
-    public class AssetTransaction : DomainObject
+    public class AssetTransaction : CommonObject
     {
         public Account Account { get; set; }
         public bool IsPurchase { get; set; }

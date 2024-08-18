@@ -10,7 +10,7 @@ namespace SimpleTrader.FinancialModelingAPI.Services
         private const string _stockRealTimeGlobal = "stock/real-time-price/";
         private const string _apiKey = "3caTRYHV1GznUExhsAqG9h8NeRgXY1rN";
 
-        public async Task<double?> GetPriceAsync(string symbol)
+        public async Task<double> GetPriceAsync(string symbol)
         {
             // uri to get the StockPriceResult according to the symbol
             string fullUriToMajorIndex = _stockRealTimeGlobal + symbol + $"?apikey={_apiKey}";

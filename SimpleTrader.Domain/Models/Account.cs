@@ -1,9 +1,11 @@
-﻿namespace SimpleTrader.Domain.Models
+﻿using SimpleTrader.Common.Models;
+
+namespace SimpleTrader.Domain.Models
 {
-    public class Account : DomainObject
+    public class Account : CommonObject
     {
-        public User AccountHolder { get; set; }
+        public int idUser { get; set; }
         public double Balance { get; set; }
-        public IEnumerable<AssetTransaction> AssetTransactions { get; set; }
+        public ICollection<AssetTransaction> AssetTransactions { get; set; }
     }
 }

@@ -53,7 +53,6 @@ namespace SimpleTrader.FinancialModelingAPI.Services
                     return ".INX";
                 default:
                     throw new NotImplementedException("MajorIndexType does not have a suffix defined");
-
             };
         }
     }

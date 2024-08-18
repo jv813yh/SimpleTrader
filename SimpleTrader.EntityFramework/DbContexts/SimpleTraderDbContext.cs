@@ -34,6 +34,7 @@ namespace SimpleTrader.EntityFramework.DbContexts
             modelBuilder.Entity<Account>().HasKey(a => a.Id);
 
             base.OnModelCreating(modelBuilder);
+
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SimpleTrader.Common\SimpleTrader.Shared.csproj" />
-  </ItemGroup>
-
 </Project>

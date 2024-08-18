@@ -1,26 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
 using SimpleTrader.Common.Interfaces;
-using SimpleTrader.Common.Models;
 using SimpleTrader.EntityFramework.DbContexts;
+using SimpleTrader.Domain.Models;
 using SimpleTrader.EntityFramework.Repositories.Common;
 
 namespace SimpleTrader.EntityFramework.Repositories
 {
-    /* 
-     * Base repository class that implements the IBaseRepository interface
-     * Contains CRUD operations for the entity and some additional methods
-     */
-    public class BaseRepository<T> : ICommonRepository<T> where T : CommonObject
+    public class AccountRepository : ICommonRepository<Account>
     {
         // DesignTimeSimpleTraderDbContextFactory instance
         private readonly DesignTimeSimpleTraderDbContextFactory _contextFactory;
-        // SharedRepository instance
-        private readonly SharedRepository<T> _sharedRepository;
 
-        public BaseRepository(DesignTimeSimpleTraderDbContextFactory contextFactory)
+        // SharedRepository instance
+        private readonly SharedRepository<Account> _sharedRepository;
+
+        public AccountRepository(DesignTimeSimpleTraderDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
-            _sharedRepository = new SharedRepository<T>(contextFactory);
+            _sharedRepository = new SharedRepository<Account>(contextFactory);
         }
 
         /// <summary>
@@ -28,8 +26,8 @@ namespace SimpleTrader.EntityFramework.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public async Task<T> CreateAsync(T entity)
-        => await _sharedRepository.CreateAsync(entity);
+        public async Task<Account> CreateAsync(Account entity)
+            => await _sharedRepository.CreateAsync(entity);
 
         /// <summary>
         /// Async method that deletes an entity from the database
@@ -38,20 +36,21 @@ namespace SimpleTrader.EntityFramework.Repositories
         /// <returns>true if was successfully</returns>
         /// <exception cref="Exception"></exception>
         public async Task<bool> DeleteAsync(int id)
-         => await _sharedRepository.DeleteAsync(id);
+            => await _sharedRepository.DeleteAsync(id);
 
         /// <summary>
         /// Async method that gets all entities from the database without any conditions
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<Account>> GetAllAsync()
         {
             using (var context = _contextFactory.CreateDbContext())
             {
                 try
                 {
-                    IEnumerable<T> entities = await context.Set<T>()
+                    IEnumerable<Account> entities = await context.Accounts
+                        .Include(a => a.AssetTransactions)
                         .ToListAsync();
 
                     return entities;
@@ -75,13 +74,14 @@ namespace SimpleTrader.EntityFramework.Repositories
         /// <param name="id"></param>
         /// <returns>entity when it exists, otherwise null</returns>
         /// <exception cref="Exception"></exception>
-        public async Task<T?> GetByIdAsync(int id)
+        public async Task<Account?> GetByIdAsync(int id)
         {
-            using(var context = _contextFactory.CreateDbContext())
+            using (var context = _contextFactory.CreateDbContext())
             {
                 try
                 {
-                    T? entity = await context.Set<T>()
+                    Account? entity = await context.Accounts
+                        .Include(a => a.AssetTransactions)
                         .FirstOrDefaultAsync(e => e.Id == id);
 
                     if (entity != null)
@@ -105,14 +105,7 @@ namespace SimpleTrader.EntityFramework.Repositories
             }
         }
 
-        /// <summary>
-        /// Async method that updates an entity in the database
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public async Task<T?> UpdateAsync(int id, T entity)
+        public async Task<Account?> UpdateAsync(int id, Account entity)
          => await _sharedRepository.UpdateAsync(id, entity);
-        
     }
 }

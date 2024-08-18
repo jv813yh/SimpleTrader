@@ -3,6 +3,6 @@
     public interface IStockPriceService
     {
         // https://site.financialmodelingprep.com/developer/docs
-        Task<double?> GetPriceAsync(string symbol);
+        Task<double> GetPriceAsync(string symbol);
     }
 }
