@@ -1,16 +1,17 @@
-﻿using SimpleTrader.FinancialModelingAPI.Services;
-using SimpleTrader.WPF.State.Navigators;
-using SimpleTrader.WPF.VVM.ViewModels;
+﻿using SimpleTrader.WPF.State.Navigators;
+using SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces;
 
 namespace SimpleTrader.WPF.Commands
 {
     public class UpdateCurrentViewModelCommand : BaseCommand
     {
         private readonly INavigator _navigator;
+        private readonly ISimpleTraderViewModelAbstractFactory _viewModelFactory;
 
-        public UpdateCurrentViewModelCommand(INavigator navigator)
+        public UpdateCurrentViewModelCommand(INavigator navigator, ISimpleTraderViewModelAbstractFactory viewModelFactory)
         {
             _navigator = navigator;
+            _viewModelFactory = viewModelFactory;
         }
 
         /// <summary>
@@ -21,18 +22,7 @@ namespace SimpleTrader.WPF.Commands
         {
             if(parameter is ViewType viewType)
             {
-                switch(viewType)
-                {
-                    case ViewType.Home:
-                        _navigator.CurrentViewModel = new HomeViewModel(MajorIndexListingViewModel.CreateMajorIndexViewModel(new MajorIndexProvider()));
-                        break;
-                    case ViewType.Portfolio:
-                        _navigator.CurrentViewModel = new PortfolioViewModel();
-                        break;
-                    default:
-                        _navigator.CurrentViewModel = new HomeViewModel(MajorIndexListingViewModel.CreateMajorIndexViewModel(new MajorIndexProvider()));
-                        break;
-                }
+                _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);
             }
         }
     }

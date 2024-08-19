@@ -1,4 +1,5 @@
-﻿using SimpleTrader.Common.Interfaces;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SimpleTrader.Common.Interfaces;
 using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services.Interfaces;
 using SimpleTrader.Domain.Services.Interfaces.TransactionServices;
@@ -6,7 +7,10 @@ using SimpleTrader.Domain.Services.TransactionProviders;
 using SimpleTrader.EntityFramework.DbContexts;
 using SimpleTrader.EntityFramework.Repositories;
 using SimpleTrader.FinancialModelingAPI.Services;
+using SimpleTrader.WPF.State.Navigators;
 using SimpleTrader.WPF.VVM.ViewModels;
+using SimpleTrader.WPF.VVM.ViewModels.Factories;
+using SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces;
 using System.Windows;
 
 namespace SimpleTrader.WPF
@@ -18,25 +22,56 @@ namespace SimpleTrader.WPF
     {
         protected override async void OnStartup(StartupEventArgs e)
         {
-
-            ICommonRepository<Account> repositoryAccount = new AccountRepository(new DesignTimeSimpleTraderDbContextFactory());
-            IStockPriceService stockPriceService = new StockPriceProvider();
-            IBuyStockService buyStockService = new BuyStockProvider(stockPriceService, repositoryAccount);
-
-            Account AccountById4 = await repositoryAccount.GetByIdAsync(1);
-
-            Account returnAccount = await buyStockService.BuyStockAsync(AccountById4, "T", 2);
+            // Create the service provider
+            IServiceProvider serviceProvider = CreateServiceProvider();
 
             // Create the startup window
             Window window = new MainWindow()
             {
-                // Set the data context of the window to the MainViewModel
-                DataContext = new MainViewModel()
+                DataContext = serviceProvider.GetRequiredService<MainViewModel>()
             };
 
             window.Show();
 
             base.OnStartup(e);
+        }
+
+        /// <summary>
+        /// Get all the services that are needed for the application
+        /// </summary>
+        /// <returns></returns>
+        private IServiceProvider CreateServiceProvider()
+        {
+            // Register the services in the service collection
+            IServiceCollection serviceCollection = new ServiceCollection();
+
+            // Register for the dbContext factory
+            serviceCollection.AddSingleton<DesignTimeSimpleTraderDbContextFactory>();
+            // Register the ICommonRepository<Account> and AccountRepository like Singleton service
+            serviceCollection.AddSingleton<ICommonRepository<Account>, AccountRepository>();
+            // Register IStockPriceService and StockPriceProvider like Singleton service
+            serviceCollection.AddSingleton<IStockPriceService, StockPriceProvider>();
+            // Register IBuyStockService and BuyStockProvider like Singleton service
+            serviceCollection.AddSingleton<IBuyStockService, BuyStockProvider>();
+            // Register the IMajorIndexService and MajorIndexProvider like Singleton service
+            serviceCollection.AddSingleton<IMajorIndexService, MajorIndexProvider>();
+
+            
+            // Register the SimpleTraderViewModelAbstractFactory, HomeViewModelFactory,
+            // MajorIndexListingViewModelFactory and PortfolioViewModelFactory like Singleton service
+            serviceCollection.AddSingleton<ISimpleTraderViewModelAbstractFactory, SimpleTraderViewModelAbstractFactory>();
+            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
+            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<MajorIndexListingViewModel>, MajorIndexListingViewModelFactory>();
+            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<PortfolioViewModel>, PortfolioViewModelFactory>();
+
+            // Register the Navigator as a AddScoped service
+            serviceCollection.AddScoped<INavigator, Navigator>();
+
+            // Register the MainViewModel as a Scoped service
+            serviceCollection.AddScoped<MainViewModel>();
+
+            // Build the service provider
+            return serviceCollection.BuildServiceProvider();
         }
     }
 }

@@ -113,6 +113,5 @@ namespace SimpleTrader.EntityFramework.Repositories
         /// <returns></returns>
         public async Task<T?> UpdateAsync(int id, T entity)
          => await _sharedRepository.UpdateAsync(id, entity);
-        
     }
 }
