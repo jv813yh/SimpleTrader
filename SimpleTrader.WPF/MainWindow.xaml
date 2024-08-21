@@ -7,7 +7,7 @@
         xmlns:controls="clr-namespace:SimpleTrader.WPF.Controls"
         mc:Ignorable="d"
         Title="Simple Trader" 
-        Height="450" 
+        Height="550" 
         Width="800"
         Icon="/Images/crownIcon.png">
     

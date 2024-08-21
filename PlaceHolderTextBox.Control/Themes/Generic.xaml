@@ -1,0 +1,49 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:PlaceHolderTextBox.Control">
+
+
+    <Style TargetType="{x:Type local:PlaceHolderTextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:PlaceHolderTextBox}">
+                    <ControlTemplate.Resources>
+                        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+                    </ControlTemplate.Resources>
+
+                    <Grid>
+
+                        <!--
+                            TextBlock for PlaceHolder
+                        -->
+                        <TextBlock Text="{TemplateBinding PlaceHolder}"
+                                   Panel.ZIndex="1"
+                                   Visibility="{TemplateBinding IsEmpty, 
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}"
+                                   Padding="{TemplateBinding Padding}"
+                                   IsHitTestVisible="False"
+                                   Opacity="0.4"/>
+
+
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+
+                            <!--
+                                PART_ContentHost refers to a specific element that is 
+                                used to display the content of the given control
+                            
+                                I use ScrollViewer to make the
+                            -->
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+
+                        </Border>
+
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -14,6 +14,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/Common.xaml"/>
                 <ResourceDictionary Source="/Styles/NavigationBarStyle.xaml"/>
+                <ResourceDictionary Source="/Styles/Themes/ModernButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--
@@ -25,6 +26,10 @@
 
             <DataTemplate DataType="{x:Type viewModels:PortfolioViewModel}">
                 <views:PortfolioView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:BuyViewModel}">
+                <views:BuyView/>
             </DataTemplate>
         </ResourceDictionary>
 

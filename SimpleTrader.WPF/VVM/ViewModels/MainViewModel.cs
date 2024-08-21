@@ -9,6 +9,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         public MainViewModel(INavigator navigator)
         {
             Navigator = navigator;
+            // Set the default view model to HomeViewModel
             Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Home);
         }
     }

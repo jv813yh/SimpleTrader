@@ -7,6 +7,8 @@ namespace SimpleTrader.WPF.State.Navigators
     {
         Home,
         Portfolio,
+        Buy,
+        Sell
     }
 
     public interface INavigator

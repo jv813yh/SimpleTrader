@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SimpleTrader.Common.Interfaces;
-using SimpleTrader.EntityFramework.DbContexts;
 using SimpleTrader.Domain.Models;
+using SimpleTrader.EntityFramework.DbContexts;
 using SimpleTrader.EntityFramework.Repositories.Common;
 
 namespace SimpleTrader.EntityFramework.Repositories

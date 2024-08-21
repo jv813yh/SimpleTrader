@@ -50,6 +50,7 @@
                         <ColorAnimation To="{StaticResource ColorPrimary1}"
                                         Duration="0:0:0.5"
                                         Storyboard.TargetProperty="Background.Color"/>
+                        
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>

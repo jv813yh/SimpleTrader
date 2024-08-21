@@ -7,6 +7,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800">
+
+    <UserControl.Resources>
+            <Storyboard x:Key ="TextColorAnimation">
+                <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                From="Black"
+                                To="Green"
+                                Duration="0:0:1"
+                                AutoReverse="True"
+                                RepeatBehavior="Forever"/>
+            </Storyboard>
+    </UserControl.Resources>
+    
     <Grid>
 
         <Grid.RowDefinitions>
@@ -43,4 +55,10 @@
         </Grid>
 
     </Grid>
+
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource TextColorAnimation}"/>
+        </EventTrigger>
+    </UserControl.Triggers>
 </UserControl>

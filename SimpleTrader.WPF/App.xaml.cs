@@ -20,7 +20,7 @@ namespace SimpleTrader.WPF
     /// </summary>
     public partial class App : Application
     {
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             // Create the service provider
             IServiceProvider serviceProvider = CreateServiceProvider();
@@ -39,7 +39,7 @@ namespace SimpleTrader.WPF
         /// <summary>
         /// Get all the services that are needed for the application
         /// </summary>
-        /// <returns></returns>
+        /// <returns> ServiceProvider containing services from our provider IServiceCollection </returns>
         private IServiceProvider CreateServiceProvider()
         {
             // Register the services in the service collection
@@ -57,16 +57,16 @@ namespace SimpleTrader.WPF
             serviceCollection.AddSingleton<IMajorIndexService, MajorIndexProvider>();
 
             
-            // Register the SimpleTraderViewModelAbstractFactory, HomeViewModelFactory,
-            // MajorIndexListingViewModelFactory and PortfolioViewModelFactory like Singleton service
-            serviceCollection.AddSingleton<ISimpleTraderViewModelAbstractFactory, SimpleTraderViewModelAbstractFactory>();
+            // Register the RootSimpleTraderViewModelFactory, HomeViewModelFactory,
+            // MajorIndexListingViewModelFactory and PortfolioViewModelFactory like Singleton services
+            serviceCollection.AddSingleton<IRootSimpleTraderViewModelFactory, RootSimpleTraderViewModelAbstractFactory>();
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<MajorIndexListingViewModel>, MajorIndexListingViewModelFactory>();
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<PortfolioViewModel>, PortfolioViewModelFactory>();
 
             // Register the Navigator as a AddScoped service
             serviceCollection.AddScoped<INavigator, Navigator>();
-
+            serviceCollection.AddScoped<BuyViewModel>();
             // Register the MainViewModel as a Scoped service
             serviceCollection.AddScoped<MainViewModel>();
 

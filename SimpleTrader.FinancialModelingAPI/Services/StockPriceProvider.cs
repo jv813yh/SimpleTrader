@@ -12,6 +12,7 @@ namespace SimpleTrader.FinancialModelingAPI.Services
 
         public async Task<double> GetPriceAsync(string symbol)
         {
+            double returnFirstPrice;
             // uri to get the StockPriceResult according to the symbol
             string fullUriToMajorIndex = _stockRealTimeGlobal + symbol + $"?apikey={_apiKey}";
 
@@ -25,12 +26,30 @@ namespace SimpleTrader.FinancialModelingAPI.Services
                     throw new InvalidSymbolException(symbol);
                 }
 
-                double firstPrice = stockResult.CompaniesPriceList
-                    .Where(c => c.Symbol == symbol)
-                    .FirstOrDefault().Price;
+                try
+                {
+                    returnFirstPrice = stockResult.CompaniesPriceList
+                        .Where(c => c.Symbol == symbol)
+                        .First().Price;
+                }
+                catch (NullReferenceException)
+                {
+
+                    throw new Exception("The price of the stock is not available");
+                }
+                catch(InvalidOperationException)
+                {
+
+                    throw new Exception("The price of the stock is not available");
+                }
+                catch (Exception ex)
+                {
+
+                    throw new Exception($"{ex.Message}");
+                }
 
                 // Return the price of stock
-                return firstPrice;
+                return returnFirstPrice;
             }
         }
     }
