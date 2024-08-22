@@ -8,7 +8,9 @@
         mc:Ignorable="d"
         Title="Simple Trader" 
         Height="550" 
+        MinHeight="250"
         Width="800"
+        MinWidth="450"
         Icon="/Images/crownIcon.png">
     
     <Grid>
@@ -18,12 +20,23 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        
+        <!--
+            For the NavigationBar, 
+            we are setting the DataContext to the Navigator property for Binding purposes
+        -->
         <controls:NavigationBar DataContext="{Binding Navigator}"
                                 Grid.Row="0"/>
 
-        <ContentControl Content="{Binding Navigator.CurrentViewModel}"
-                        Grid.Row="1"/>
+        <!--
+            ContentControl is a control that can dynamically 
+            display any type of content
+        -->
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <ContentControl Content="{Binding Navigator.CurrentViewModel}"/>
+        </ScrollViewer>
+
 
     </Grid>
 </Window>

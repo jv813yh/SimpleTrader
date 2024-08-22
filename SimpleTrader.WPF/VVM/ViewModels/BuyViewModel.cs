@@ -19,6 +19,18 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             }
         }
 
+        private string _searchResultSymbol = string.Empty;
+        public string SearchResultSymbol
+        {
+            get => _searchResultSymbol;
+            set
+            {
+                _searchResultSymbol = value;
+                OnPropertyChanged(nameof(SearchResultSymbol));
+                OnPropertyChanged(nameof(TotalPrice));
+            }
+        }
+
         // Current stock price of the symbol
         private double _pricePerShare;
         public double PricePerShare

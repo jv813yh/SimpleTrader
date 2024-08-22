@@ -1,6 +1,7 @@
 ﻿using SimpleTrader.Domain.Services.Interfaces;
 using SimpleTrader.WPF.VVM.ViewModels;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace SimpleTrader.WPF.Commands
@@ -34,11 +35,22 @@ namespace SimpleTrader.WPF.Commands
         // 
         public override void Execute(object? parameter)
         {
-            _stockPriceService.GetPriceAsync(_buyViewModel.Symbol).ContinueWith(task =>
+            string symbolToUpper = _buyViewModel.Symbol.ToUpper();
+
+            _stockPriceService.GetPriceAsync(symbolToUpper).ContinueWith(task =>
             {
                 if (!task.IsFaulted)
                 {
+                    _buyViewModel.SearchResultSymbol = symbolToUpper;
                     _buyViewModel.PricePerShare = task.Result;
+
+                    if (int.TryParse(_buyViewModel.SharesToBuy, out int shares))
+                    {
+                        if (shares > 0)
+                        {
+                            _buyViewModel.SharesToBuy = "0";
+                        }
+                    }
                 }
                 else
                 {
