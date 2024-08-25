@@ -5,8 +5,11 @@ namespace SimpleTrader.FinancialModelingAPI
 {
     public class FinancialModelingHttpClient : HttpClient
     {
-        public FinancialModelingHttpClient()
+        // API key for the financial modeling API
+        private readonly string _apiKey;
+        public FinancialModelingHttpClient(string apiKey)
         {
+            _apiKey = apiKey;
             this.BaseAddress = new Uri("https://financialmodelingprep.com/api/v3/");
         }
         /// <summary>
@@ -20,7 +23,7 @@ namespace SimpleTrader.FinancialModelingAPI
             try
             {
                 // Get the response message from the uri
-                HttpResponseMessage responseMessage = await base.GetAsync(uri);
+                HttpResponseMessage responseMessage = await base.GetAsync(uri + $"?apikey={_apiKey}");
 
                 // Get the raw content from the response message
                 string rawContentJson = await responseMessage.Content.ReadAsStringAsync();

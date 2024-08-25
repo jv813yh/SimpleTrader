@@ -1,8 +1,5 @@
-﻿
-using Newtonsoft.Json;
-using SimpleTrader.Domain.Models;
+﻿using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services.Interfaces;
-using System.Text.Json;
 
 namespace SimpleTrader.FinancialModelingAPI.Services
 {
@@ -10,7 +7,13 @@ namespace SimpleTrader.FinancialModelingAPI.Services
     {
         // URI to get the major index
         private const string _majorIndexURIGlobal = "majors-indexes/";
-        private const string _apiKey = "3caTRYHV1GznUExhsAqG9h8NeRgXY1rN";
+        // FinancialModelingHttpClientFactory to create the HttpClient
+        private readonly FinancialModelingHttpClientFactory _financialModelingHttpClientFactory;
+         
+        public MajorIndexProvider(FinancialModelingHttpClientFactory financialModelingHttpClientFactory)
+        {
+            _financialModelingHttpClientFactory = financialModelingHttpClientFactory;
+        }
 
         /// <summary>
         /// Async method to get the major index according to the majorIndexType
@@ -20,9 +23,9 @@ namespace SimpleTrader.FinancialModelingAPI.Services
         public async Task<MajorIndex> GetMajorIndexAsync(MajorIndexType majorIndexType)
         {
             // uri to get the major index according to the majorIndexType
-            string fullUriToMajorIndex = _majorIndexURIGlobal + GetMajorIndexTypeSuffix(majorIndexType) + $"?apikey={_apiKey}";
+            string fullUriToMajorIndex = _majorIndexURIGlobal + GetMajorIndexTypeSuffix(majorIndexType);
 
-            using (FinancialModelingHttpClient client = new FinancialModelingHttpClient())
+            using (FinancialModelingHttpClient client = _financialModelingHttpClientFactory.CreateHttpClient())
             {
                 // Get the response message from the uri
                 MajorIndex majorIndex = await client.GetAsync<MajorIndex>(fullUriToMajorIndex);

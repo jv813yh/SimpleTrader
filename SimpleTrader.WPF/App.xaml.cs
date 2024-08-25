@@ -6,11 +6,13 @@ using SimpleTrader.Domain.Services.Interfaces.TransactionServices;
 using SimpleTrader.Domain.Services.TransactionProviders;
 using SimpleTrader.EntityFramework.DbContexts;
 using SimpleTrader.EntityFramework.Repositories;
+using SimpleTrader.FinancialModelingAPI;
 using SimpleTrader.FinancialModelingAPI.Services;
 using SimpleTrader.WPF.State.Navigators;
 using SimpleTrader.WPF.VVM.ViewModels;
 using SimpleTrader.WPF.VVM.ViewModels.Factories;
 using SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces;
+using System.Configuration;
 using System.Windows;
 
 namespace SimpleTrader.WPF
@@ -44,6 +46,10 @@ namespace SimpleTrader.WPF
         {
             // Register the services in the service collection
             IServiceCollection serviceCollection = new ServiceCollection();
+
+            // Get the API key from the configuration file and register the FinancialModelingHttpClientFactory
+            string apiKey = ConfigurationManager.AppSettings.Get("financialApiKey");
+            serviceCollection.AddSingleton<FinancialModelingHttpClientFactory>(new FinancialModelingHttpClientFactory(apiKey));
 
             // Register for the dbContext factory
             serviceCollection.AddSingleton<DesignTimeSimpleTraderDbContextFactory>();

@@ -8,15 +8,22 @@ namespace SimpleTrader.FinancialModelingAPI.Services
     {
         // URI to get the stock time
         private const string _stockRealTimeGlobal = "stock/real-time-price/";
-        private const string _apiKey = "3caTRYHV1GznUExhsAqG9h8NeRgXY1rN";
+        // FinancialModelingHttpClientFactory to create the HttpClient
+        private readonly FinancialModelingHttpClientFactory _financialModelingHttpClientFactory;
+
+        public StockPriceProvider(FinancialModelingHttpClientFactory financialModelingHttpClientFactory)
+        {
+            _financialModelingHttpClientFactory = financialModelingHttpClientFactory;
+        }
+
 
         public async Task<double> GetPriceAsync(string symbol)
         {
             double returnFirstPrice;
             // uri to get the StockPriceResult according to the symbol
-            string fullUriToMajorIndex = _stockRealTimeGlobal + symbol + $"?apikey={_apiKey}";
+            string fullUriToMajorIndex = _stockRealTimeGlobal + symbol;
 
-            using (FinancialModelingHttpClient client = new FinancialModelingHttpClient())
+            using (FinancialModelingHttpClient client = _financialModelingHttpClientFactory.CreateHttpClient())
             {
                 // Get the response message from the uri
                 StockPriceResult stockResult = await client.GetAsync<StockPriceResult>(fullUriToMajorIndex);
@@ -37,7 +44,7 @@ namespace SimpleTrader.FinancialModelingAPI.Services
 
                     throw new Exception("The price of the stock is not available");
                 }
-                catch(InvalidOperationException)
+                catch (InvalidOperationException)
                 {
 
                     throw new Exception("The price of the stock is not available");
