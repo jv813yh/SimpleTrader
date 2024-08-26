@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using SimpleTrader.Common.Interfaces;
 using SimpleTrader.Domain.Models;
+using SimpleTrader.Domain.Services.AuthentificationServices;
+using SimpleTrader.Domain.Services.AuthentificationServices.Interfaces;
 using SimpleTrader.Domain.Services.Interfaces;
 using SimpleTrader.Domain.Services.Interfaces.TransactionServices;
 using SimpleTrader.Domain.Services.TransactionProviders;
@@ -22,10 +25,16 @@ namespace SimpleTrader.WPF
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             // Create the service provider
             IServiceProvider serviceProvider = CreateServiceProvider();
+
+            IAuthenticationServices auth = serviceProvider.GetRequiredService<IAuthenticationServices>();
+
+            await auth.Login("testRegister", "testRegister123");
+
+            //auth.Register("testRegister@test.com", "testRegister", "testRegister123", "testRegister123", 1300);
 
             // Create the startup window
             Window window = new MainWindow()
@@ -55,12 +64,19 @@ namespace SimpleTrader.WPF
             serviceCollection.AddSingleton<DesignTimeSimpleTraderDbContextFactory>();
             // Register the ICommonRepository<Account> and AccountRepository like Singleton service
             serviceCollection.AddSingleton<ICommonRepository<Account>, AccountRepository>();
+            // Register the IAccountService and AccountRepository like Singleton service
+            serviceCollection.AddSingleton<IAccountService, AccountRepository>();
+            // Register the ICommonRepository<Account> and AccountRepository like Singleton service
+            serviceCollection.AddSingleton<IAuthenticationServices, AuthentificationProvider>();
             // Register IStockPriceService and StockPriceProvider like Singleton service
             serviceCollection.AddSingleton<IStockPriceService, StockPriceProvider>();
             // Register IBuyStockService and BuyStockProvider like Singleton service
             serviceCollection.AddSingleton<IBuyStockService, BuyStockProvider>();
             // Register the IMajorIndexService and MajorIndexProvider like Singleton service
             serviceCollection.AddSingleton<IMajorIndexService, MajorIndexProvider>();
+
+            // Register the PasswordHasher like Singleton service for hashing
+            serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
 
             
             // Register the RootSimpleTraderViewModelFactory, HomeViewModelFactory,

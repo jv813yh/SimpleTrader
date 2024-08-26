@@ -7,6 +7,7 @@ namespace SimpleTrader.FinancialModelingAPI
     {
         // API key for the financial modeling API
         private readonly string _apiKey;
+
         public FinancialModelingHttpClient(string apiKey)
         {
             _apiKey = apiKey;

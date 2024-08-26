@@ -16,7 +16,13 @@ namespace SimpleTrader.FinancialModelingAPI.Services
             _financialModelingHttpClientFactory = financialModelingHttpClientFactory;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidSymbolException"></exception>
+        /// <exception cref="Exception"></exception>
         public async Task<double> GetPriceAsync(string symbol)
         {
             double returnFirstPrice;

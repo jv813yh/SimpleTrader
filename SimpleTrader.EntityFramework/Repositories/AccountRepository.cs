@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SimpleTrader.Common.Interfaces;
 using SimpleTrader.Domain.Models;
+using SimpleTrader.Domain.Services.Interfaces;
 using SimpleTrader.EntityFramework.DbContexts;
 using SimpleTrader.EntityFramework.Repositories.Common;
 
 namespace SimpleTrader.EntityFramework.Repositories
 {
-    public class AccountRepository : ICommonRepository<Account>
+    public class AccountRepository : IAccountService
     {
         // DesignTimeSimpleTraderDbContextFactory instance
         private readonly DesignTimeSimpleTraderDbContextFactory _contextFactory;
@@ -48,7 +48,9 @@ namespace SimpleTrader.EntityFramework.Repositories
             {
                 try
                 {
+                    // Eager Loading
                     IEnumerable<Account> entities = await context.Accounts
+                        .Include(a => a.AccountHolder)
                         .Include(a => a.AssetTransactions)
                         .ToListAsync();
 
@@ -67,6 +69,7 @@ namespace SimpleTrader.EntityFramework.Repositories
             }
         }
 
+
         /// <summary>
         /// Async method that gets an entity by id from the database
         /// </summary>
@@ -79,7 +82,9 @@ namespace SimpleTrader.EntityFramework.Repositories
             {
                 try
                 {
+                    // Eager Loading
                     Account? entity = await context.Accounts
+                        .Include(a => a.AccountHolder)
                         .Include(a => a.AssetTransactions)
                         .FirstOrDefaultAsync(e => e.Id == id);
 
@@ -100,6 +105,61 @@ namespace SimpleTrader.EntityFramework.Repositories
                 {
                     // maybe log the exception- ...
                     throw new Exception("An error occurred while creating an entity.");
+                }
+            }
+        }
+        public async Task<Account?> GetByEmail(string email)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                try
+                {
+                    // Eager Loading
+                    Account? entity = await context.Accounts
+                        .Include(a => a.AccountHolder)
+                        .Include(a => a.AssetTransactions)
+                        .FirstOrDefaultAsync(e => e.AccountHolder.Email == email);  
+
+                    if (entity != null)
+                    {
+                        return entity;
+                    }
+
+                    return null;
+
+                }
+                catch (Exception)
+                {
+                    // maybe log the exception- ...
+                    throw new Exception("An error occurred while searching an entity by email.");
+                }
+            }
+        }
+
+        public async Task<Account?> GetByUserName(string username)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                try
+                {
+                    // Eager Loading
+                    Account? entity = await context.Accounts
+                        .Include(a => a.AccountHolder)
+                        .Include(a => a.AssetTransactions)
+                        .FirstOrDefaultAsync(e => e.AccountHolder.Username == username);
+
+                    if (entity != null)
+                    {
+                        return entity;
+                    }
+
+                    return null;
+
+                }
+                catch (Exception)
+                {
+                    // maybe log the exception- ...
+                    throw new Exception("An error occurred while searching an entity by username.");
                 }
             }
         }

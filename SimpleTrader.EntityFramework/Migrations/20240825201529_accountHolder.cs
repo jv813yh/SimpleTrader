@@ -5,27 +5,10 @@
 namespace SimpleTrader.EntityFramework.Migrations
 {
     /// <inheritdoc />
-    public partial class fixIdUser : Migration
+    public partial class accountHolder : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Accounts_Users_AccountHolderId",
-                table: "Accounts");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Accounts_AccountHolderId",
-                table: "Accounts");
-
-            migrationBuilder.RenameColumn(
-                name: "AccountHolderId",
-                table: "Accounts",
-                newName: "idUser");
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
                 name: "idUser",
@@ -44,6 +27,23 @@ namespace SimpleTrader.EntityFramework.Migrations
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Accounts_Users_AccountHolderId",
+                table: "Accounts");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Accounts_AccountHolderId",
+                table: "Accounts");
+
+            migrationBuilder.RenameColumn(
+                name: "AccountHolderId",
+                table: "Accounts",
+                newName: "idUser");
         }
     }
 }
