@@ -80,10 +80,15 @@ namespace SimpleTrader.Domain.Services.TransactionProviders
             buyer.AssetTransactions.Add(newAssetTransaction);
 
             // Create the new asset transaction in the database
-            await _dataRepository.UpdateAsync(buyer.Id, buyer);
+            Account? updatedAccount =  await _dataRepository.UpdateAsync(buyer.Id, buyer);
+
+            if(updatedAccount == null)
+            {
+                throw new Exception("An error occurred while updating the account in database");
+            }
 
             // Return the buyer
-            return buyer;
+            return updatedAccount;
         }
     }
 }
