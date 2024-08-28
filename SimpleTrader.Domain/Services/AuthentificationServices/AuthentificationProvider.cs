@@ -33,7 +33,7 @@ namespace SimpleTrader.Domain.Services.AuthentificationServices
 
             if(storedAccount == null)
             {
-                throw new Exception("Username is incorrect");
+                throw new UserNotFoundException(username);
             }
 
             // Verify the password
@@ -62,7 +62,6 @@ namespace SimpleTrader.Domain.Services.AuthentificationServices
         /// <exception cref="ArgumentException"></exception>
         public async Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword, double startBalance)
         {
-
             // Check if the password and the confirm password are the same
             if (password != confirmPassword)
             {
@@ -70,7 +69,7 @@ namespace SimpleTrader.Domain.Services.AuthentificationServices
             }
 
             // Check if the email, username and password are not null or empty
-            if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 return RegistrationResult.UsernameOrEmailOrPasswordIsEmpty;
             }

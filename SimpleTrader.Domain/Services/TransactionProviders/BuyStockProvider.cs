@@ -29,13 +29,13 @@ namespace SimpleTrader.Domain.Services.TransactionProviders
             // Check if the buyer is null
             if(buyer == null)
             {
-                throw new ArgumentNullException(nameof(buyer));
+                throw new ArgumentNullException(nameof(buyer), "Buyer is not set");
             }
 
             // Check if the stock symbol is null or empty
             if(string.IsNullOrEmpty(stockSymbol))
             {
-                throw new ArgumentNullException(nameof(stockSymbol));
+                throw new ArgumentNullException(nameof(stockSymbol),"Stock symbol is not set");
             }
 
             // Check if the shares are less than or equal to 0
@@ -58,7 +58,7 @@ namespace SimpleTrader.Domain.Services.TransactionProviders
             }
             else
             {
-                throw new InsufficientBalanceOfMoney(resultBalance);
+                throw new InsufficientBalanceOfMoney(resultBalance, "Result balance has to be more than 0");
             }
 
             // Create a new AssetTransaction

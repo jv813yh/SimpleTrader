@@ -57,7 +57,11 @@ namespace SimpleTrader.WPF
             IServiceCollection serviceCollection = new ServiceCollection();
 
             // Get the API key from the configuration file and register the FinancialModelingHttpClientFactory
-            string apiKey = ConfigurationManager.AppSettings.Get("financialApiKey");
+            string? apiKey = ConfigurationManager.AppSettings.Get("financialApiKey");
+            if(string.IsNullOrEmpty(apiKey))
+            {
+                throw new ConfigurationErrorsException("financialApiKey is not set");
+            }
             serviceCollection.AddSingleton<FinancialModelingHttpClientFactory>(new FinancialModelingHttpClientFactory(apiKey));
 
             // Register for the dbContext factory
