@@ -11,6 +11,8 @@ using SimpleTrader.EntityFramework.DbContexts;
 using SimpleTrader.EntityFramework.Repositories;
 using SimpleTrader.FinancialModelingAPI;
 using SimpleTrader.FinancialModelingAPI.Services;
+using SimpleTrader.WPF.State.Authenticators;
+using SimpleTrader.WPF.State.Authentificators;
 using SimpleTrader.WPF.State.Navigators;
 using SimpleTrader.WPF.VVM.ViewModels;
 using SimpleTrader.WPF.VVM.ViewModels.Factories;
@@ -29,12 +31,6 @@ namespace SimpleTrader.WPF
         {
             // Create the service provider
             IServiceProvider serviceProvider = CreateServiceProvider();
-
-            IAuthenticationServices auth = serviceProvider.GetRequiredService<IAuthenticationServices>();
-
-            await auth.Login("testRegister", "testRegister123");
-
-            //auth.Register("testRegister@test.com", "testRegister", "testRegister123", "testRegister123", 1300);
 
             // Create the startup window
             Window window = new MainWindow()
@@ -89,9 +85,11 @@ namespace SimpleTrader.WPF
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<MajorIndexListingViewModel>, MajorIndexListingViewModelFactory>();
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<PortfolioViewModel>, PortfolioViewModelFactory>();
+            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<LoginViewModel>, LoginViewModelFactory>();
 
             // Register the Navigator as a AddScoped service
             serviceCollection.AddScoped<INavigator, Navigator>();
+            serviceCollection.AddScoped<IAuthenticator, Authenticator>();
             serviceCollection.AddScoped<BuyViewModel>();
             // Register the MainViewModel as a Scoped service
             serviceCollection.AddScoped<MainViewModel>();
