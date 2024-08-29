@@ -4,9 +4,9 @@ using SimpleTrader.WPF.State.Authentificators;
 
 namespace SimpleTrader.WPF.State.Authenticators
 {
-    public class Authenticator : IAuthenticator
+    public class Authenticator : ObservableObject, IAuthenticator
     {
-        // Service to authenticate the user with the database
+        // Service from domain layer to authenticate the user with the database
         private readonly IAuthenticationServices _authentificationService;
 
         public Authenticator(IAuthenticationServices authentificationService)
@@ -14,7 +14,18 @@ namespace SimpleTrader.WPF.State.Authenticators
             _authentificationService = authentificationService;
         }
 
-        public Account? CurrentAccount { get; private set; }
+        private Account? _currentAccount;
+        public Account? CurrentAccount
+        {
+            get => _currentAccount;
+            private set
+            {
+                // Set the current account and notify the UI
+                _currentAccount = value;
+                OnPropertyChanged(nameof(CurrentAccount));
+                OnPropertyChanged(nameof(IsLoggedIn));
+            }
+        }
 
         public bool IsLoggedIn
             => CurrentAccount != null;
@@ -27,6 +38,8 @@ namespace SimpleTrader.WPF.State.Authenticators
         /// <returns></returns>
         public async Task<bool> LoginAsync(string username, string password)
         {
+            // If the login is successful,
+            // the CurrentAccount will be set to the account that was logged in
             bool success = false;
             try
             {

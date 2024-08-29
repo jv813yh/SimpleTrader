@@ -24,8 +24,19 @@
             For the NavigationBar, 
             we are setting the DataContext to the Navigator property for Binding purposes
         -->
-        <controls:NavigationBar DataContext="{Binding Navigator}"
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Authenticator.IsLoggedIn}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <controls:NavigationBar DataContext="{Binding Navigator}"
                                 Grid.Row="0"/>
+        </Grid>
 
         <!--
             ContentControl is a control that can dynamically 

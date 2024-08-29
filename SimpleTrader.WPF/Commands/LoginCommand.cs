@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using SimpleTrader.WPF.State.Authentificators;
 using SimpleTrader.WPF.VVM.ViewModels;
+using System.ComponentModel;
 
 namespace SimpleTrader.WPF.Commands
 {
@@ -15,10 +16,12 @@ namespace SimpleTrader.WPF.Commands
             _authenticator = authenticator;
         }
 
+
         public LoginCommand(LoginViewModel loginViewModel)
         {
             _loginViewModel = loginViewModel;
         }
+
 
         public override bool CanExecute(object? parameter)
         {

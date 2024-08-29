@@ -4,44 +4,134 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimpleTrader.WPF.VVM.Views"
+             xmlns:nav="clr-namespace:SimpleTrader.WPF.State.Navigators"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
+    <UserControl.Background>
+        <ImageBrush ImageSource="/Images/imageStockTrader.jpg"
+                    Opacity="0.6"
+                    Stretch="UniformToFill"/>
+    </UserControl.Background>
 
-        <TextBlock Grid.Row="0"
-                   Grid.Column="0"
-                   Text="Username"/>
+    <Border BorderBrush="{StaticResource BrushPrimary2}"
+            BorderThickness="5"
+            CornerRadius="30"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Padding="20"
+            Background="#f0f0f0">
+        <Border.Effect>
+            <DropShadowEffect Color="Gray"
+                              BlurRadius="55"/>
+        </Border.Effect>
+        
+        <Grid Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0"
-            Grid.Column="1"
-            Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+            <StackPanel Orientation="Vertical"
+                        Grid.Row="0">
 
-        <TextBlock Grid.Row="1"
-           Grid.Column="0"
-           Text="Pasword"/>
+                <TextBlock
+                       Text="Simple Trader Demo"
+                       Margin="15,15,15,5"
+                       FontSize="40"
+                       FontWeight="DemiBold">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard >
+                                    <ColorAnimation From="#799540"
+                                 AutoReverse="True"
+                                 RepeatBehavior="Forever"
+                                 To="#3f4e21"
+                                 Duration="0:0:1"
+                                 Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="5"
+                                          Opacity="0.5"/>
+                    </TextBlock.Effect>
+                </TextBlock>
 
-        <PasswordBox x:Name="pbPassword"
-            Grid.Row="1"
-            Grid.Column="1"/>
+                <TextBlock 
+                     Text="The world's simplest trading application"
+                     HorizontalAlignment="Center"
+                     Margin="15,15,15,5"
+                     FontSize="18"
+                     FontStyle="Italic"
+                     FontWeight="Light"/>
 
-        <Button Content="Login"
-                Width="100"
-                Height="30"
-                Click="LoginClickHandler"
-                Grid.Row="2"
-                Grid.Column="1"/>
+            </StackPanel>
 
+            <Grid Grid.Row="1"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Margin="20,10,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0"
+                       Margin="0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="ColumnLabel" Width="auto"/>
+                        <ColumnDefinition Width="250"/>
+                    </Grid.ColumnDefinitions>
 
-    </Grid>
+                    <TextBlock Grid.Column="0"
+                            Margin="10"
+                            FontSize="14"
+                            FontWeight="Black"
+                            Text="Username"/>
+
+                    <TextBox Grid.Column="1"
+                         Padding="5,10,0,0"
+                         Margin="20 0 0 0"
+                         Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <Grid Grid.Row="1" 
+                      Margin="0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="ColumnLabel"  Width="auto"/>
+                        <ColumnDefinition Width="250"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                            Margin="10"
+                            Text="Password"
+                            FontSize="14"
+                            FontWeight="Black"/>
+
+                    <PasswordBox x:Name="pbPassword"
+                              Padding="5,10,0,0"
+                              Margin="20 0 0 0"
+                              Grid.Column="1"/>
+                </Grid>
+
+            </Grid>
+
+            <Button Content="Login"
+                 Style="{StaticResource ModernButton}"
+                 Width="120"
+                 Height="40"
+                 Margin="20 10 20 10"
+                 Click="LoginClickHandler"
+                 Grid.Row="2"
+                 IsDefault="True"/>
+        </Grid>
+    </Border>
+
 </UserControl>
