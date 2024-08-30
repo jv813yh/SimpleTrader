@@ -47,7 +47,9 @@ namespace SimpleTrader.WPF.Commands
                 AssetTransactions = new List<AssetTransaction>()
             };
 
-            _buyStockService.BuyStockAsync(firstAccount, _buyViewModel.Symbol, _buyViewModel.ConvertSharesToBuy(_buyViewModel.SharesToBuy)).ContinueWith(task =>
+            _buyStockService.BuyStockAsync(firstAccount, _buyViewModel.Symbol, _buyViewModel
+                .ConvertSharesToBuy(_buyViewModel.SharesToBuy))
+                .ContinueWith(task =>
             {
                 if(!task.IsFaulted)
                 {

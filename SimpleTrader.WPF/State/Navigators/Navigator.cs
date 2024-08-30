@@ -1,7 +1,4 @@
-﻿using SimpleTrader.WPF.Commands;
-using SimpleTrader.WPF.VVM.ViewModels;
-using SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces;
-using System.Windows.Input;
+﻿using SimpleTrader.WPF.VVM.ViewModels;
 
 namespace SimpleTrader.WPF.State.Navigators
 {
@@ -18,14 +15,6 @@ namespace SimpleTrader.WPF.State.Navigators
                 // Notify the UI that the CurrentViewModel has changed
                 OnPropertyChanged(nameof(CurrentViewModel));
             }
-        }
-
-        // This is the command that will be executed to update the current view model
-        public ICommand UpdateCurrentViewModelCommand { get; }
-
-        public Navigator(IRootSimpleTraderViewModelFactory viewModelFactory)
-        {
-            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
         }
     }
 }

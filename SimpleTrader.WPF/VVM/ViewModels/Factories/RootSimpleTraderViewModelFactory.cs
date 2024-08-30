@@ -5,7 +5,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels.Factories
 {
     public class RootSimpleTraderViewModelAbstractFactory : IRootSimpleTraderViewModelFactory
     {
-        // Fields to store the factories for the ViewModels that will be created
+        // Fields to store the factories for the ViewModels that will be created according to the ViewType
         private readonly ISimpleTraderViewModelFactory<HomeViewModel> _homeViewModelFactory;
         private readonly ISimpleTraderViewModelFactory<PortfolioViewModel> _portfolioViewModelFactory;
         private readonly ISimpleTraderViewModelFactory<LoginViewModel> _loginViewModelFactory;

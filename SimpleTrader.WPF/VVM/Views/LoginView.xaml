@@ -47,11 +47,11 @@
                             <BeginStoryboard>
                                 <Storyboard >
                                     <ColorAnimation From="#799540"
-                                 AutoReverse="True"
-                                 RepeatBehavior="Forever"
-                                 To="#3f4e21"
-                                 Duration="0:0:1"
-                                 Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)"/>
+                                                     AutoReverse="True"
+                                                     RepeatBehavior="Forever"
+                                                     To="#3f4e21"
+                                                     Duration="0:0:1"
+                                                     Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>

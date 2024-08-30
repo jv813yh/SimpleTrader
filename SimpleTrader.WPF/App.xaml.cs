@@ -85,7 +85,13 @@ namespace SimpleTrader.WPF
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<MajorIndexListingViewModel>, MajorIndexListingViewModelFactory>();
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<PortfolioViewModel>, PortfolioViewModelFactory>();
-            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<LoginViewModel>, LoginViewModelFactory>();
+
+            // Register ISimpleTraderViewModelFactory<LoginViewModel> like Singleton service with the LoginViewModelFactory
+            // for renavigation to HomeViewModel
+            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<LoginViewModel>>((services) => 
+                new LoginViewModelFactory(services.GetRequiredService<IAuthenticator>(), 
+                new ViewModelFactoryRenavigator<HomeViewModel>(services.GetRequiredService<INavigator>(),
+                services.GetRequiredService<ISimpleTraderViewModelFactory<HomeViewModel>>())));
 
             // Register the Navigator as a AddScoped service
             serviceCollection.AddScoped<INavigator, Navigator>();

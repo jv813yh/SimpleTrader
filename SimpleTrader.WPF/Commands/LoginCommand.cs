@@ -1,7 +1,7 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using SimpleTrader.WPF.State.Authentificators;
+﻿using SimpleTrader.WPF.State.Authentificators;
+using SimpleTrader.WPF.State.Navigators;
 using SimpleTrader.WPF.VVM.ViewModels;
-using System.ComponentModel;
+using SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces;
 
 namespace SimpleTrader.WPF.Commands
 {
@@ -9,11 +9,16 @@ namespace SimpleTrader.WPF.Commands
     {
         private readonly LoginViewModel _loginViewModel;
         private readonly IAuthenticator _authenticator;
+        private readonly IRenavigator _renavigator;
 
-        public LoginCommand(LoginViewModel loginViewModel, IAuthenticator authenticator)
+
+        public LoginCommand(LoginViewModel loginViewModel, 
+            IAuthenticator authenticator,
+            IRenavigator renavigator)
         {
             _loginViewModel = loginViewModel;
             _authenticator = authenticator;
+            _renavigator = renavigator;
         }
 
 
@@ -32,7 +37,14 @@ namespace SimpleTrader.WPF.Commands
         {
             if(parameter != null)
             {
+                // Verify the login credentials
                 bool success = await _authenticator.LoginAsync(_loginViewModel.Username, parameter.ToString());
+
+                // If the login is successful, navigate to the Home view
+                if(success)
+                {
+                    _renavigator.Renavigate();
+                }
             }
         }
     }

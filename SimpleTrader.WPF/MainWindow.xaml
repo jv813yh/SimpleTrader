@@ -34,8 +34,8 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <controls:NavigationBar DataContext="{Binding Navigator}"
-                                Grid.Row="0"/>
+            
+            <controls:NavigationBar Grid.Row="0"/>
         </Grid>
 
         <!--

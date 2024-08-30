@@ -1,7 +1,7 @@
 ﻿namespace SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces
 {
-    public interface ISimpleTraderViewModelFactory<T> where T : BaseViewModel
+    public interface ISimpleTraderViewModelFactory<TViewModel> where TViewModel : BaseViewModel
     {
-        T CreateViewModel();
+        TViewModel CreateViewModel();
     }
 }

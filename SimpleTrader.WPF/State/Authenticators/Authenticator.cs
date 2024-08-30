@@ -48,7 +48,6 @@ namespace SimpleTrader.WPF.State.Authenticators
             }
             catch (Exception)
             {
-
                 return success;
             }
 
