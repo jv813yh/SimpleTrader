@@ -1,14 +1,14 @@
 ﻿using SimpleTrader.WPF.State.Navigators;
-using SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces;
+using SimpleTrader.WPF.VVM.ViewModels.Factories;
 
 namespace SimpleTrader.WPF.Commands
 {
     public class UpdateCurrentViewModelCommand : BaseCommand
     {
         private readonly INavigator _navigator;
-        private readonly IRootSimpleTraderViewModelFactory _viewModelFactory;
+        private readonly ISimpleTraderViewModelFactory _viewModelFactory;
 
-        public UpdateCurrentViewModelCommand(INavigator navigator, IRootSimpleTraderViewModelFactory viewModelFactory)
+        public UpdateCurrentViewModelCommand(INavigator navigator, ISimpleTraderViewModelFactory viewModelFactory)
         {
             _navigator = navigator;
             _viewModelFactory = viewModelFactory;

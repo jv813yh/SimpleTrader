@@ -1,8 +1,8 @@
 ﻿using SimpleTrader.WPF.State.Navigators;
 
-namespace SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces
+namespace SimpleTrader.WPF.VVM.ViewModels.Factories
 {
-    public interface IRootSimpleTraderViewModelFactory
+    public interface ISimpleTraderViewModelFactory
     {
         BaseViewModel CreateViewModel(ViewType viewType);
     }

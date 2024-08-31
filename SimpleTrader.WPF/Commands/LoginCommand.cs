@@ -1,7 +1,6 @@
 ﻿using SimpleTrader.WPF.State.Authentificators;
 using SimpleTrader.WPF.State.Navigators;
 using SimpleTrader.WPF.VVM.ViewModels;
-using SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces;
 
 namespace SimpleTrader.WPF.Commands
 {

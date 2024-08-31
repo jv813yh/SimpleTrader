@@ -16,7 +16,6 @@ using SimpleTrader.WPF.State.Authentificators;
 using SimpleTrader.WPF.State.Navigators;
 using SimpleTrader.WPF.VVM.ViewModels;
 using SimpleTrader.WPF.VVM.ViewModels.Factories;
-using SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces;
 using System.Configuration;
 using System.Windows;
 
@@ -52,6 +51,9 @@ namespace SimpleTrader.WPF
             // Register the services in the service collection
             IServiceCollection serviceCollection = new ServiceCollection();
 
+            /*
+             *    **************       Http      **************** 
+             */
             // Get the API key from the configuration file and register the FinancialModelingHttpClientFactory
             string? apiKey = ConfigurationManager.AppSettings.Get("financialApiKey");
             if(string.IsNullOrEmpty(apiKey))
@@ -60,8 +62,17 @@ namespace SimpleTrader.WPF
             }
             serviceCollection.AddSingleton<FinancialModelingHttpClientFactory>(new FinancialModelingHttpClientFactory(apiKey));
 
+            /*
+            *    **************       DbContext      **************** 
+            */
+
             // Register for the dbContext factory
             serviceCollection.AddSingleton<DesignTimeSimpleTraderDbContextFactory>();
+
+            /*
+             *    **************       Services      **************** 
+             */
+
             // Register the ICommonRepository<Account> and AccountRepository like Singleton service
             serviceCollection.AddSingleton<ICommonRepository<Account>, AccountRepository>();
             // Register the IAccountService and AccountRepository like Singleton service
@@ -74,31 +85,62 @@ namespace SimpleTrader.WPF
             serviceCollection.AddSingleton<IBuyStockService, BuyStockProvider>();
             // Register the IMajorIndexService and MajorIndexProvider like Singleton service
             serviceCollection.AddSingleton<IMajorIndexService, MajorIndexProvider>();
-
             // Register the PasswordHasher like Singleton service for hashing
             serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
-
-            
-            // Register the RootSimpleTraderViewModelFactory, HomeViewModelFactory,
-            // MajorIndexListingViewModelFactory and PortfolioViewModelFactory like Singleton services
-            serviceCollection.AddSingleton<IRootSimpleTraderViewModelFactory, RootSimpleTraderViewModelAbstractFactory>();
-            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
-            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<MajorIndexListingViewModel>, MajorIndexListingViewModelFactory>();
-            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<PortfolioViewModel>, PortfolioViewModelFactory>();
-
-            // Register ISimpleTraderViewModelFactory<LoginViewModel> like Singleton service with the LoginViewModelFactory
-            // for renavigation to HomeViewModel
-            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory<LoginViewModel>>((services) => 
-                new LoginViewModelFactory(services.GetRequiredService<IAuthenticator>(), 
-                new ViewModelFactoryRenavigator<HomeViewModel>(services.GetRequiredService<INavigator>(),
-                services.GetRequiredService<ISimpleTraderViewModelFactory<HomeViewModel>>())));
-
             // Register the Navigator as a AddScoped service
             serviceCollection.AddScoped<INavigator, Navigator>();
             serviceCollection.AddScoped<IAuthenticator, Authenticator>();
-            serviceCollection.AddScoped<BuyViewModel>();
+
+            /*
+             *    **************       View Models      **************** 
+             */
+
+            // Register the SimpleTraderViewModelFactory like Singleton service
+            serviceCollection.AddSingleton<ISimpleTraderViewModelFactory, SimpleTraderViewModelFactory>();
+            serviceCollection.AddSingleton<BuyViewModel>();
+            serviceCollection.AddSingleton<PortfolioViewModel>();
+            serviceCollection.AddSingleton<HomeViewModel>(servies =>
+                 new HomeViewModel(
+                        MajorIndexListingViewModel.CreateMajorIndexViewModel(
+                        servies.GetRequiredService<IMajorIndexService>()))
+            );
+
             // Register the MainViewModel as a Scoped service
             serviceCollection.AddScoped<MainViewModel>();
+            // Register the CreateViewModel<HomeViewModel> like Singleton service
+            // for creating HomeViewModel according the delegate function
+            serviceCollection.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<HomeViewModel>();  
+            });
+            // Register the CreateViewModel<PortfolioViewModel> like Singleton service
+            // for creating PortfolioViewModel according the delegate function
+            serviceCollection.AddSingleton<CreateViewModel<PortfolioViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<PortfolioViewModel>();
+            });
+
+            //serviceCollection.AddSingleton<ViewModelDelegateRenavigator<HomeViewModel>>();
+            serviceCollection.AddSingleton(services => 
+                new ViewModelDelegateRenavigator<HomeViewModel>(
+                    services.GetRequiredService<INavigator>(),
+                    services.GetRequiredService<CreateViewModel<HomeViewModel>>())
+            );
+
+            // Register the CreateViewModel<LoginViewModel> like Singleton service
+            // for creating LoginViewModel according the delegate function
+            serviceCollection.AddSingleton<CreateViewModel<LoginViewModel>>(services =>
+            {
+                return () => new LoginViewModel(
+                    services.GetRequiredService<IAuthenticator>(),
+                    services.GetRequiredService<ViewModelDelegateRenavigator<HomeViewModel>>());
+            });
+
+            // Register the CreateViewModel<BuyViewModel> like Singleton service
+            serviceCollection.AddSingleton<CreateViewModel<BuyViewModel>>(servies =>
+            {
+                return () => servies.GetRequiredService<BuyViewModel>();
+            });
 
             // Build the service provider
             return serviceCollection.BuildServiceProvider();

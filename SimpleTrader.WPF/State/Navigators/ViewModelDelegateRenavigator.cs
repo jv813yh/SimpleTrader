@@ -1,19 +1,18 @@
 ﻿using SimpleTrader.WPF.VVM.ViewModels;
-using SimpleTrader.WPF.VVM.ViewModels.Factories.Interfaces;
 
 namespace SimpleTrader.WPF.State.Navigators
 {
-    public class ViewModelFactoryRenavigator<TViewModel> : IRenavigator where TViewModel : BaseViewModel
+    public class ViewModelDelegateRenavigator<TViewModel> : IRenavigator where TViewModel : BaseViewModel
     {
         // For state current view model
         private readonly INavigator _navigator;
         // For creating new view model according to the type
-        private readonly ISimpleTraderViewModelFactory<TViewModel> _viewModelFactory;
+        private readonly CreateViewModel<TViewModel> _createViewModelDelegate;
 
-        public ViewModelFactoryRenavigator(INavigator navigator, ISimpleTraderViewModelFactory<TViewModel> viewModelFactory)
+        public ViewModelDelegateRenavigator(INavigator navigator, CreateViewModel<TViewModel> createViewModelDelegate)
         {
             _navigator = navigator;
-            _viewModelFactory = viewModelFactory;
+            _createViewModelDelegate = createViewModelDelegate;
         }
 
         /// <summary>
@@ -21,7 +20,7 @@ namespace SimpleTrader.WPF.State.Navigators
         /// </summary>
         public void Renavigate()
         {
-            _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel();
+            _navigator.CurrentViewModel = _createViewModelDelegate();
         }
     }
 }

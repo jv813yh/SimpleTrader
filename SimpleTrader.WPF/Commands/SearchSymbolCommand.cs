@@ -37,7 +37,10 @@ namespace SimpleTrader.WPF.Commands
         {
             string symbolToUpper = _buyViewModel.Symbol.ToUpper();
 
-            _stockPriceService.GetPriceAsync(symbolToUpper).ContinueWith(task =>
+            // Get the price of the stock symbol from the API
+            // and update the ViewModel
+            _stockPriceService.GetPriceAsync(symbolToUpper)
+                .ContinueWith(task =>
             {
                 if (!task.IsFaulted)
                 {
