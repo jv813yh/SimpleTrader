@@ -1,5 +1,6 @@
 ﻿using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services.Interfaces.TransactionServices;
+using SimpleTrader.WPF.State.Accounts;
 using SimpleTrader.WPF.VVM.ViewModels;
 using System.ComponentModel;
 using System.Windows;
@@ -10,11 +11,15 @@ namespace SimpleTrader.WPF.Commands
     {
         private readonly BuyViewModel _buyViewModel;
         private readonly IBuyStockService _buyStockService;
+        private readonly IAccountStore _accountStore;
 
-        public BuyStockCommand(BuyViewModel buyViewModel, IBuyStockService buyStockService)
+        public BuyStockCommand(BuyViewModel buyViewModel, 
+            IBuyStockService buyStockService,
+            IAccountStore accountStore)
         {
             _buyViewModel = buyViewModel;
             _buyStockService = buyStockService;
+            _accountStore = accountStore;
 
             // Subscribe to the PropertyChanged event of the BuyViewModel property has changed
             _buyViewModel.PropertyChanged += OnPropertyViewModelChanged;
@@ -38,29 +43,23 @@ namespace SimpleTrader.WPF.Commands
         /// Override the method to execute the command to buy the stock
         /// </summary>
         /// <param name="parameter"></param>
-        public override void Execute(object? parameter)
+        public override async void Execute(object? parameter)
         {
-            Account firstAccount = new Account()
+            try
             {
-                Id = 1,
-                Balance = 500,
-                AssetTransactions = new List<AssetTransaction>()
-            };
+                // Buy the stock and return the account after the purchase
+                Account account = await _buyStockService.BuyStockAsync(_accountStore.CurrentAccount, _buyViewModel.Symbol.ToUpper(), _buyViewModel
+                .ConvertSharesToBuy(_buyViewModel.SharesToBuy));
 
-            _buyStockService.BuyStockAsync(firstAccount, _buyViewModel.Symbol, _buyViewModel
-                .ConvertSharesToBuy(_buyViewModel.SharesToBuy))
-                .ContinueWith(task =>
+                // Update the current account with the balance after the purchase, transactions ...
+                _accountStore.CurrentAccount = account;
+            }
+            catch (Exception ex)
             {
-                if(!task.IsFaulted)
-                {
-                   Account buyAccount =  task.Result;
-                }
-                else
-                {
-                    MessageBox.Show($"{task.Exception.Message}", "Error",
+
+                MessageBox.Show($"{ex.Message}", "Error",
                                                MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            });
+            }
         }
     }
 }

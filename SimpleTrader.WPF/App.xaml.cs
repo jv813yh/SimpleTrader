@@ -11,6 +11,7 @@ using SimpleTrader.EntityFramework.DbContexts;
 using SimpleTrader.EntityFramework.Repositories;
 using SimpleTrader.FinancialModelingAPI;
 using SimpleTrader.FinancialModelingAPI.Services;
+using SimpleTrader.WPF.State.Accounts;
 using SimpleTrader.WPF.State.Authenticators;
 using SimpleTrader.WPF.State.Authentificators;
 using SimpleTrader.WPF.State.Navigators;
@@ -87,9 +88,10 @@ namespace SimpleTrader.WPF
             serviceCollection.AddSingleton<IMajorIndexService, MajorIndexProvider>();
             // Register the PasswordHasher like Singleton service for hashing
             serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
-            // Register the Navigator as a AddScoped service
-            serviceCollection.AddScoped<INavigator, Navigator>();
-            serviceCollection.AddScoped<IAuthenticator, Authenticator>();
+            // Register the IAcountStore as a Singleton service
+            serviceCollection.AddSingleton<IAccountStore, AccountStore>();
+            serviceCollection.AddSingleton<INavigator, Navigator>();
+            serviceCollection.AddSingleton<IAuthenticator, Authenticator>();
 
             /*
              *    **************       View Models      **************** 

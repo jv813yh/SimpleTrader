@@ -11,7 +11,9 @@ namespace SimpleTrader.WPF.Converters
             if(value is BaseViewModel baseViewModel && 
                 parameter != null)
             {
-                if(parameter.ToString().Equals(baseViewModel.GetType().Name))
+                if(parameter.ToString()
+                    .Equals(baseViewModel
+                        .GetType().Name))
                 {
                        return true;
                 }

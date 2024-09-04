@@ -2,7 +2,7 @@
 
 namespace SimpleTrader.WPF.State.Navigators
 {
-    public class Navigator : ObservableObject, INavigator
+    public class Navigator : INavigator
     {
         // This is the current view model that is being displayed
         private BaseViewModel _currentViewModel;
@@ -12,9 +12,16 @@ namespace SimpleTrader.WPF.State.Navigators
             set
             {   
                 _currentViewModel = value;
-                // Notify the UI that the CurrentViewModel has changed
-                OnPropertyChanged(nameof(CurrentViewModel));
+                // When the current view model is changed, the event is triggered
+                OnStateChanged();
             }
         }
+
+        private void OnStateChanged()
+        {
+            StateChanged?.Invoke(); 
+        }
+
+        public event Action StateChanged;
     }
 }

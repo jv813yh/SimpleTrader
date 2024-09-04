@@ -11,7 +11,8 @@ namespace SimpleTrader.Domain.Services.TransactionProviders
         private readonly IStockPriceService _stockPriceProvider;
         private readonly ICommonRepository<Account> _dataRepository;
 
-        public BuyStockProvider(IStockPriceService stockPriceService, ICommonRepository<Account> dataService)
+        public BuyStockProvider(IStockPriceService stockPriceService, 
+            ICommonRepository<Account> dataService)
         {
             _stockPriceProvider = stockPriceService;
             _dataRepository = dataService;

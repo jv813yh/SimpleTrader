@@ -15,5 +15,6 @@ namespace SimpleTrader.WPF.State.Navigators
     public interface INavigator
     {
         BaseViewModel CurrentViewModel { get; set; }
+        event Action StateChanged; 
     }
 }

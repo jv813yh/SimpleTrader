@@ -69,7 +69,9 @@ namespace SimpleTrader.Domain.Services.AuthentificationServices
             }
 
             // Check if the email, username and password are not null or empty
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(email) || 
+                string.IsNullOrEmpty(username) || 
+                string.IsNullOrEmpty(password))
             {
                 return RegistrationResult.UsernameOrEmailOrPasswordIsEmpty;
             }

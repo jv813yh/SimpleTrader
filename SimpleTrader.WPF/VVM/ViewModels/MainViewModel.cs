@@ -6,16 +6,20 @@ using System.Windows.Input;
 
 namespace SimpleTrader.WPF.VVM.ViewModels
 {
-    public class MainViewModel 
+    public class MainViewModel : BaseViewModel
     {
         private readonly ISimpleTraderViewModelFactory _viewModelFactory;
+        private readonly INavigator _navigator;
+        private readonly IAuthenticator _authenticator;
 
         // Navigator is uses for binding the current view model to the UI
-        public INavigator Navigator { get; set; }
+        public BaseViewModel CurrentViewModel 
+            => _navigator.CurrentViewModel;
 
         // According authenticator in the Window, 
         // I show navigation bar, so is public
-        public IAuthenticator Authenticator { get; set; }
+        public bool IsLoggedIn 
+            => _authenticator.IsLoggedIn;
 
         // UpdateCurrentViewModelCommand is uses for updating the current view model,
         // is binding in the MainWindow, so is public
@@ -26,14 +30,29 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             ISimpleTraderViewModelFactory viewModelFactory)
         {
             _viewModelFactory = viewModelFactory;
-            Navigator = navigator;
-            Authenticator = authenticator;
+            _navigator = navigator;
+            _authenticator = authenticator;
+
+            // Subscribe to the StateChanged event of the navigator
+            _navigator.StateChanged += Navigator_StateChanged;
+            // Subscribe to the StateChanged event of the authenticator
+            _authenticator.StateChanged += Authenticator_StateChanged;
 
             // Set the UpdateCurrentViewModelCommand with the navigator and the view model factory
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(navigator, _viewModelFactory);
 
             // Set the default view model to LoginViewModel
             UpdateCurrentViewModelCommand.Execute(ViewType.Login);
+        }
+
+        private void Authenticator_StateChanged()
+        {
+            OnPropertyChanged(nameof(IsLoggedIn));
+        }
+
+        private void Navigator_StateChanged()
+        {
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
     }
 }
