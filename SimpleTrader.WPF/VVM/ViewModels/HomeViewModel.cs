@@ -2,11 +2,13 @@
 {
     public class HomeViewModel : BaseViewModel
     {
-        public MajorIndexListingViewModel MajorIndexListingViewModel { get; set; }
+        public AssetSummaryViewModel AssetSummaryViewModel { get; }
+        public MajorIndexListingViewModel MajorIndexListingViewModel { get;  }
 
-        public HomeViewModel(MajorIndexListingViewModel majorIndexViewModel)
+        public HomeViewModel(MajorIndexListingViewModel majorIndexViewModel, AssetSummaryViewModel assetSummaryViewModel)
         {
             MajorIndexListingViewModel = majorIndexViewModel;
+            AssetSummaryViewModel = assetSummaryViewModel;
         }
     }
 }

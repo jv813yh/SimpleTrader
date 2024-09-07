@@ -12,6 +12,7 @@ using SimpleTrader.EntityFramework.Repositories;
 using SimpleTrader.FinancialModelingAPI;
 using SimpleTrader.FinancialModelingAPI.Services;
 using SimpleTrader.WPF.State.Accounts;
+using SimpleTrader.WPF.State.Assets;
 using SimpleTrader.WPF.State.Authenticators;
 using SimpleTrader.WPF.State.Authentificators;
 using SimpleTrader.WPF.State.Navigators;
@@ -90,6 +91,7 @@ namespace SimpleTrader.WPF
             serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
             // Register the IAcountStore as a Singleton service
             serviceCollection.AddSingleton<IAccountStore, AccountStore>();
+            serviceCollection.AddSingleton<AssetStore>();
             serviceCollection.AddSingleton<INavigator, Navigator>();
             serviceCollection.AddSingleton<IAuthenticator, Authenticator>();
 
@@ -101,10 +103,12 @@ namespace SimpleTrader.WPF
             serviceCollection.AddSingleton<ISimpleTraderViewModelFactory, SimpleTraderViewModelFactory>();
             serviceCollection.AddSingleton<BuyViewModel>();
             serviceCollection.AddSingleton<PortfolioViewModel>();
+            serviceCollection.AddSingleton<AssetSummaryViewModel>();
             serviceCollection.AddSingleton<HomeViewModel>(servies =>
                  new HomeViewModel(
                         MajorIndexListingViewModel.CreateMajorIndexViewModel(
-                        servies.GetRequiredService<IMajorIndexService>()))
+                        servies.GetRequiredService<IMajorIndexService>()),
+                        servies.GetRequiredService<AssetSummaryViewModel>())
             );
 
             // Register the MainViewModel as a Scoped service

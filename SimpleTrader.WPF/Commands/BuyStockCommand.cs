@@ -53,6 +53,10 @@ namespace SimpleTrader.WPF.Commands
 
                 // Update the current account with the balance after the purchase, transactions ...
                 _accountStore.CurrentAccount = account;
+
+                // Show a message box to inform the user that the purchase was successful
+                MessageBox.Show($"Successfully bought {_buyViewModel.SharesToBuy} shares of {_buyViewModel.Symbol}", "Success",
+                                                                  MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
