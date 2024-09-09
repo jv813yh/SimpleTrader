@@ -3,11 +3,11 @@
 namespace SimpleTrader.WPF.Controls
 {
     /// <summary>
-    /// Interaction logic for NavigationBar.xaml
+    /// Interaction logic for AssetSumary.xaml
     /// </summary>
-    public partial class NavigationBar : UserControl
+    public partial class AssetSumary : UserControl
     {
-        public NavigationBar()
+        public AssetSumary()
         {
             InitializeComponent();
         }

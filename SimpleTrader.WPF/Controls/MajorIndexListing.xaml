@@ -27,7 +27,9 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Major Indexes"
-                   FontSize="40"
+                   FontSize="30"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
                    FontWeight="DemiBold"
                    Margin="10"
                    Grid.Row="0"/>

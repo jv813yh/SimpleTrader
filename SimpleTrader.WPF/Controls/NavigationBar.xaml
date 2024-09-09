@@ -20,51 +20,59 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Simple Trader"
-                   Padding="15"
-                   FontSize="26"
-                   FontWeight="Bold"
-                   Foreground="#f0f0f0"
-                   Background="{StaticResource BrushPrimary1}"
-                   Grid.Row="0"/>
+        <Grid Grid.Row="0"
+              Background="{StaticResource BrushPrimary1}">
 
-        <Grid Grid.Row="1"
+            <TextBlock Text="Simple Trader"
+                      Padding="15"
+                      FontSize="26"
+                      MaxWidth="900"
+                      FontWeight="Bold"
+                      Foreground="#f0f0f0"
+                      Grid.Row="0"/>
+
+        </Grid>
+
+
+        <Grid  Grid.Row="1"
               Background="{StaticResource BrushPrimary2}">
+            <Grid MaxWidth="900">
 
-            <!--
+                <!--
                 Every RadioButton in the NavigationBar will have the same style
             -->
-            <Grid.Resources>
-                <Style TargetType="RadioButton" BasedOn="{StaticResource NavigationButtonStyle}"/>
-            </Grid.Resources>
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="RadioButton" BasedOn="{StaticResource NavigationButtonStyle}"/>
+                </Grid.Resources>
 
-                
-            <RadioButton Grid.Column="0"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <RadioButton Grid.Column="0"
                          Content="Home"
                          Command="{Binding UpdateCurrentViewModelCommand}"
                          CommandParameter="{x:Static nav:ViewType.Home}"
                          IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter=HomeViewModel}"/>
-            <RadioButton Grid.Column="1"
+                <RadioButton Grid.Column="1"
                          Content="Portfolio"
                          Command="{Binding UpdateCurrentViewModelCommand}"
                          CommandParameter="{x:Static nav:ViewType.Portfolio}"
                          IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter=PortfolioViewModel}"/>
-            <RadioButton Grid.Column="2"
+                <RadioButton Grid.Column="2"
                          Content="Buy"
                          Command="{Binding UpdateCurrentViewModelCommand}"
                          CommandParameter="{x:Static nav:ViewType.Buy}"
                          IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter=BuyViewModel}"/>
-            <RadioButton Grid.Column="3"
+                <RadioButton Grid.Column="3"
                         Content="Sell"/>
+            </Grid>
         </Grid>
-        
+
     </Grid>
 </UserControl>

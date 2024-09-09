@@ -20,7 +20,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="{Binding IndexName, FallbackValue=Name}"
-                       FontSize="30"
+                       FontSize="26"
                        FontWeight="Bold"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"

@@ -8,19 +8,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800">
-    <Grid>
+    <Grid Margin="10"
+          MaxWidth="800">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        
+
+        <controls:AssetSumary Grid.Row="0"
+                              DataContext="{Binding AssetSummaryViewModel}"/>
 
         <controls:MajorIndexListing Grid.Row="1" 
                                  HorizontalAlignment="Center"
-                                 Margin="40,10,20,20"
+                                 Margin="10"
                                  Width="700"
-                                 Height="300"
+                                 Height="230"
                                  DataContext="{Binding MajorIndexListingViewModel}"/>
     </Grid>
 </UserControl>

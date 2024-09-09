@@ -6,21 +6,22 @@ namespace SimpleTrader.WPF.VVM.ViewModels
     public class AssetSummaryViewModel : BaseViewModel
     {
         private readonly AssetStore _assetStore;
-        private readonly ObservableCollection<AssetViewModel> _assets;
+        private readonly ObservableCollection<AssetViewModel> _topAssets;
 
         public double AccountBalance 
             => _assetStore.AccountBalance;
 
-        public IEnumerable<AssetViewModel> Assets 
-            => _assets;
+        public IEnumerable<AssetViewModel> TopAssets 
+            => _topAssets;
 
 
         public AssetSummaryViewModel(AssetStore assetStore)
         {
             _assetStore = assetStore;
-            _assets = new ObservableCollection<AssetViewModel>();
+            _topAssets = new ObservableCollection<AssetViewModel>();
 
             assetStore.StateChanged += OnStateChanged;
+            OnStateChanged();
         }
 
         private void OnStateChanged()
@@ -37,19 +38,21 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         /// </summary>
         private void ResetAssets()
         {
-            // Group the asset transactions by the asset symbol and sum the shares amount
+            // Group the asset transactions by the asset symbol and sum the shares amount and take top 3 assets
             IEnumerable<AssetViewModel> assetsViewModelCollection = _assetStore.AssetTransactions
                 .GroupBy(t => t.Asset.Symbol)
                 .Select(g => new AssetViewModel(g.Key, g.Sum(t => t.IsPurchase ? t.SharesAmount : -t.SharesAmount)))
-                .Where(a => a.Shares > 0);
+                .Where(a => a.Shares > 0)
+                .OrderByDescending(a => a.Shares)
+                .Take(3);
 
             // Clear the assets collection
-            _assets.Clear();
+            _topAssets.Clear();
 
             // Add the new assets to the collection
             foreach (var assetViewModel in assetsViewModelCollection)
             {
-                _assets.Add(assetViewModel);
+                _topAssets.Add(assetViewModel);
             }
         }
     }
