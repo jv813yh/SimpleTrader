@@ -9,6 +9,10 @@
              d:DesignHeight="450" 
              d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+
     <UserControl.Background>
         <ImageBrush ImageSource="/Images/imageStockTrader.jpg"
                     Opacity="0.6"
@@ -29,6 +33,7 @@
         
         <Grid Grid.IsSharedSizeScope="True">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -131,6 +136,16 @@
                  Click="LoginClickHandler"
                  Grid.Row="2"
                  IsDefault="True"/>
+
+
+            <TextBlock Text="{Binding Message}"
+                   DataContext="{Binding ErrorMessageViewModel}"
+                   HorizontalAlignment="Center"
+                   Foreground="DarkRed"
+                   FontSize="14"
+                   Grid.Row="3"
+                   Visibility="{Binding HasMessage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
         </Grid>
     </Border>
 

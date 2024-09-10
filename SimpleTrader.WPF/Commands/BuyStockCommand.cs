@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace SimpleTrader.WPF.Commands
 {
-    public class BuyStockCommand : BaseCommand
+    public class BuyStockCommand : AsyncCommandBase
     {
         private readonly BuyViewModel _buyViewModel;
         private readonly IBuyStockService _buyStockService;
@@ -43,8 +43,12 @@ namespace SimpleTrader.WPF.Commands
         /// Override the method to execute the command to buy the stock
         /// </summary>
         /// <param name="parameter"></param>
-        public override async void Execute(object? parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
+            // Set the status and error messages to empty
+            _buyViewModel.SetStatusMessage = string.Empty;
+            _buyViewModel.SetErrorMessage = string.Empty;
+
             try
             {
                 // Buy the stock and return the account after the purchase
@@ -55,14 +59,12 @@ namespace SimpleTrader.WPF.Commands
                 _accountStore.CurrentAccount = account;
 
                 // Show a message box to inform the user that the purchase was successful
-                MessageBox.Show($"Successfully bought {_buyViewModel.SharesToBuy} shares of {_buyViewModel.Symbol}", "Success",
-                                                                  MessageBoxButton.OK, MessageBoxImage.Information);
+                _buyViewModel.SetStatusMessage = $"Successfully bought {_buyViewModel.SharesToBuy} shares of {_buyViewModel.Symbol.ToUpper()}";
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show($"{ex.Message}", "Error",
-                                               MessageBoxButton.OK, MessageBoxImage.Error);
+                // Inform the user that the purchase was not successful
+                _buyViewModel.SetErrorMessage = ex.Message;    
             }
         }
     }

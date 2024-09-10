@@ -1,10 +1,11 @@
-﻿using SimpleTrader.WPF.State.Authentificators;
+﻿using SimpleTrader.Domain.Exceptions;
+using SimpleTrader.WPF.State.Authentificators;
 using SimpleTrader.WPF.State.Navigators;
 using SimpleTrader.WPF.VVM.ViewModels;
 
 namespace SimpleTrader.WPF.Commands
 {
-    public class LoginCommand : BaseCommand
+    public class LoginCommand : AsyncCommandBase
     {
         private readonly LoginViewModel _loginViewModel;
         private readonly IAuthenticator _authenticator;
@@ -26,23 +27,33 @@ namespace SimpleTrader.WPF.Commands
             _loginViewModel = loginViewModel;
         }
 
-
-        public override bool CanExecute(object? parameter)
-        {
-            return base.CanExecute(parameter);
-        }
-
-        public override async void Execute(object? parameter)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public override async Task ExecuteAsync(object? parameter)
         {
             if(parameter != null)
             {
-                // Verify the login credentials
-                bool success = await _authenticator.LoginAsync(_loginViewModel.Username, parameter.ToString());
-
-                // If the login is successful, navigate to the Home view
-                if(success)
+                try
                 {
+                    // Verify the login credentials
+                    await _authenticator.LoginAsync(_loginViewModel.Username, parameter.ToString());
+                    // If the login is successful, navigate to the Home view
                     _renavigator.Renavigate();
+                }
+                catch (UserNotFoundException)
+                {
+                    _loginViewModel.SetErrorMessageViewModel = "Username does not exist";
+                }
+                catch (InvalidPasswordException)
+                {
+                    _loginViewModel.SetErrorMessageViewModel = "Password is incorrect";
+                }
+                catch (Exception)
+                {
+                    _loginViewModel.SetErrorMessageViewModel = "Login failed";
                 }
             }
         }

@@ -76,7 +76,16 @@ namespace SimpleTrader.WPF.VVM.ViewModels
              => ConvertSharesToBuy(SharesToBuy) * PricePerShare;
         }
 
-
+        public MessageViewModel StatusMessageViewModel { get; }
+        public string SetStatusMessage
+        {
+            set => StatusMessageViewModel.Message = value;
+        }
+        public MessageViewModel ErrorMessageViewModel { get; } 
+        public string SetErrorMessage
+        {
+            set => ErrorMessageViewModel.Message = value;
+        }
         public ICommand SearchSymbolCommand { get; }
         public ICommand BuyStockCommand { get; }
 
@@ -84,6 +93,11 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             IBuyStockService buyStockService,
             IAccountStore accountStore)
         {
+
+            StatusMessageViewModel = new MessageViewModel();
+            ErrorMessageViewModel = new MessageViewModel();
+
+
             SearchSymbolCommand = new SearchSymbolCommand(this, stockPriceService);
             BuyStockCommand = new BuyStockCommand(this, buyStockService, accountStore);
         }

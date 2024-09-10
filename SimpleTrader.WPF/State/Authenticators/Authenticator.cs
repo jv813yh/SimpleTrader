@@ -46,22 +46,11 @@ namespace SimpleTrader.WPF.State.Authenticators
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public async Task<bool> LoginAsync(string username, string password)
+        public async Task LoginAsync(string username, string password)
         {
             // If the login is successful,
             // the CurrentAccount will be set to the account that was logged in
-            bool success = false;
-            try
-            {
-                CurrentAccount = await _authentificationService.Login(username, password);
-                success = true;
-            }
-            catch (Exception)
-            {
-                return success;
-            }
-
-            return success;
+            CurrentAccount = await _authentificationService.Login(username, password);
         }
 
         public void Logout()
