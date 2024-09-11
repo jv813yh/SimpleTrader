@@ -3,11 +3,15 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace SimpleTrader.EntityFramework.DbContexts
 {
-    public class DesignTimeSimpleTraderDbContextFactory : IDesignTimeDbContextFactory<SimpleTraderDbContext>
+    public class DesignTimeSimpleTraderDbContextFactory
     {
         // Connection string to the local database SimpleTraderDb
-        private const string _connectionString = "Server=(localdb)\\MSSQLLocalDB;Initial Catalog=SimpleTraderDb;Integrated Security=True;" +
-            "Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        private readonly string _connectionString = string.Empty;
+
+        public DesignTimeSimpleTraderDbContextFactory(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         /// <summary>
         /// Create a new instance of SimpleTraderDbContext
