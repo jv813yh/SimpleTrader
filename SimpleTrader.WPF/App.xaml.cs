@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Win32.SafeHandles;
 using SimpleTrader.Common.Interfaces;
 using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services.AuthentificationServices;
@@ -116,6 +117,11 @@ namespace SimpleTrader.WPF
                                 servies.GetRequiredService<AssetSummaryViewModel>())
                     );
 
+
+                    serviceCollection.AddSingleton<ViewModelDelegateRenavigator<LoginViewModel>>();
+                    serviceCollection.AddSingleton<ViewModelDelegateRenavigator<RegisterViewModel>>();
+                    serviceCollection.AddSingleton<ViewModelDelegateRenavigator<HomeViewModel>>();
+
                     // Register the MainViewModel as a Scoped service
                     serviceCollection.AddScoped<MainViewModel>();
                     // Register the CreateViewModel<HomeViewModel> like Singleton service
@@ -131,6 +137,20 @@ namespace SimpleTrader.WPF
                         return () => services.GetRequiredService<PortfolioViewModel>();
                     });
 
+                    serviceCollection.AddSingleton<CreateViewModel<RegisterViewModel>>(servies =>
+                    {
+                        return () => new RegisterViewModel(
+                                servies.GetRequiredService<ViewModelDelegateRenavigator<LoginViewModel>>(),
+                                servies.GetRequiredService<IAuthenticator>());
+                    });
+
+                    // Register the CreateViewModel<BuyViewModel> like Singleton service
+                    serviceCollection.AddSingleton<CreateViewModel<BuyViewModel>>(servies =>
+                    {
+                        return () => servies.GetRequiredService<BuyViewModel>();
+                    });
+
+
                     //serviceCollection.AddSingleton<ViewModelDelegateRenavigator<HomeViewModel>>();
                     serviceCollection.AddSingleton(services =>
                         new ViewModelDelegateRenavigator<HomeViewModel>(
@@ -138,13 +158,20 @@ namespace SimpleTrader.WPF
                             services.GetRequiredService<CreateViewModel<HomeViewModel>>())
                     );
 
+                    //serviceCollection.AddSingleton<ViewModelDelegateRenavigator<HomeViewModel>>();
+                        serviceCollection.AddSingleton(services =>
+                            new ViewModelDelegateRenavigator<RegisterViewModel>(
+                                services.GetRequiredService<INavigator>(),
+                                services.GetRequiredService<CreateViewModel<RegisterViewModel>>()));
+
                     // Register the CreateViewModel<LoginViewModel> like Singleton service
                     // for creating LoginViewModel according the delegate function
                     serviceCollection.AddSingleton<CreateViewModel<LoginViewModel>>(services =>
                     {
                         return () => new LoginViewModel(
                             services.GetRequiredService<IAuthenticator>(),
-                            services.GetRequiredService<ViewModelDelegateRenavigator<HomeViewModel>>());
+                            services.GetRequiredService<ViewModelDelegateRenavigator<HomeViewModel>>(),
+                            services.GetRequiredService<ViewModelDelegateRenavigator<RegisterViewModel>>());
                     });
 
                     // Register the CreateViewModel<BuyViewModel> like Singleton service

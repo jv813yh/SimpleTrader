@@ -28,14 +28,18 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         public bool HasErrorMessage 
             => ErrorMessageViewModel.HasMessage;
         public ICommand LoginCommand { get; }
+        public ICommand ViewRegisterCommand { get; }
 
-        public LoginViewModel(IAuthenticator authenticator, IRenavigator renavigator)
+        public LoginViewModel(IAuthenticator authenticator, 
+            IRenavigator homeViewRenavigator, 
+            IRenavigator registerRenavigator)
         {
 
             ErrorMessageViewModel = new MessageViewModel();
 
-            _renavigator = renavigator;
+            _renavigator = homeViewRenavigator;
             LoginCommand = new LoginCommand(this, authenticator, _renavigator);
+            ViewRegisterCommand = new NavigateCommand(registerRenavigator);
         }
     }
 }

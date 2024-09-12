@@ -128,15 +128,30 @@
 
             </Grid>
 
-            <Button Content="Login"
-                 Style="{StaticResource ModernButton}"
-                 Width="120"
-                 Height="40"
-                 Margin="20 10 20 10"
-                 Click="LoginClickHandler"
-                 Grid.Row="2"
-                 IsDefault="True"/>
+            <StackPanel Grid.Row="2"
+                        Orientation="Vertical"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
 
+                <Button Content="Login"
+                    Style="{StaticResource ModernButton}"
+                    Width="120"
+                    Height="40"
+                    Click="LoginClickHandler"
+                    IsDefault="True"/>
+
+                <Button Content="Don't have an account ?"
+                    Background="Transparent"
+                     BorderThickness="0"
+                    Foreground="Blue"
+                    FontStyle="Italic"
+                    Width="140"
+                    Height="40"
+                        Margin="5"
+                    Command="{Binding ViewRegisterCommand}"
+                    Cursor="Hand"/>
+
+            </StackPanel>
 
             <TextBlock Text="{Binding Message}"
                    DataContext="{Binding ErrorMessageViewModel}"
