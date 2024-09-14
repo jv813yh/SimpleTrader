@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Win32.SafeHandles;
 using SimpleTrader.Common.Interfaces;
 using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services.AuthentificationServices;
@@ -39,6 +38,12 @@ namespace SimpleTrader.WPF
             _host = CreateHostBuilder().Build();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        /// <exception cref="ConfigurationErrorsException"></exception>
         public static IHostBuilder CreateHostBuilder(string[] args = null)
         {
             return Host.CreateDefaultBuilder(args)
@@ -95,6 +100,7 @@ namespace SimpleTrader.WPF
                     serviceCollection.AddSingleton<IMajorIndexService, MajorIndexProvider>();
                     // Register the PasswordHasher like Singleton service for hashing
                     serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
+                    serviceCollection.AddSingleton<ISellStockService, SellStockProvider>();
                     // Register the IAcountStore as a Singleton service
                     serviceCollection.AddSingleton<IAccountStore, AccountStore>();
                     serviceCollection.AddSingleton<AssetStore>();

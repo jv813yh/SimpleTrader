@@ -4,20 +4,20 @@ namespace SimpleTrader.Domain.Exceptions
 {
     public class InvalidSymbolException : Exception
     {
-        private readonly string _symbol;
+        public string Symbol { get; }
         public InvalidSymbolException(string symbol)
         {
-            _symbol = symbol;
+            Symbol = symbol;
         }
 
         public InvalidSymbolException(string symbol, string? message) : base(message)
         {
-            _symbol = symbol;
+            Symbol = symbol;
         }
 
         public InvalidSymbolException(string symbol, string? message, Exception? innerException) : base(message, innerException)
         {
-            _symbol = symbol;
+            Symbol = symbol;
         }
     }
 }
