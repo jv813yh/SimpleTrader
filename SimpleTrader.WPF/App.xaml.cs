@@ -49,10 +49,11 @@ namespace SimpleTrader.WPF
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(c =>
                 {
+                    // Add the appsettings.json file and the environment variables to the configuration
                     c.AddJsonFile("appsettings.json");
                     c.AddEnvironmentVariables();
                 })
-                .ConfigureServices((context , serviceCollection) =>
+                .ConfigureServices((context, serviceCollection) =>
                 {
                     /*
                       *    **************       Http      **************** 
@@ -70,17 +71,19 @@ namespace SimpleTrader.WPF
                     */
 
                     // Get the connection string from the configuration file and register the SimpleTraderDbContext
-                    string? connectionString = context.Configuration.GetConnectionString("DefaultConnection");
-                    if(string.IsNullOrEmpty(connectionString))
+                    string? connectionString = context.Configuration.GetConnectionString("SQLiteDefaultConnection");
+                    if (string.IsNullOrEmpty(connectionString))
                     {
                         throw new ConfigurationErrorsException("DefaultConnection is not set");
                     }
-                    serviceCollection.AddDbContext<SimpleTraderDbContext>(options =>
-                    {
-                        options.UseSqlServer(connectionString);
-                    });
+                    // Set Action for the DbContextOptionsBuilder with the connection string
+                    Action<DbContextOptionsBuilder> optionsAction = options => 
+                            options.UseSqlite(connectionString);
+
+                    serviceCollection.AddDbContext<SimpleTraderDbContext>(optionsAction);
                     // Register for the dbContext factory
-                    serviceCollection.AddSingleton<DesignTimeSimpleTraderDbContextFactory>(new DesignTimeSimpleTraderDbContextFactory(connectionString));
+                    serviceCollection.AddSingleton<SimpleTraderDbContextFactory>(new SimpleTraderDbContextFactory(optionsAction));
+
 
                     /*
                      *    **************       Services      **************** 
@@ -165,10 +168,10 @@ namespace SimpleTrader.WPF
                     );
 
                     //serviceCollection.AddSingleton<ViewModelDelegateRenavigator<HomeViewModel>>();
-                        serviceCollection.AddSingleton(services =>
-                            new ViewModelDelegateRenavigator<RegisterViewModel>(
-                                services.GetRequiredService<INavigator>(),
-                                services.GetRequiredService<CreateViewModel<RegisterViewModel>>()));
+                    serviceCollection.AddSingleton(services =>
+                        new ViewModelDelegateRenavigator<RegisterViewModel>(
+                            services.GetRequiredService<INavigator>(),
+                            services.GetRequiredService<CreateViewModel<RegisterViewModel>>()));
 
                     // Register the CreateViewModel<LoginViewModel> like Singleton service
                     // for creating LoginViewModel according the delegate function
@@ -191,6 +194,14 @@ namespace SimpleTrader.WPF
         {
             // Start the host
             _host.Start();
+
+            // Migrate the database 
+            SimpleTraderDbContextFactory contextFactory = _host.Services.GetRequiredService<SimpleTraderDbContextFactory>();
+            using(var context = contextFactory.CreateDbContext())
+            {
+                context.Database.Migrate();
+            }
+
             // Create the startup window
             Window window = new MainWindow()
             {

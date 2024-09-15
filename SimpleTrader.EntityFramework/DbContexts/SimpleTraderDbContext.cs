@@ -17,7 +17,7 @@ namespace SimpleTrader.EntityFramework.DbContexts
         public DbSet<AssetTransaction> AssetTransactions { get; set; }
 
 
-        public SimpleTraderDbContext(DbContextOptions options) : base(options)
+        public SimpleTraderDbContext(DbContextOptions<SimpleTraderDbContext> options) : base(options)
         {
         }
 

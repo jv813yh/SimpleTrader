@@ -9,12 +9,12 @@ namespace SimpleTrader.EntityFramework.Repositories
     public class AccountRepository : IAccountService
     {
         // DesignTimeSimpleTraderDbContextFactory instance
-        private readonly DesignTimeSimpleTraderDbContextFactory _contextFactory;
+        private readonly SimpleTraderDbContextFactory _contextFactory;
 
         // SharedRepository instance
         private readonly SharedRepository<Account> _sharedRepository;
 
-        public AccountRepository(DesignTimeSimpleTraderDbContextFactory contextFactory)
+        public AccountRepository(SimpleTraderDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
             _sharedRepository = new SharedRepository<Account>(contextFactory);

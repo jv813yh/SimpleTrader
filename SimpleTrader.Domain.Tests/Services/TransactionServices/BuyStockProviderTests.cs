@@ -139,7 +139,7 @@ namespace SimpleTrader.Domain.Tests.Services.TransactionServices
             string expectedExceptionMessage = "Result balance has to be more than 0",
                    stock = "MSFT";
             int validShares = 3;
-            double returnPrice = 100.0;
+            double returnPrice = 100.0, expectedBalance = 5000 - (validShares * returnPrice);
             // Setup the mock to return the price
             _mockStockPriceService.Setup(setup => setup.GetPriceAsync(stock)).ReturnsAsync(returnPrice);
             // Setup the mock to return the buyer
@@ -150,6 +150,7 @@ namespace SimpleTrader.Domain.Tests.Services.TransactionServices
 
             // Assert
             Assert.IsNotNull(returnAccount);
+            Assert.AreEqual(returnAccount.Balance, expectedBalance);
         }
     }
 }

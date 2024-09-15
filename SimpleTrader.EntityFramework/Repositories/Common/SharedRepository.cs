@@ -8,9 +8,9 @@ namespace SimpleTrader.EntityFramework.Repositories.Common
     public class SharedRepository<T> where T : CommonObject
     {
         // DesignTimeSimpleTraderDbContextFactory instance
-        private readonly DesignTimeSimpleTraderDbContextFactory _contextFactory;
+        private readonly SimpleTraderDbContextFactory _contextFactory;
 
-        public SharedRepository(DesignTimeSimpleTraderDbContextFactory contextFactory)
+        public SharedRepository(SimpleTraderDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
