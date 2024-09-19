@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimpleTrader.WPF.VVM.Views"
+             xmlns:controls="clr-namespace:SimpleTrader.WPF.Controls"
              xmlns:placeHolderTxtBox="clr-namespace:PlaceHolderTextBox.Control;assembly=PlaceHolderTextBox.Control"
              mc:Ignorable="d" 
              d:DesignHeight="450"
@@ -12,8 +13,8 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
-    
-    <Grid>
+
+    <Grid MaxWidth="800">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -25,9 +26,9 @@
         <TextBlock Text="Buy Stocks" 
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Top"
-                   FontSize="28"
+                   FontSize="24"
                    FontWeight="DemiBold"
-                   Margin="10,10,10,5"/>
+                   Margin="10,5,10,5"/>
 
         <WrapPanel Grid.Row="1"
                    Margin="15"
@@ -53,7 +54,7 @@
                    DataContext="{Binding ErrorMessageViewModel}"
                    HorizontalAlignment="Center"
                    Foreground="DarkRed"
-                   FontSize="14"
+                   FontSize="12"
                    Grid.Row="2"
                    Visibility="{Binding HasMessage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
@@ -61,111 +62,51 @@
                   DataContext="{Binding StatusMessageViewModel}"
                   HorizontalAlignment="Center"
                   Foreground="DarkGreen"
-                  FontSize="14"
+                  FontSize="12"
                   Grid.Row="2"
                   Visibility="{Binding HasMessage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-        <Grid Grid.Row="3"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top">
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding SearchResultSymbol}" Value="">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
+        <controls:SearchSymbolResultPanel Grid.Row="3"
+                                          Margin="20">
+            <StackPanel>
+                <WrapPanel Margin="0 10">
+                    <TextBlock Text="Shares to buy:"/>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <Border BorderBrush="LightGray"
-                    BorderThickness="3"
-                    CornerRadius="15,0,0,15"
-                    Margin="10,10,0,10"
-                    Padding="20"
-                    Grid.Column="0">
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <TextBlock Text="{Binding SearchResultSymbol, UpdateSourceTrigger=PropertyChanged}" 
-                               FontSize="40"
-                               FontWeight="UltraBold"
-                               HorizontalAlignment="Center"
-                               Margin="0,20,0,0">
-                        <TextBlock.Triggers>
-                            <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation From="#50632b"
-                                                        To="Black" 
-                                                        Duration="0:0:2" 
-                                                        AutoReverse="True" 
-                                                        RepeatBehavior="Forever"
-                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </TextBlock.Triggers>
-                    </TextBlock>
-                    <TextBlock Text="{Binding PricePerShare, StringFormat={}{0:C}}"
-                               Margin="10,20,10,10"
-                               FontWeight="DemiBold"
-                               FontStyle="Italic"
-                               FontSize="20"/>
-                </StackPanel>
-            </Border>
+                    <TextBox Text="{Binding SharesToBuy, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                             FontSize="12"
+                             Width="80"
+                             Height="25"
+                             Background="Transparent"
+                             BorderThickness="2"
+                             BorderBrush="Black"
+                             Margin="25,0,0,0"/>
+                </WrapPanel>
 
-            <Border BorderBrush="LightGray"
-                     Width="250"
-                     BorderThickness="0,3,3,3"
-                     CornerRadius="0,15,15,0"
-                     Margin="0,10,10,10"
-                     Padding="15"
-                    Grid.Row="4"
-                    Grid.Column="1">
+                <WrapPanel Margin="0 10">
+                    <TextBlock Text="Price per share:" 
+                            FontSize="12"/>
+                    <TextBlock Text="{Binding PricePerShare, UpdateSourceTrigger=PropertyChanged}"
+                            FontSize="12"
+                            Margin="15,0,0,0"/>
+                </WrapPanel>
 
-                <StackPanel>
-                    <WrapPanel Margin="0 10">
-                        <TextBlock Text="Shares to buy:" 
-                                   FontSize="12"/>
-                        <TextBox Text="{Binding SharesToBuy, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                                 FontSize="12"
-                                 Width="80"
-                                 Height="25"
-                                 Background="Transparent"
-                                 BorderThickness="2"
-                                 BorderBrush="Black"
-                                 Margin="25,0,0,0"/>
-                    </WrapPanel>
+                <TextBlock Text="{Binding TotalPrice, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:C}}"
+                           FontSize="26"
+                           FontWeight="DemiBold"
+                           Margin="5"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
 
-                    <WrapPanel Margin="0 10">
-                        <TextBlock Text="Price per share:" 
-                                   FontSize="12"/>
-                        <TextBlock Text="{Binding PricePerShare, UpdateSourceTrigger=PropertyChanged}"
-                                   FontSize="12"
-                                   Margin="15,0,0,0"/>
-                    </WrapPanel>
-                    
-                    <TextBlock Text="{Binding TotalPrice, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:C}}"
-                               FontSize="26"
-                               FontWeight="DemiBold"
-                               Margin="5"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"/>
-
-                    <Button Content="Buy"
-                            Command="{Binding BuyStockCommand}"
-                            Style="{StaticResource ModernButton}"
-                            Width="105"
-                            Height="55"
-                            FontSize="34"
-                            Margin="20"/>
-                </StackPanel>
-            </Border>
-        </Grid>
+                <Button Content="Buy"
+                        Command="{Binding BuyStockCommand}"
+                        Style="{StaticResource ModernButton}"
+                        Width="105"
+                        Height="55"
+                        FontSize="34"
+                        Margin="20"/>
+            </StackPanel>
+            
+        </controls:SearchSymbolResultPanel>
 
     </Grid>
 </UserControl>

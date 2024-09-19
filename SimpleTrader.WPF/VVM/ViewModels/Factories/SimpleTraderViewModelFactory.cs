@@ -9,16 +9,19 @@ namespace SimpleTrader.WPF.VVM.ViewModels.Factories
         private readonly CreateViewModel<PortfolioViewModel> _createByPortfolioViewModelDelegate;
         private readonly CreateViewModel<LoginViewModel> _createLoginByViewModelDelegate;
         private readonly CreateViewModel<BuyViewModel> _createByBuyViewModelDelegate;
+        private readonly CreateViewModel<SellViewModel> _createBySellViewModelDelegate;
 
         public SimpleTraderViewModelFactory(CreateViewModel<HomeViewModel> createByHomeViewModelDelegate, 
             CreateViewModel<PortfolioViewModel> createByPortfolioViewModelDelegate,
-            CreateViewModel<LoginViewModel> createLoginByViewModelDelegate, 
-            CreateViewModel<BuyViewModel> createByBuyViewModelDelegate)
+            CreateViewModel<LoginViewModel> createLoginByViewModelDelegate,
+            CreateViewModel<BuyViewModel> createByBuyViewModelDelegate,
+            CreateViewModel<SellViewModel> createBySellViewModel)
         {
             _createByHomeViewModelDelegate = createByHomeViewModelDelegate;
             _createByPortfolioViewModelDelegate = createByPortfolioViewModelDelegate;
             _createLoginByViewModelDelegate = createLoginByViewModelDelegate;
             _createByBuyViewModelDelegate = createByBuyViewModelDelegate;
+            _createBySellViewModelDelegate = createBySellViewModel;
         }
 
 
@@ -40,6 +43,8 @@ namespace SimpleTrader.WPF.VVM.ViewModels.Factories
                     return _createByPortfolioViewModelDelegate();
                 case ViewType.Buy:
                     return _createByBuyViewModelDelegate();
+                case ViewType.Sell:
+                    return _createBySellViewModelDelegate();
                 default:
                     throw new Exception("View type does not have a ViewModel in the current version.");
             }

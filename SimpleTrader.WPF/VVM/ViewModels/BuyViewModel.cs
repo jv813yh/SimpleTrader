@@ -6,12 +6,12 @@ using System.Windows.Input;
 
 namespace SimpleTrader.WPF.VVM.ViewModels
 {
-    public class BuyViewModel : BaseViewModel
+    public class BuyViewModel : BaseViewModel, ISearchSymbolViewModel
     {
         // Input symbol from user to buy
         private string _symbol = string.Empty;
-        public string Symbol 
-        { 
+        public string Symbol
+        {
             get => _symbol;
             set
             {
@@ -47,7 +47,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         // Convert the shares to buy to an integer
         public int ConvertSharesToBuy(string stringValue)
         {
-            if(int.TryParse(stringValue, out int intValue))
+            if (int.TryParse(stringValue, out int intValue))
             {
                 return intValue;
             }
@@ -72,7 +72,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         // Total price of the shares to buy
         public double TotalPrice
         {
-            get 
+            get
              => ConvertSharesToBuy(SharesToBuy) * PricePerShare;
         }
 
@@ -81,7 +81,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         {
             set => StatusMessageViewModel.Message = value;
         }
-        public MessageViewModel ErrorMessageViewModel { get; } 
+        public MessageViewModel ErrorMessageViewModel { get; }
         public string SetErrorMessage
         {
             set => ErrorMessageViewModel.Message = value;
@@ -89,17 +89,16 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         public ICommand SearchSymbolCommand { get; }
         public ICommand BuyStockCommand { get; }
 
-        public BuyViewModel(IStockPriceService stockPriceService, 
+        public BuyViewModel(IStockPriceService stockPriceService,
             IBuyStockService buyStockService,
             IAccountStore accountStore)
         {
 
-            StatusMessageViewModel = new MessageViewModel();
-            ErrorMessageViewModel = new MessageViewModel();
-
-
             SearchSymbolCommand = new SearchSymbolCommand(this, stockPriceService);
             BuyStockCommand = new BuyStockCommand(this, buyStockService, accountStore);
+
+            StatusMessageViewModel = new MessageViewModel();
+            ErrorMessageViewModel = new MessageViewModel();
         }
     }
 }

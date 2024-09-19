@@ -9,15 +9,16 @@
              d:DesignWidth="800">
 
     <UserControl.Resources>
-            <Storyboard x:Key="ColorCashAnimation">
-                <ColorAnimation From="Red"
+        <Storyboard x:Key="ColorCashAnimation">
+            <ColorAnimation From="Red"
                                 To="Black"
                                 Duration="0:0:0.5"
                                 Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
                                 RepeatBehavior="Forever"
                                 AutoReverse="True"/>
-            </Storyboard>
+        </Storyboard>
     </UserControl.Resources>
+
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -61,64 +62,21 @@
         </Grid>
 
         <Grid Grid.Column="1">
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"
-                       Margin="10,0,0,0"
+                       Margin="25,5,5,5"
                        FontSize="14"
                        Foreground="Black"
                        FontWeight="ExtraBlack"
                        Text="Top Assets"/>
 
-            <ListView ItemsSource="{Binding TopAssets}"
-                      Grid.Row="1"
-                      BorderThickness="0"
-                      FontSize="16"
-                      Margin="10">
-                <ListView.View>
-                    <GridView>
-                        <GridView.ColumnHeaderContainerStyle>
-                            <Style TargetType="GridViewColumnHeader">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="GridViewColumnHeader">
-
-                                            <Border BorderBrush="Gray"
-                                                    BorderThickness="0,0,0,2"
-                                                    Padding="5,5,30,5">
-                                                
-                                                <TextBlock Text="{TemplateBinding Content}"/>
-
-                                            </Border>
-
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                
-                            </Style>
-                        </GridView.ColumnHeaderContainerStyle>
-
-                        <GridViewColumn Header="Symbol"
-                                        DisplayMemberBinding="{Binding Symbol}"/>
-                        <GridViewColumn Header="Shares"
-                                        DisplayMemberBinding="{Binding Shares}"/>
-                    </GridView>
-                </ListView.View>
-
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Focusable" Value="False"/>
-                        <Setter Property="IsHitTestVisible" Value="False"/>
-                        <Setter Property="Margin" Value="10,5,5,5"/>
-                        <Setter Property="Foreground" Value="Black"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
+            <local:AssetListing DataContext="{Binding AssetListingViewModel}"
+                                Margin="15"/>
         </Grid>
-
     </Grid>
 </UserControl>

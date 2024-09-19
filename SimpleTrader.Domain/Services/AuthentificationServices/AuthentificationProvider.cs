@@ -40,7 +40,7 @@ namespace SimpleTrader.Domain.Services.AuthentificationServices
             var passwordResult = _passwordHasher.VerifyHashedPassword(storedAccount.AccountHolder.PasswordHash, password);
 
             // Check if the password is correct
-            if(passwordResult == PasswordVerificationResult.Success)
+            if (passwordResult == PasswordVerificationResult.Success)
             {
                 return storedAccount;
             }
