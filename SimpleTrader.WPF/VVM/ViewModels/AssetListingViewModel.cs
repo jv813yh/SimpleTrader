@@ -1,5 +1,4 @@
-﻿using SimpleTrader.Domain.Models;
-using SimpleTrader.WPF.State.Assets;
+﻿using SimpleTrader.WPF.State.Assets;
 using System.Collections.ObjectModel;
 
 namespace SimpleTrader.WPF.VVM.ViewModels
@@ -11,11 +10,6 @@ namespace SimpleTrader.WPF.VVM.ViewModels
 
         public IEnumerable<AssetViewModel> Assets
             => _assets;
-
-        //public AssetListingViewModel(AssetStore assetStore) : this(assetStore, assetStore => assets)
-        //{
-        //    _assets = assets;
-        //}
 
         public AssetListingViewModel(AssetStore assetStore)
         {
@@ -34,13 +28,11 @@ namespace SimpleTrader.WPF.VVM.ViewModels
 
         private void ResetAssets()
         {
-            IEnumerable<AssetViewModel> selectedAssets = _assetStore.AssetTransactions
-                .GroupBy(s => s.Asset.Symbol)
-                .Select(g => new AssetViewModel(g.Key, g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)))
-                .Where(a => a.Shares > 0)
-                .OrderByDescending(s => s.Shares);
+            // Get all assets and add them to the collection
+            IEnumerable<AssetViewModel> selectedAssets = _assetStore.GetAssetsOrderByDescending(-1);
 
             _assets.Clear();
+
             foreach (var asset in selectedAssets)
             {
                 _assets.Add(asset);

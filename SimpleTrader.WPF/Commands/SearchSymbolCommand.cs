@@ -1,18 +1,23 @@
 ﻿using SimpleTrader.Domain.Exceptions;
 using SimpleTrader.Domain.Services.Interfaces;
+using SimpleTrader.WPF.State.Assets;
 using SimpleTrader.WPF.VVM.ViewModels;
 
 namespace SimpleTrader.WPF.Commands
 {
     public class SearchSymbolCommand : AsyncCommandBase
     {
+        private readonly AssetStore _assetStore;
         private readonly ISearchSymbolViewModel _viewModel;
         private readonly IStockPriceService _stockPriceService;
 
-        public SearchSymbolCommand(ISearchSymbolViewModel viewModel, IStockPriceService stockPriceService)
+        public SearchSymbolCommand(ISearchSymbolViewModel viewModel, 
+                                   IStockPriceService stockPriceService,
+                                   AssetStore assetStore)
         {
             _viewModel = viewModel;
             _stockPriceService = stockPriceService;
+            _assetStore = assetStore;
         }
 
         // 
@@ -26,6 +31,7 @@ namespace SimpleTrader.WPF.Commands
                 // and update the ViewModel
                 _viewModel.PricePerShare = await _stockPriceService.GetPriceAsync(symbolToUpper);
                 _viewModel.SearchResultSymbol = symbolToUpper;
+                _viewModel.SharesOwned = Convert.ToString(_assetStore.GetAmountOwnedBySymbol(symbolToUpper));
 
             }
             catch (InvalidSymbolException)

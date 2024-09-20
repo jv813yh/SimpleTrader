@@ -59,8 +59,8 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         public string Symbol 
             => SelectedAsset?.Symbol;
 
-        private int _sharesToSell;
-        public int SharesToSell
+        private string _sharesToSell = string.Empty;
+        public string SharesToSell
         {
             get => _sharesToSell;
             set
@@ -70,8 +70,18 @@ namespace SimpleTrader.WPF.VVM.ViewModels
                 OnPropertyChanged(nameof(TotalPrice));
             }
         }
-        public double TotalPrice 
-            => SharesToSell * PricePerShare;
+        public double TotalPrice
+        {
+            get
+            {
+                if(string.IsNullOrEmpty(SharesToSell))
+                {
+                    return PricePerShare;
+                }
+
+                return Convert.ToInt32(SharesToSell) * PricePerShare;
+            }
+        }
 
         public MessageViewModel StatusMessageViewModel { get; }
         public string SetStatusMessage
@@ -96,7 +106,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         {
             AssetListingViewModel = new AssetListingViewModel(assetStore);
 
-            SearchSymbolCommand = new SearchSymbolCommand(this, stockPriceService);
+            SearchSymbolCommand = new SearchSymbolCommand(this, stockPriceService, assetStore);
             SellStockCommand = new SellStockCommand(this, sellStockService, accountStore);
 
             StatusMessageViewModel = new MessageViewModel();

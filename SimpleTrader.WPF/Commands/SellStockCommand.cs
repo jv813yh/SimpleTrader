@@ -32,7 +32,7 @@ namespace SimpleTrader.WPF.Commands
             {
                 // Buy the stock and return the account after the purchase
                 Account account = await _sellStockService.SellStockAsync(_accountStore.CurrentAccount, sellSymbolToUpper,
-                    _sellViewModel.SharesToSell);
+                    Convert.ToInt32(_sellViewModel.SharesToSell));
 
                 // Update the current account with the balance after the purchase, transactions ...
                 _accountStore.CurrentAccount = account;

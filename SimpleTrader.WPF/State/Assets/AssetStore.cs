@@ -1,5 +1,6 @@
 ﻿using SimpleTrader.Domain.Models;
 using SimpleTrader.WPF.State.Accounts;
+using SimpleTrader.WPF.VVM.ViewModels;
 
 namespace SimpleTrader.WPF.State.Assets
 {
@@ -22,6 +23,29 @@ namespace SimpleTrader.WPF.State.Assets
             _accountStore = accountStore;
 
             _accountStore.StateChanged += OnStateChanged;
+        }
+
+        /// <summary>
+        /// When takeCount is -1, it will return all assets
+        /// </summary>
+        /// <param name="takeCount"> Amount of asset </param>
+        /// <returns> All assets ordered by descending </returns>
+        public IEnumerable<AssetViewModel> GetAssetsOrderByDescending(int takeCount)
+        {
+            IEnumerable<AssetViewModel> returnAssetViewModel = AssetTransactions.GroupBy(s => s.Asset.Symbol)
+                .Select(g => new AssetViewModel(g.Key, g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)))
+                .Where(a => a.Shares > 0)
+                .OrderByDescending(s => s.Shares);
+
+            return takeCount == -1 ? returnAssetViewModel : returnAssetViewModel.Take(takeCount);
+        }
+
+        public int GetAmountOwnedBySymbol(string symbol)
+        {
+            return AssetTransactions.GroupBy(s => s.Asset.Symbol)
+                  .Where(g => g.Key == symbol)
+                  .Select(g => new AssetViewModel(g.Key, g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)))
+                  .Sum(a => a.Shares);
         }
 
         private void OnStateChanged()

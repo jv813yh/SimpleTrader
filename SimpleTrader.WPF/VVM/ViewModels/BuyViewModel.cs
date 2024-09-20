@@ -2,6 +2,7 @@
 using SimpleTrader.Domain.Services.Interfaces.TransactionServices;
 using SimpleTrader.WPF.Commands;
 using SimpleTrader.WPF.State.Accounts;
+using SimpleTrader.WPF.State.Assets;
 using System.Windows.Input;
 
 namespace SimpleTrader.WPF.VVM.ViewModels
@@ -69,6 +70,18 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             }
         }
 
+        // Shares owned by the user
+        private string _sharesOwned;
+        public string SharesOwned 
+        {
+            get => _sharesOwned;
+            set
+            {
+                _sharesOwned = value;
+                OnPropertyChanged(nameof(SharesOwned));
+            }
+        }
+
         // Total price of the shares to buy
         public double TotalPrice
         {
@@ -91,10 +104,11 @@ namespace SimpleTrader.WPF.VVM.ViewModels
 
         public BuyViewModel(IStockPriceService stockPriceService,
             IBuyStockService buyStockService,
-            IAccountStore accountStore)
+            IAccountStore accountStore,
+            AssetStore assetStore)
         {
 
-            SearchSymbolCommand = new SearchSymbolCommand(this, stockPriceService);
+            SearchSymbolCommand = new SearchSymbolCommand(this, stockPriceService, assetStore);
             BuyStockCommand = new BuyStockCommand(this, buyStockService, accountStore);
 
             StatusMessageViewModel = new MessageViewModel();

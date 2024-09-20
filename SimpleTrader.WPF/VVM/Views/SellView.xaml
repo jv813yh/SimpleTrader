@@ -13,7 +13,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
-    <Grid Margin="20"
+    <Grid Margin="5"
           MaxWidth="800">
 
         <Grid.RowDefinitions>
@@ -59,7 +59,7 @@
                    DataContext="{Binding ErrorMessageViewModel}"
                    HorizontalAlignment="Center"
                    Foreground="DarkRed"
-                   FontSize="12"
+                   FontSize="14"
                    Grid.Row="2"
                    Visibility="{Binding HasMessage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
@@ -67,7 +67,7 @@
                   DataContext="{Binding StatusMessageViewModel}"
                   HorizontalAlignment="Center"
                   Foreground="DarkGreen"
-                  FontSize="12"
+                  FontSize="14"
                   Grid.Row="3"
                   Visibility="{Binding HasMessage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
@@ -78,7 +78,7 @@
                 <WrapPanel Margin="0 10">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Shares owned:       "/>
-                        <TextBlock Text="50"/>
+                        <TextBlock Text="{Binding SharesOwned, UpdateSourceTrigger=PropertyChanged}"/>
 
                     </StackPanel>
                 </WrapPanel>
