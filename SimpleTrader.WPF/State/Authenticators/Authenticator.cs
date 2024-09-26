@@ -66,7 +66,7 @@ namespace SimpleTrader.WPF.State.Authenticators
         /// <param name="startBalance"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<RegistrationResult> RegisterAsync(string email, string username, string password, string confirmPassword, double startBalance)
-         => await _authentificationService.Register(email, username, password, confirmPassword, startBalance);   
+        public async Task<RegistrationResult> RegisterAsync(string email, string username, string password, string confirmPassword, double startingBalance)
+         => await _authentificationService.Register(email, username, password, confirmPassword, startingBalance);   
     }
 }

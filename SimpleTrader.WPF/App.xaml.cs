@@ -117,7 +117,11 @@ namespace SimpleTrader.WPF
                     // Register the SimpleTraderViewModelFactory like Singleton service
                     serviceCollection.AddSingleton<ISimpleTraderViewModelFactory, SimpleTraderViewModelFactory>();
                     serviceCollection.AddSingleton<BuyViewModel>();
-                    serviceCollection.AddSingleton<PortfolioViewModel>();
+                    serviceCollection.AddSingleton<PortfolioViewModel>(services =>
+                    {
+                        return new PortfolioViewModel(
+                                                       services.GetRequiredService<AssetStore>());
+                    });
                     serviceCollection.AddSingleton<SellViewModel>();
                     serviceCollection.AddSingleton<AssetSummaryViewModel>();
                     serviceCollection.AddSingleton<HomeViewModel>(servies =>
@@ -131,7 +135,6 @@ namespace SimpleTrader.WPF
                     serviceCollection.AddSingleton<ViewModelDelegateRenavigator<LoginViewModel>>();
                     serviceCollection.AddSingleton<ViewModelDelegateRenavigator<RegisterViewModel>>();
                     serviceCollection.AddSingleton<ViewModelDelegateRenavigator<HomeViewModel>>();
-                    serviceCollection.AddSingleton<ViewModelDelegateRenavigator<SellViewModel>>();
 
                     // Register the MainViewModel as a Scoped service
                     serviceCollection.AddScoped<MainViewModel>();

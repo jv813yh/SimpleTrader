@@ -169,7 +169,7 @@ namespace SimpleTrader.Domain.Tests.Services.AuthentificationServices
             string email = "email",
                username = "username",
                password = "password";
-            RegistrationResult expectedRegistrationResult = RegistrationResult.StartBalanceMustBePositive;
+            RegistrationResult expectedRegistrationResult = RegistrationResult.StartingBalanceMustBePositive;
 
             // Act
             RegistrationResult actualRegistrationResult = await _authenticationProvider.Register(email, username, password, password, notEnoughStartBalance);

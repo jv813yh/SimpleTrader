@@ -16,11 +16,10 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             _assetStore = assetStore;
             AssetListingViewModel = new AssetListingViewModel(_assetStore);
 
-            assetStore.StateChanged += OnStateChanged;
-            OnStateChanged();
+            assetStore.StateChanged += AssetStoreChanged;
         }
 
-        private void OnStateChanged()
+        private void AssetStoreChanged()
         {
             // Raise the Property changed event for the AccountBalance property
             OnPropertyChanged(nameof(AccountBalance));

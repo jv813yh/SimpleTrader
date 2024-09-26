@@ -25,7 +25,7 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModels:PortfolioViewModel}">
-                <views:PortfolioView/>
+                <views:PortfolioView SelectedTopChangedCommand="{Binding SetColumnSeriesCommand}"/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModels:BuyViewModel}">

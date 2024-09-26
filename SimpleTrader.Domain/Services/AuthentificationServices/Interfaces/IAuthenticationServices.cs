@@ -10,11 +10,11 @@ namespace SimpleTrader.Domain.Services.AuthentificationServices.Interfaces
         EmailAlreadyExists,
         UsernameAlreadyExists,
         UsernameOrEmailOrPasswordIsEmpty,
-        StartBalanceMustBePositive
+        StartingBalanceMustBePositive
     }
     public interface IAuthenticationServices
     {
-        Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword, double startBalance);
+        Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword, double startingBalance);
 
         /// <summary>
         /// Get an account for user's credentials

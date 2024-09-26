@@ -9,11 +9,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\100icon.png" />
+    <None Remove="Images\10icon.png" />
+    <None Remove="Images\3Icon.png" />
+    <None Remove="Images\chartIcon.png" />
     <None Remove="Images\crownIcon.png" />
     <None Remove="Images\imageStockTrader.JPG" />
+    <None Remove="Images\moneyIcon.png" />
+    <None Remove="Images\purhcaseIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\100icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\10icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -31,10 +48,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\3Icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\chartIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\crownIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\imageStockTrader.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\moneyIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\purhcaseIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -43,6 +72,10 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="HostBuilders\" />
   </ItemGroup>
 
 </Project>

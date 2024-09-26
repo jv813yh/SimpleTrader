@@ -60,7 +60,7 @@ namespace SimpleTrader.Domain.Services.AuthentificationServices
         /// <param name="startBalance"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword, double startBalance)
+        public async Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword, double startingBalance)
         {
             // Check if the password and the confirm password are the same
             if (password != confirmPassword)
@@ -76,9 +76,9 @@ namespace SimpleTrader.Domain.Services.AuthentificationServices
                 return RegistrationResult.UsernameOrEmailOrPasswordIsEmpty;
             }
 
-            if(startBalance < 0)
+            if(startingBalance < 0)
             {
-                return RegistrationResult.StartBalanceMustBePositive;
+                return RegistrationResult.StartingBalanceMustBePositive;
             }
 
             // Check if the Email is already used
@@ -110,7 +110,7 @@ namespace SimpleTrader.Domain.Services.AuthentificationServices
                     PasswordHash = passwordHash
                 },
 
-                Balance = startBalance
+                Balance = startingBalance
             };
 
              // Create the account

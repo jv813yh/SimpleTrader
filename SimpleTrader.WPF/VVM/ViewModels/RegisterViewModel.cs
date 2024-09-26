@@ -1,4 +1,5 @@
-﻿using SimpleTrader.WPF.Commands;
+﻿using Newtonsoft.Json.Linq;
+using SimpleTrader.WPF.Commands;
 using SimpleTrader.WPF.State.Authentificators;
 using SimpleTrader.WPF.State.Navigators;
 using System.Windows.Input;
@@ -62,7 +63,26 @@ namespace SimpleTrader.WPF.VVM.ViewModels
                 return !string.IsNullOrEmpty(Username) && 
                        !string.IsNullOrEmpty(Email) && 
                        !string.IsNullOrEmpty(Password) && 
+                       !string.IsNullOrEmpty(StartingBalance) && 
                        !string.IsNullOrEmpty(ConfirmPassword);
+            }
+        }
+
+        private string _startingBalance;
+        public string StartingBalance
+        {
+            get => _startingBalance;
+            set
+            {
+                SetErrorMessageViewModel = string.Empty;
+                if (!Double.TryParse(value, out double result))
+                {
+                    SetErrorMessageViewModel = "Starting balance must be a number";
+                    return;
+                }
+
+                _startingBalance = value;
+                OnPropertyChanged(nameof(StartingBalance));
             }
         }
 

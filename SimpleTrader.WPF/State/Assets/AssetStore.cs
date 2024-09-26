@@ -25,6 +25,11 @@ namespace SimpleTrader.WPF.State.Assets
             _accountStore.StateChanged += OnStateChanged;
         }
 
+        private void OnStateChanged()
+        {
+            StateChanged?.Invoke();
+        }
+
         /// <summary>
         /// When takeCount is -1, it will return all assets
         /// </summary>
@@ -40,6 +45,16 @@ namespace SimpleTrader.WPF.State.Assets
             return takeCount == -1 ? returnAssetViewModel : returnAssetViewModel.Take(takeCount);
         }
 
+        //public IEnumerable<AssetViewModel> GetAssetsAccordngByMoneyByDescending(int takeCount)
+        //{
+        //    IEnumerable<AssetViewModel> returnAssetViewModel = AssetTransactions.GroupBy(s => s.Asset.Symbol)
+        //        .Select(g => new AssetViewModel(g.Key, g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)))
+        //        .Where(a => a.Shares > 0)
+        //        .OrderByDescending(s => s.Shares * s.CurrentPrice);
+
+        //    return takeCount == -1 ? returnAssetViewModel : returnAssetViewModel.Take(takeCount);
+        //}
+
         public int GetAmountOwnedBySymbol(string symbol)
         {
             return AssetTransactions.GroupBy(s => s.Asset.Symbol)
@@ -48,9 +63,6 @@ namespace SimpleTrader.WPF.State.Assets
                   .Sum(a => a.Shares);
         }
 
-        private void OnStateChanged()
-        {
-            StateChanged?.Invoke();
-        }
+
     }
 }

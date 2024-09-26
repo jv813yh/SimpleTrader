@@ -22,8 +22,8 @@
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0" 
@@ -73,7 +73,7 @@
                        FontSize="14"
                        Foreground="Black"
                        FontWeight="ExtraBlack"
-                       Text="Top Assets"/>
+                       Text="Top 3 Assets"/>
 
             <local:AssetListing DataContext="{Binding AssetListingViewModel}"
                                 Margin="15"/>

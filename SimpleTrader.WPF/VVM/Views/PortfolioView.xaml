@@ -4,10 +4,121 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimpleTrader.WPF.VVM.Views"
+             xmlns:controls="clr-namespace:SimpleTrader.WPF.Controls"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
-        <TextBlock Text="Portfolio View"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Your Portfolio" 
+                Grid.Row="0"
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Top"
+               FontSize="26"
+               FontWeight="DemiBold"
+               Margin="10,5,10,5"/>
+
+        <StackPanel Grid.Row="1" 
+                    Margin="10"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+
+            <TextBlock Text="According to the: " 
+                       VerticalAlignment="Center"
+                        FontSize="18"
+                         FontWeight="Medium"
+                        Padding="5"/>
+            <controls:TextRadioButtonControl ImageSource="/Images/chartIcon.png"
+                                             Text="Amount of assets"
+                                             GroupNameRadioButton="AmountOfAssets/Money"
+                                             TextForeground="Black"
+                                             Padding="5"
+                                             CommandParameterRadioButton="assets"
+                                             CommandRadioButton="{Binding AmountOfAssetsOrMoneyCommand}"/>
+
+            <controls:TextRadioButtonControl ImageSource="/Images/moneyIcon.png"
+                                 Text="Amount of money"
+                                 GroupNameRadioButton="AmountOfAssets/Money"
+                                 TextForeground="Black"
+                                 CommandRadioButton="{Binding AmountOfAssetsOrMoneyCommand}"
+                                 CommandParameterRadioButton="money"
+                                 Padding="5"/>
+
+            <controls:TextRadioButtonControl ImageSource="/Images/purhcaseIcon.png"
+                                 Text="Purchases"
+                                 Padding="5"
+                                 CommandRadioButton="{Binding PurchasesCommand}"
+                                 CommandParameterRadioButton="purchases"
+                                 TextForeground="{StaticResource BrushPrimary1}"/>
+
+        </StackPanel>
+
+        <ComboBox Width="200"
+                  Grid.Row="2"
+                  Margin="10"
+                  x:Name="cbTop"
+                  ItemsSource="{Binding ComboBoxOptions}"
+                  SelectionChanged="cbTop_SelectionChanged"
+                  SelectedItem="{Binding SelectedOption}">
+            <ComboBox.Resources>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="FontFamily" Value="Verdana"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </ComboBox.Resources>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Text}"/>
+                        <Image Source="{Binding ImageSource}" 
+                               Width="20" 
+                               Height="20"/>
+                    </StackPanel>
+                </DataTemplate>
+                
+            </ComboBox.ItemTemplate>
+
+        </ComboBox>
+
+        <lvc:CartesianChart Grid.Row="3"
+                            Visibility="{Binding IsChartVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            VerticalAlignment="Bottom"
+                            MinHeight="150"
+                            MinWidth="200"
+                            Margin="5,50,5,5">
+            <lvc:CartesianChart.Series>
+                <lvc:ColumnSeries Values="{Binding CollectionForChartWithAmounts}"
+                                  DataLabels="True"
+                                  Fill="{StaticResource BrushPrimary1}"/>
+            </lvc:CartesianChart.Series>
+
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="{Binding MessageForXAxis}" 
+                          Labels="{Binding CollectionForChartWithNames}"
+                          FontSize="15"
+                          Margin="15"
+                          Foreground="Black"/>
+            </lvc:CartesianChart.AxisX>
+
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="{Binding MessageForYAxis}"
+                          Foreground="Black"
+                          Margin="15"
+                          FontSize="15"/>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
     </Grid>
 </UserControl>

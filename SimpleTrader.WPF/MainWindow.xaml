@@ -7,10 +7,10 @@
         xmlns:controls="clr-namespace:SimpleTrader.WPF.Controls"
         mc:Ignorable="d"
         Title="Simple Trader" 
-        Height="550" 
-        MinHeight="250"
+        Height="600" 
+        MinHeight="300"
         Width="800"
-        MinWidth="450"
+        MinWidth="600"
         Icon="/Images/crownIcon.png">
     
     <Grid>

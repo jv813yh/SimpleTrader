@@ -30,6 +30,7 @@ namespace SimpleTrader.WPF.Commands
             if(e.PropertyName == nameof(_registerViewModel.Username) ||
                 e.PropertyName == nameof(_registerViewModel.Email) ||
                 e.PropertyName == nameof(_registerViewModel.Password) ||
+                e.PropertyName == nameof(_registerViewModel.StartingBalance) ||
                 e.PropertyName == nameof(_registerViewModel.ConfirmPassword))
             {
                 OnRaiseCanExecuteChanged();
@@ -54,7 +55,7 @@ namespace SimpleTrader.WPF.Commands
                                        _registerViewModel.Username,
                                        _registerViewModel.Password,
                                        _registerViewModel.ConfirmPassword,
-                                       500.0);
+                                       Convert.ToDouble(_registerViewModel.StartingBalance));
 
                 // Action for the result of the registration
                 ActionForRegistrationResult(result, _loginRenavigator);
@@ -81,8 +82,8 @@ namespace SimpleTrader.WPF.Commands
                 case RegistrationResult.UsernameAlreadyExists:
                     _registerViewModel.SetErrorMessageViewModel = "An account for this username already exists";
                     break;
-                case RegistrationResult.StartBalanceMustBePositive:
-                    _registerViewModel.SetErrorMessageViewModel = "Start balance must be positive";
+                case RegistrationResult.StartingBalanceMustBePositive:
+                    _registerViewModel.SetErrorMessageViewModel = "Starting balance must be positive";
                     break;
                 default:
                     _registerViewModel.SetErrorMessageViewModel = "Registration failed";

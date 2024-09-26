@@ -12,7 +12,7 @@ namespace SimpleTrader.WPF.State.Authentificators
 
         event Action StateChanged;
 
-        Task<RegistrationResult> RegisterAsync(string email, string username, string password, string confirmPassword, double startBalance);
+        Task<RegistrationResult> RegisterAsync(string email, string username, string password, string confirmPassword, double startingBalance);
 
         /// <summary>
         /// Login to the application
