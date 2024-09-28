@@ -78,8 +78,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="HostBuilders\" />
-  </ItemGroup>
-
 </Project>
