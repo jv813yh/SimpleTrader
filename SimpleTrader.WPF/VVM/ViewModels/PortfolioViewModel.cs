@@ -9,9 +9,18 @@ namespace SimpleTrader.WPF.VVM.ViewModels
 {
     public class PortfolioViewModel : BaseViewModel
     {
-        public ObservableCollection<ComboBoxOption> ComboBoxOptions { get; private set; }
+        public List<ComboBoxOption> ComboBoxOptions { get; private set; }
 
-        public ChartValues<int> CollectionForChartWithAmounts { get; set; }
+        private ChartValues<double> _collectionForChartWithAmounts;
+        public ChartValues<double> CollectionForChartWithAmounts 
+        {
+            get => _collectionForChartWithAmounts;
+            set
+            {
+                _collectionForChartWithAmounts = value;
+                OnPropertyChanged(nameof(CollectionForChartWithAmounts));
+            }
+        }
 
         private bool _isChartVisible;
         public bool IsChartVisible 
@@ -24,7 +33,16 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             }
         }
 
-        public List<string> CollectionForChartWithNames { get; set; }
+        private ObservableCollection<string> _collectionForChartWithNames;
+        public ObservableCollection<string> CollectionForChartWithNames 
+        { 
+            get => _collectionForChartWithNames;
+            set
+            {
+                _collectionForChartWithNames = value;
+                OnPropertyChanged(nameof(CollectionForChartWithNames));
+            }
+        }
 
         private ComboBoxOption _selelctedOption;
         public ComboBoxOption SelectedOption
@@ -62,6 +80,11 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             }
         }
 
+        public string SetErrorMessage
+        {
+            set => ErrorMessageViewModel.Message = value;
+        }
+        public MessageViewModel ErrorMessageViewModel { get; }
 
         public ICommand AmountOfAssetsOrMoneyCommand { get; }
         public ICommand PurchasesCommand { get; }
@@ -69,20 +92,24 @@ namespace SimpleTrader.WPF.VVM.ViewModels
 
         public PortfolioViewModel(AssetStore assetStore)
         {
-            ComboBoxOptions  = new ObservableCollection<ComboBoxOption>
+            ComboBoxOptions  = new List<ComboBoxOption>
             {
                 new ComboBoxOption { Text = "Top", ImageSource = "/Images/3icon.png" , Number = 3 },
                 new ComboBoxOption { Text = "Top", ImageSource = "/Images/10icon.png", Number = 10 },
                 new ComboBoxOption { Text = "Top", ImageSource = "/Images/100icon.png", Number = 100 },
+                new ComboBoxOption { Text = "All  ", ImageSource = "/Images/checkIcon.png", Number = -1 },
             };
 
-            CollectionForChartWithAmounts  = new ChartValues<int>();
-            CollectionForChartWithNames = new List<string>();
+            CollectionForChartWithAmounts  = new ChartValues<double>();
+            CollectionForChartWithNames = new ObservableCollection<string>();
 
             AmountOfAssetsOrMoneyCommand = new RelayCommand(SetAmountOfAssetsOrMoneyCommand);
             PurchasesCommand = new RelayCommand(SetPurchasesCommand);
 
             SetColumnSeriesCommand = new SetColumnSeriesCommand(this, assetStore);
+
+
+            ErrorMessageViewModel = new MessageViewModel();
         }
 
         private void SetPurchasesCommand(object obj)
@@ -106,6 +133,10 @@ namespace SimpleTrader.WPF.VVM.ViewModels
                 if (commandValue == "money")
                 {
                     IsAccordingAmountOfAssets = false;
+                }
+                else if (commandValue == "assets")
+                {
+                    IsAccordingAmountOfAssets = true;
                 }
             }
         }

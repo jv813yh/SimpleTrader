@@ -1,9 +1,10 @@
-﻿using SimpleTrader.WPF.State.Assets;
+﻿using SimpleTrader.Domain.Exceptions;
+using SimpleTrader.WPF.State.Assets;
 using SimpleTrader.WPF.VVM.ViewModels;
 
 namespace SimpleTrader.WPF.Commands
 {
-    public class SetColumnSeriesCommand : BaseCommand
+    public class SetColumnSeriesCommand : AsyncCommandBase
     {
         private readonly PortfolioViewModel _portfolioViewModel;
         private readonly AssetStore _assetStore;
@@ -15,43 +16,77 @@ namespace SimpleTrader.WPF.Commands
 
         }
 
-        public override void Execute(object? parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
+            // Clear the message for the x and y axis
             _portfolioViewModel.MessageForXAxis = string.Empty;
             _portfolioViewModel.MessageForYAxis = string.Empty;
 
-            if (_portfolioViewModel.IsAccordingAmountOfAssets)
+            // Clear the collection for the chart
+            _portfolioViewModel.CollectionForChartWithNames.Clear();
+            _portfolioViewModel.CollectionForChartWithAmounts.Clear();
+
+
+            try
             {
-                _portfolioViewModel.MessageForXAxis = "Name of Assets";
-                _portfolioViewModel.MessageForYAxis = "Amount of Assets";
-
-                IEnumerable<AssetViewModel> amountOfAssets = _assetStore.GetAssetsOrderByDescending(_portfolioViewModel.SelectedOption.Number);
-
-                _portfolioViewModel.CollectionForChartWithNames.Clear();
-                _portfolioViewModel.CollectionForChartWithAmounts.Clear();
-
-                foreach (var asset in amountOfAssets)
+                if (_portfolioViewModel.IsAccordingAmountOfAssets)
                 {
-                    _portfolioViewModel.CollectionForChartWithNames.Add(asset.Symbol);
-                    _portfolioViewModel.CollectionForChartWithAmounts.Add(asset.Shares);
+                    _portfolioViewModel.MessageForXAxis = "Name of Assets";
+                    _portfolioViewModel.MessageForYAxis = "Amount of Assets";
+
+                    IEnumerable<AssetViewModel> amountOfAssets = _assetStore.GetAssetsOrderByDescending(_portfolioViewModel.SelectedOption.Number);
+
+                    // Set data for the chart
+                    SetDataForChart(amountOfAssets, true);
+
+                    // Set chart visibility
+                    SetChartVisibility();
                 }
+                else
+                {
+                    _portfolioViewModel.MessageForXAxis = "Name of Assets";
+                    _portfolioViewModel.MessageForYAxis = "Amount of Money";
 
-                _portfolioViewModel.IsChartVisible = _portfolioViewModel.CollectionForChartWithNames.Any();
+                    // Get assets according to the money
+                    IEnumerable<AssetViewModel> amountOfMoney = await _assetStore.GetAssetsAccordingByMoneyByDescending(_portfolioViewModel.SelectedOption.Number);
+
+                    // Set data for the chart
+                    SetDataForChart(amountOfMoney, false);
+
+                    // Set chart visibility
+                    SetChartVisibility();
+                }
             }
-            else
+            catch (InvalidSymbolException)
             {
-                _portfolioViewModel.MessageForXAxis = "Name of Assets";
-                _portfolioViewModel.MessageForYAxis = "Amount of Money";
-
-                // GetAssetsAccordngByMoneyByDescending()
-
-                _portfolioViewModel.CollectionForChartWithNames.Clear();
-                _portfolioViewModel.CollectionForChartWithAmounts.Clear();
-
-                // foreach (var asset in amountOfAssets)
-
-                _portfolioViewModel.IsChartVisible = _portfolioViewModel.CollectionForChartWithNames.Any();
+                _portfolioViewModel.SetErrorMessage = "Problem with loading the symbol";
             }
+            catch (Exception)
+            {
+               _portfolioViewModel.SetErrorMessage = "Problem with loading data into the graph";
+            }
+        }
+
+        /// <summary>
+        /// Set data for the chart
+        /// </summary>
+        /// <param name="assets"></param>
+        /// <param name="isAsset"></param>
+        private void SetDataForChart(IEnumerable<AssetViewModel> assets, bool isAsset)
+        {
+            foreach (var asset in assets)
+            {
+                _portfolioViewModel.CollectionForChartWithNames.Add(asset.Symbol);
+                _portfolioViewModel.CollectionForChartWithAmounts.Add(isAsset ? asset.Shares : Math.Round(asset.AssetValue, 2));
+            }
+        }
+
+        /// <summary>
+        /// Set chart visibility
+        /// </summary>
+        private void SetChartVisibility()
+        {
+            _portfolioViewModel.IsChartVisible = _portfolioViewModel.CollectionForChartWithNames.Any();
         }
     }
 }

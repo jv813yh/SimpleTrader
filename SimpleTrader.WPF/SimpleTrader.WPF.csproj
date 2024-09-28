@@ -13,6 +13,7 @@
     <None Remove="Images\10icon.png" />
     <None Remove="Images\3Icon.png" />
     <None Remove="Images\chartIcon.png" />
+    <None Remove="Images\checkIcon.png" />
     <None Remove="Images\crownIcon.png" />
     <None Remove="Images\imageStockTrader.JPG" />
     <None Remove="Images\moneyIcon.png" />
@@ -52,6 +53,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\chartIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\checkIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\crownIcon.png">

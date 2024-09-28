@@ -81,7 +81,8 @@
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Text}"/>
+                        <TextBlock Text="{Binding Text}"
+                                   Padding="0,0,5,0"/>
                         <Image Source="{Binding ImageSource}" 
                                Width="20" 
                                Height="20"/>
@@ -92,30 +93,49 @@
 
         </ComboBox>
 
+        <TextBlock Grid.Row="3"
+                   Text="{Binding Message}"
+                   DataContext="{Binding ErrorMessageViewModel}"
+                   Visibility="{Binding HasMessage, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   Foreground="DarkRed"
+                   FontSize="14"
+                   HorizontalAlignment="Center"/>
+
         <lvc:CartesianChart Grid.Row="3"
                             Visibility="{Binding IsChartVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                             VerticalAlignment="Bottom"
-                            MinHeight="150"
-                            MinWidth="200"
+                            MinHeight="200"
+                            MinWidth="300"
+                            MaxWidth="800"
                             Margin="5,50,5,5">
             <lvc:CartesianChart.Series>
                 <lvc:ColumnSeries Values="{Binding CollectionForChartWithAmounts}"
                                   DataLabels="True"
-                                  Fill="{StaticResource BrushPrimary1}"/>
+                                  Fill="{StaticResource BrushPrimary1}"
+                                  />
             </lvc:CartesianChart.Series>
 
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="{Binding MessageForXAxis}" 
                           Labels="{Binding CollectionForChartWithNames}"
                           FontSize="15"
+                          FontWeight="DemiBold"
                           Margin="15"
-                          Foreground="Black"/>
+                          LabelsRotation="45"
+                          Foreground="Black">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator Step="1"
+                                       />
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
             </lvc:CartesianChart.AxisX>
 
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="{Binding MessageForYAxis}"
                           Foreground="Black"
                           Margin="15"
+                          FontWeight="Thin"
+                          FontStyle="Italic"
                           FontSize="15"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>

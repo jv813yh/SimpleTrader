@@ -47,6 +47,7 @@
                     Command="{Binding SearchSymbolCommand}"
                     Style="{StaticResource ModernButton}"
                     Width="75"
+                    IsDefault="True"
                     Height="35"/>
         </WrapPanel>
 

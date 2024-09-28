@@ -1,12 +1,16 @@
 ﻿using SimpleTrader.Domain.Models;
+using SimpleTrader.Domain.Services.Interfaces;
 using SimpleTrader.WPF.State.Accounts;
 using SimpleTrader.WPF.VVM.ViewModels;
+using System.Collections.Generic;
+using System.Windows.Shapes;
 
 namespace SimpleTrader.WPF.State.Assets
 {
     public class AssetStore
     {
         private readonly IAccountStore _accountStore;
+        private readonly IStockPriceService _stockPriceService;
 
         // AccountBalance property
         public double AccountBalance 
@@ -18,9 +22,10 @@ namespace SimpleTrader.WPF.State.Assets
 
         public event Action StateChanged;
 
-        public AssetStore(IAccountStore accountStore)
+        public AssetStore(IAccountStore accountStore, IStockPriceService stockPriceService)
         {
             _accountStore = accountStore;
+            _stockPriceService = stockPriceService;
 
             _accountStore.StateChanged += OnStateChanged;
         }
@@ -38,31 +43,52 @@ namespace SimpleTrader.WPF.State.Assets
         public IEnumerable<AssetViewModel> GetAssetsOrderByDescending(int takeCount)
         {
             IEnumerable<AssetViewModel> returnAssetViewModel = AssetTransactions.GroupBy(s => s.Asset.Symbol)
-                .Select(g => new AssetViewModel(g.Key, g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)))
+                .Select(g => new AssetViewModel()
+                {
+                    Symbol = g.Key,
+                    Shares = g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)
+                })
                 .Where(a => a.Shares > 0)
                 .OrderByDescending(s => s.Shares);
 
             return takeCount == -1 ? returnAssetViewModel : returnAssetViewModel.Take(takeCount);
         }
 
-        //public IEnumerable<AssetViewModel> GetAssetsAccordngByMoneyByDescending(int takeCount)
-        //{
-        //    IEnumerable<AssetViewModel> returnAssetViewModel = AssetTransactions.GroupBy(s => s.Asset.Symbol)
-        //        .Select(g => new AssetViewModel(g.Key, g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)))
-        //        .Where(a => a.Shares > 0)
-        //        .OrderByDescending(s => s.Shares * s.CurrentPrice);
-
-        //    return takeCount == -1 ? returnAssetViewModel : returnAssetViewModel.Take(takeCount);
-        //}
-
-        public int GetAmountOwnedBySymbol(string symbol)
+        /// <summary>
+        /// When takeCount is -1, it will return all assets ordered by descending according to the money
+        /// </summary>
+        /// <param name="takeCount"> Amount of asset </param>
+        /// <returns> All assets ordered by descending according to the money </returns>
+        public async Task<IEnumerable<AssetViewModel>> GetAssetsAccordingByMoneyByDescending(int takeCount)
         {
-            return AssetTransactions.GroupBy(s => s.Asset.Symbol)
-                  .Where(g => g.Key == symbol)
-                  .Select(g => new AssetViewModel(g.Key, g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)))
-                  .Sum(a => a.Shares);
+            IEnumerable<AssetViewModel> assetViewModelAccordingByMoney = await Task.WhenAll(
+                AssetTransactions.GroupBy(b => b.Asset.Symbol)
+                 .Select(async g => new AssetViewModel()
+                 {
+                     Symbol = g.Key,
+                     Shares = g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount),
+                     PricePerShare = await _stockPriceService.GetPriceAsync(g.Key)
+                 }));
+
+            return takeCount == -1 ? assetViewModelAccordingByMoney.OrderByDescending(s => s.AssetValue) 
+                                   : assetViewModelAccordingByMoney.OrderByDescending(s => s.AssetValue).Take(takeCount);
         }
 
-
+        /// <summary>
+        /// Get the amount of owned asset by symbol
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns></returns>
+        public int GetAmountOwnedBySymbol(string symbol)
+        {
+                return AssetTransactions.GroupBy(s => s.Asset.Symbol)
+                      .Where(g => g.Key == symbol)
+                      .Select(g => new AssetViewModel()
+                      {
+                          Symbol = g.Key,
+                          Shares = g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)
+                      })
+                      .Sum(s => s.Shares);
+        }
     }
 }
