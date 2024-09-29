@@ -5,15 +5,17 @@ namespace SimpleTrader.WPF.VVM.ViewModels
 {
     public class AssetListingViewModel : BaseViewModel
     {
+        private readonly int _assetsCount;
         private readonly AssetStore _assetStore;
         private readonly ObservableCollection<AssetViewModel> _assets;
 
         public IEnumerable<AssetViewModel> Assets
             => _assets;
 
-        public AssetListingViewModel(AssetStore assetStore)
+        public AssetListingViewModel(AssetStore assetStore, int assetsCount = -1)
         {
             _assetStore = assetStore;
+            _assetsCount = assetsCount;
             _assets = new ObservableCollection<AssetViewModel>();
 
             _assetStore.StateChanged += OnStateChanged;
@@ -29,7 +31,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         private void ResetAssets()
         {
             // Get all assets and add them to the collection
-            IEnumerable<AssetViewModel> selectedAssets = _assetStore.GetAssetsOrderByDescending(-1);
+            IEnumerable<AssetViewModel> selectedAssets = _assetStore.GetAssetsOrderByDescending(_assetsCount);
 
             _assets.Clear();
 

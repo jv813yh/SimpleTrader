@@ -1,15 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SimpleTrader.WPF.State.Navigators;
-using SimpleTrader.WPF.VVM.ViewModels.Factories;
-using SimpleTrader.WPF.VVM.ViewModels;
-using SimpleTrader.WPF.State.Authentificators;
 using SimpleTrader.Domain.Services.Interfaces;
-using SimpleTrader.WPF.State.Assets;
-using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
-using LiveCharts.Wpf;
 using SimpleTrader.Domain.Services.Interfaces.TransactionServices;
 using SimpleTrader.WPF.State.Accounts;
+using SimpleTrader.WPF.State.Assets;
+using SimpleTrader.WPF.State.Authentificators;
+using SimpleTrader.WPF.State.Navigators;
+using SimpleTrader.WPF.VVM.ViewModels;
+using SimpleTrader.WPF.VVM.ViewModels.Factories;
 
 namespace SimpleTrader.WPF.HostBuilders
 {
@@ -38,7 +36,7 @@ namespace SimpleTrader.WPF.HostBuilders
                 services.AddSingleton<ViewModelDelegateRenavigator<HomeViewModel>>();
 
                 // Register the MainViewModel as a Scoped service
-                services.AddScoped<MainViewModel>();
+                services.AddSingleton<MainViewModel>();
                 // Register the CreateViewModel<HomeViewModel> like Singleton service
                 // for creating HomeViewModel according the delegate function
                 services.AddSingleton<CreateViewModel<HomeViewModel>>(services => () => services.GetRequiredService<HomeViewModel>());

@@ -7,12 +7,12 @@ namespace SimpleTrader.FinancialModelingAPI.Services
     {
         // URI to get the major index
         private const string _majorIndexURIGlobal = "majors-indexes/";
-        // FinancialModelingHttpClientFactory to create the HttpClient
-        private readonly FinancialModelingHttpClientFactory _financialModelingHttpClientFactory;
+        // FinancialModelingHttpClient to create the HttpClient
+        private readonly FinancialModelingHttpClient _financialModelingHttpClient;
          
-        public MajorIndexProvider(FinancialModelingHttpClientFactory financialModelingHttpClientFactory)
+        public MajorIndexProvider(FinancialModelingHttpClient financialModelingHttpClient)
         {
-            _financialModelingHttpClientFactory = financialModelingHttpClientFactory;
+            _financialModelingHttpClient = financialModelingHttpClient;
         }
 
         /// <summary>
@@ -25,17 +25,14 @@ namespace SimpleTrader.FinancialModelingAPI.Services
             // uri to get the major index according to the majorIndexType
             string fullUriToMajorIndex = _majorIndexURIGlobal + GetMajorIndexTypeSuffix(majorIndexType);
 
-            using (FinancialModelingHttpClient client = _financialModelingHttpClientFactory.CreateHttpClient())
-            {
-                // Get the response message from the uri
-                MajorIndex majorIndex = await client.GetAsync<MajorIndex>(fullUriToMajorIndex);
+            // Get the response message from the uri
+            MajorIndex majorIndex = await _financialModelingHttpClient.GetAsync<MajorIndex>(fullUriToMajorIndex);
 
-                // Set the major index type
-                majorIndex.MajoxIndexType = majorIndexType;
+            // Set the major index type
+            majorIndex.MajoxIndexType = majorIndexType;
 
-                // Return the major index
-                return majorIndex;
-            }
+            // Return the major index
+            return majorIndex;
         }
 
         /// <summary>

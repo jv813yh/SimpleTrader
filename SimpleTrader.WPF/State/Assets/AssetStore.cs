@@ -2,8 +2,6 @@
 using SimpleTrader.Domain.Services.Interfaces;
 using SimpleTrader.WPF.State.Accounts;
 using SimpleTrader.WPF.VVM.ViewModels;
-using System.Collections.Generic;
-using System.Windows.Shapes;
 
 namespace SimpleTrader.WPF.State.Assets
 {
@@ -40,7 +38,7 @@ namespace SimpleTrader.WPF.State.Assets
         /// </summary>
         /// <param name="takeCount"> Amount of asset </param>
         /// <returns> All assets ordered by descending </returns>
-        public IEnumerable<AssetViewModel> GetAssetsOrderByDescending(int takeCount)
+        public IEnumerable<AssetViewModel> GetAssetsOrderByDescending(int count)
         {
             IEnumerable<AssetViewModel> returnAssetViewModel = AssetTransactions.GroupBy(s => s.Asset.Symbol)
                 .Select(g => new AssetViewModel()
@@ -51,7 +49,7 @@ namespace SimpleTrader.WPF.State.Assets
                 .Where(a => a.Shares > 0)
                 .OrderByDescending(s => s.Shares);
 
-            return takeCount == -1 ? returnAssetViewModel : returnAssetViewModel.Take(takeCount);
+            return count == -1 ? returnAssetViewModel : returnAssetViewModel.Take(count);
         }
 
         /// <summary>
@@ -81,14 +79,14 @@ namespace SimpleTrader.WPF.State.Assets
         /// <returns></returns>
         public int GetAmountOwnedBySymbol(string symbol)
         {
-                return AssetTransactions.GroupBy(s => s.Asset.Symbol)
-                      .Where(g => g.Key == symbol)
-                      .Select(g => new AssetViewModel()
-                      {
-                          Symbol = g.Key,
-                          Shares = g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)
-                      })
-                      .Sum(s => s.Shares);
+            return AssetTransactions.GroupBy(s => s.Asset.Symbol)
+                   .Where(g => g.Key == symbol)
+                   .Select(g => new AssetViewModel()
+                   {
+                        Symbol = g.Key,
+                        Shares = g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)
+                   })
+                   .Sum(s => s.Shares);
         }
     }
 }

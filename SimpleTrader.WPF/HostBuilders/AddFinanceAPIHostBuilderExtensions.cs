@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimpleTrader.FinancialModelingAPI;
+using SimpleTrader.FinancialModelingAPI.Models;
 using System.Configuration;
 
 namespace SimpleTrader.WPF.HostBuilders
@@ -22,7 +23,13 @@ namespace SimpleTrader.WPF.HostBuilders
                 {
                     throw new ConfigurationErrorsException("financialApiKey is not set");
                 }
-                services.AddSingleton<FinancialModelingHttpClientFactory>(new FinancialModelingHttpClientFactory(apiKey));
+
+                services.AddSingleton(new FinancialModelingAPIKey(apiKey));
+
+                services.AddHttpClient<FinancialModelingHttpClient>(client =>
+                {
+                    client.BaseAddress = new Uri("https://financialmodelingprep.com/api/v3/");
+                });
             });
 
             return host;

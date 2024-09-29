@@ -45,7 +45,7 @@
                        Foreground="Black"/>
 
             <TextBlock Grid.Row="1"
-                        Text="{Binding AccountBalance, UpdateSourceTrigger=PropertyChanged, 
+                        Text="{Binding TopAssetSummaryViewModel.AccountBalance, UpdateSourceTrigger=PropertyChanged, 
                         Mode=OneWay, StringFormat={}{0:C}, FallbackValue=$0.00}"
                         Margin="10,10,10,0"
                         FontStyle="Italic"
@@ -75,7 +75,7 @@
                        FontWeight="ExtraBlack"
                        Text="Top 3 Assets"/>
 
-            <local:AssetListing DataContext="{Binding AssetListingViewModel}"
+            <local:AssetListing DataContext="{Binding TopAssetSummaryViewModel.AssetListingViewModel}"
                                 Margin="15"/>
         </Grid>
     </Grid>
