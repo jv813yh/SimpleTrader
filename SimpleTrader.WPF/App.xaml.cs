@@ -28,7 +28,7 @@ namespace SimpleTrader.WPF
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="ConfigurationErrorsException"></exception>
-        public static IHostBuilder CreateHostBuilder(string[] args = null)
+        private static IHostBuilder CreateHostBuilder(string[] args = null)
         {
             return Host.CreateDefaultBuilder(args)
                 .AddConfiguration()

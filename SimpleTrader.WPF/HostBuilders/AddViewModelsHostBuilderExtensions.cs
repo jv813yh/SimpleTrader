@@ -24,19 +24,19 @@ namespace SimpleTrader.WPF.HostBuilders
 
                 // Register the SimpleTraderViewModelFactory like Singleton service
                 services.AddSingleton<ISimpleTraderViewModelFactory, SimpleTraderViewModelFactory>();
-                services.AddSingleton<BuyViewModel>();
-                services.AddSingleton<PortfolioViewModel>(CreatePortfolioViewModel);
-                services.AddSingleton<SellViewModel>();
-                services.AddSingleton<AssetSummaryViewModel>();
-                services.AddSingleton<HomeViewModel>(CreateHomeViewModel);
+                services.AddTransient<BuyViewModel>();
+                services.AddTransient<PortfolioViewModel>();
+                services.AddTransient<SellViewModel>();
+                services.AddTransient<AssetSummaryViewModel>();
+                services.AddTransient(CreateHomeViewModel);
+                // Register the MainViewModel as a Scoped service
+                services.AddTransient<MainViewModel>();
 
 
                 services.AddSingleton<ViewModelDelegateRenavigator<LoginViewModel>>();
                 services.AddSingleton<ViewModelDelegateRenavigator<RegisterViewModel>>();
                 services.AddSingleton<ViewModelDelegateRenavigator<HomeViewModel>>();
 
-                // Register the MainViewModel as a Scoped service
-                services.AddSingleton<MainViewModel>();
                 // Register the CreateViewModel<HomeViewModel> like Singleton service
                 // for creating HomeViewModel according the delegate function
                 services.AddSingleton<CreateViewModel<HomeViewModel>>(services => () => services.GetRequiredService<HomeViewModel>());

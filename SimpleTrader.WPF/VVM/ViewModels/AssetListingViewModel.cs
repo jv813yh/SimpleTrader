@@ -33,12 +33,28 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             // Get all assets and add them to the collection
             IEnumerable<AssetViewModel> selectedAssets = _assetStore.GetAssetsOrderByDescending(_assetsCount);
 
+            DisposeAssets();
             _assets.Clear();
 
             foreach (var asset in selectedAssets)
             {
                 _assets.Add(asset);
             }
+        }
+
+        private void DisposeAssets()
+        {
+            foreach(AssetViewModel assetViewModel in _assets)
+            {
+                assetViewModel.Dispose();
+            }
+        }
+
+        public override void Dispose()
+        {
+            _assetStore.StateChanged -= OnStateChanged;
+            DisposeAssets();
+            base.Dispose();
         }
     }
 }

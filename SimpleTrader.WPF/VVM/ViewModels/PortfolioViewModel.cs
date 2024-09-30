@@ -56,7 +56,6 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         }
 
         public bool IsAccordingAmountOfAssets { get; private set; } = true;
-        public bool IsPurchases { get; private set; } = false;
 
         private string _messageForXAxis;
         public string MessageForXAxis
@@ -87,7 +86,6 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         public MessageViewModel ErrorMessageViewModel { get; }
 
         public ICommand AmountOfAssetsOrMoneyCommand { get; }
-        public ICommand PurchasesCommand { get; }
         public ICommand SetColumnSeriesCommand { get; }
 
         public PortfolioViewModel(AssetStore assetStore)
@@ -104,26 +102,11 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             CollectionForChartWithNames = new ObservableCollection<string>();
 
             AmountOfAssetsOrMoneyCommand = new RelayCommand(SetAmountOfAssetsOrMoneyCommand);
-            PurchasesCommand = new RelayCommand(SetPurchasesCommand);
-
             SetColumnSeriesCommand = new SetColumnSeriesCommand(this, assetStore);
 
 
             ErrorMessageViewModel = new MessageViewModel();
         }
-
-        private void SetPurchasesCommand(object obj)
-        {
-            if (obj != null && 
-                obj is string commandValue)
-            {
-                if(commandValue == "purchases")
-                {
-                    IsPurchases = true;
-                }
-            }
-        }
-
         private void SetAmountOfAssetsOrMoneyCommand(object obj)
         {
             if(obj != null)

@@ -11,7 +11,8 @@
         <RadioButton VerticalContentAlignment="Center"
                      Command="{Binding CommandRadioButton, RelativeSource={RelativeSource AncestorType=UserControl}}"
                      CommandParameter="{Binding CommandParameterRadioButton, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                     GroupName="{Binding GroupNameRadioButton, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                     GroupName="{Binding GroupNameRadioButton, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                     IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=UserControl}}">
             <WrapPanel VerticalAlignment="Center">
                 <Image Source="{Binding ImageSource, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                        Width="16" 

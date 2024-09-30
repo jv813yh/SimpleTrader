@@ -7,6 +7,7 @@ namespace SimpleTrader.WPF.Commands
 
         private Action<object> execute;
         private Func<object, bool> canExecute;
+        private ICommand? setPurchasesCommand;
 
         public event EventHandler CanExecuteChanged
         {
@@ -18,6 +19,11 @@ namespace SimpleTrader.WPF.Commands
         {
             this.execute = execute;
             this.canExecute = canExecute;
+        }
+
+        public RelayCommand(ICommand? setPurchasesCommand)
+        {
+            this.setPurchasesCommand = setPurchasesCommand;
         }
 
         public bool CanExecute(object parameter)

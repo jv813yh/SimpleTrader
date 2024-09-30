@@ -6,6 +6,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
     public delegate TViewModel CreateViewModel<TViewModel>() where TViewModel : BaseViewModel;
     public class BaseViewModel : INotifyPropertyChanged
     {
+        public virtual void Dispose() { }
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

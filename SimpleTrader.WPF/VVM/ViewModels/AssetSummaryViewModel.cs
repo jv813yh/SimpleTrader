@@ -10,5 +10,12 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         {
             TopAssetSummaryViewModel = new TopAssetSummaryViewModel(assetStore);
         }
+
+        public override void Dispose()
+        {
+            TopAssetSummaryViewModel?.Dispose();
+
+            base.Dispose();
+        }
     }
 }

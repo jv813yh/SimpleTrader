@@ -57,10 +57,10 @@
                             </TextBlock.Triggers>
                         </TextBlock>
                         <TextBlock Text="{Binding PricePerShare, StringFormat={}{0:C}}"
-                      Margin="10,20,10,10"
-                      FontWeight="DemiBold"
-                      FontStyle="Italic"
-                      FontSize="20"/>
+                                  Margin="10,20,10,10"
+                                  FontWeight="DemiBold"
+                                  FontStyle="Italic"
+                                  FontSize="20"/>
                     </StackPanel>
                 </Border>
 

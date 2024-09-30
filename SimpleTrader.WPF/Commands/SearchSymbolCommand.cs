@@ -29,6 +29,8 @@ namespace SimpleTrader.WPF.Commands
             {
                 // Get the price of the stock symbol from the API
                 // and update the ViewModel
+                _viewModel.SetStatusMessage = string.Empty;
+                _viewModel.SetErrorMessage = string.Empty;
                 _viewModel.PricePerShare = await _stockPriceService.GetPriceAsync(symbolToUpper);
                 _viewModel.SearchResultSymbol = symbolToUpper;
                 _viewModel.SharesOwned = Convert.ToString(_assetStore.GetAmountOwnedBySymbol(symbolToUpper));

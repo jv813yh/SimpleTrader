@@ -23,5 +23,12 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             // Raise the Property changed event for the AccountBalance property
             OnPropertyChanged(nameof(AccountBalance));
         }
+
+        public override void Dispose()
+        {
+            _assetStore.StateChanged -= AssetStoreChanged;
+            AssetListingViewModel?.Dispose();
+            base.Dispose();
+        }
     }
 }

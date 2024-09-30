@@ -7,6 +7,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         double PricePerShare { set; }
         string SearchResultSymbol { set; }
         string SetErrorMessage { set; }
+        string SetStatusMessage { set; }
         string SharesOwned { set;}
         string Symbol { get;  }
     }

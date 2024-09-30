@@ -1,4 +1,5 @@
-﻿using SimpleTrader.Domain.Models;
+﻿using Microsoft.Extensions.Logging;
+using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services.Interfaces;
 using SimpleTrader.WPF.State.Accounts;
 using SimpleTrader.WPF.VVM.ViewModels;
@@ -40,14 +41,15 @@ namespace SimpleTrader.WPF.State.Assets
         /// <returns> All assets ordered by descending </returns>
         public IEnumerable<AssetViewModel> GetAssetsOrderByDescending(int count)
         {
+
             IEnumerable<AssetViewModel> returnAssetViewModel = AssetTransactions.GroupBy(s => s.Asset.Symbol)
-                .Select(g => new AssetViewModel()
-                {
-                    Symbol = g.Key,
-                    Shares = g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)
-                })
-                .Where(a => a.Shares > 0)
-                .OrderByDescending(s => s.Shares);
+                    .Select(g => new AssetViewModel()
+                    {
+                        Symbol = g.Key,
+                        Shares = g.Sum(a => a.IsPurchase ? a.SharesAmount : -a.SharesAmount)
+                    })
+                    .Where(a => a.Shares > 0)
+                    .OrderByDescending(s => s.Shares);
 
             return count == -1 ? returnAssetViewModel : returnAssetViewModel.Take(count);
         }

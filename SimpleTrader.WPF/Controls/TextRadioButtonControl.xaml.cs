@@ -61,6 +61,14 @@ namespace SimpleTrader.WPF.Controls
             set => SetValue(CommandParameterRadioButtonProperty, value);
         }
 
+        public static readonly DependencyProperty IsCheckedProperty =
+            DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(TextRadioButtonControl), new PropertyMetadata(default(bool)));
+        public bool IsChecked
+        {
+            get => (bool)GetValue(IsCheckedProperty);
+            set => SetValue(IsCheckedProperty, value);
+        }
+
         public TextRadioButtonControl()
         {
             InitializeComponent();

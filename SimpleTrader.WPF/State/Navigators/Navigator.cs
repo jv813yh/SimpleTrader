@@ -10,7 +10,10 @@ namespace SimpleTrader.WPF.State.Navigators
         {   
             get => _currentViewModel;
             set
-            {   
+            {
+                // Dispose the current view model, if it is not null
+                _currentViewModel?.Dispose();
+
                 _currentViewModel = value;
                 // When the current view model is changed, the event is triggered
                 OnStateChanged();
