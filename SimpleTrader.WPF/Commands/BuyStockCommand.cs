@@ -36,8 +36,8 @@ namespace SimpleTrader.WPF.Commands
 
         // Check if the command can be executed according to the veryfies
         public override bool CanExecute(object? parameter)
-         => !string.IsNullOrEmpty(_buyViewModel.Symbol) && 
-            _buyViewModel.ConvertSharesToBuy(_buyViewModel.SharesToBuy) > 0;
+         => _buyViewModel.CanBuyStock &&
+            base.CanExecute(parameter);
 
         /// <summary>
         /// Override the method to execute the command to buy the stock

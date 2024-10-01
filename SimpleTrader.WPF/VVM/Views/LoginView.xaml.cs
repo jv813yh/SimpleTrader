@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -23,9 +24,12 @@ namespace SimpleTrader.WPF.VVM.Views
 
         private void LoginClickHandler(object sender, RoutedEventArgs e)
         {
+
             if (LoginCommand != null)
             {
-                if (LoginCommand.CanExecute(null))
+                // Check if the username and password are not empty
+                if(!string.IsNullOrEmpty(pbPassword.Password) &&
+                    !string.IsNullOrEmpty(txtBoxUserName.Text))
                 {
                     LoginCommand.Execute(pbPassword.Password);
                 }

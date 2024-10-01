@@ -27,6 +27,8 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         }
         public bool HasErrorMessage 
             => ErrorMessageViewModel.HasMessage;
+
+        public bool CanLogin => !string.IsNullOrEmpty(Username);
         public ICommand LoginCommand { get; }
         public ICommand ViewRegisterCommand { get; }
 

@@ -105,11 +105,30 @@
                          Text="Username"/>
 
                     <TextBox Grid.Column="1"
-                      Padding="5"
-                      Margin="20 0 0 0"
+                            Padding="5,6,0,0"
+                            Margin="20 0 0 0"
                              Width="210"
-                             Height="35"
-                      Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+                             Height="30"
+                            Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}">
+
+                        <Validation.ErrorTemplate>
+                            <ControlTemplate>
+                                <StackPanel>
+                                    <AdornedElementPlaceholder/>
+                                    <ItemsControl ItemsSource="{Binding}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"
+                                                FontSize="12" FontWeight="Medium"
+                                                FontStyle="Italic"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Validation.ErrorTemplate>
+
+                    </TextBox>
                 </Grid>
 
                 <Grid Grid.Row="1"
@@ -126,11 +145,29 @@
                              Text="Email"/>
 
                     <TextBox Grid.Column="1"
-                          Padding="5"
+                          Padding="5,6,0,0"
                           Margin="20 0 0 0"
                           Width="210"
-                          Height="35"
-                          Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+                          Height="30"
+                          Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}">
+
+                        <Validation.ErrorTemplate>
+                            <ControlTemplate>
+                                <StackPanel>
+                                    <AdornedElementPlaceholder/>
+                                    <ItemsControl ItemsSource="{Binding}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"
+                                                          FontSize="12" FontWeight="Medium"
+                                                          FontStyle="Italic"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Validation.ErrorTemplate>
+                    </TextBox>
                 </Grid>
 
                 <Grid Grid.Row="2" 
@@ -147,12 +184,29 @@
                          FontWeight="Black"/>
 
                     <components:BindablePasswordBox 
-                           Padding="5"
+                           Padding="5,6,0,0"
                            Width="220"
-                          Height="40"
+                           Height="40"
                            Margin="20 0 0 0"
                            Password="{Binding Password}"
-                           Grid.Column="1"/>
+                           Grid.Column="1">
+                        <Validation.ErrorTemplate>
+                            <ControlTemplate>
+                                <StackPanel>
+                                    <AdornedElementPlaceholder/>
+                                    <ItemsControl ItemsSource="{Binding}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"
+                                                           FontSize="12" FontWeight="Medium"
+                                                           FontStyle="Italic"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Validation.ErrorTemplate>
+                    </components:BindablePasswordBox>
                 </Grid>
 
                 <Grid Grid.Row="3" 
@@ -169,12 +223,30 @@
                                FontWeight="Black"/>
 
                     <components:BindablePasswordBox 
-                                 Padding="5"
+                                 Padding="5,6,0,0"
                                  Width="220"
                                  Height="40"
                                  Margin="20 0 0 0"
                                  Password="{Binding ConfirmPassword}"
-                                 Grid.Column="1"/>
+                                 Grid.Column="1">
+
+                        <Validation.ErrorTemplate>
+                            <ControlTemplate>
+                                <StackPanel>
+                                    <AdornedElementPlaceholder/>
+                                    <ItemsControl ItemsSource="{Binding}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"
+                                                           FontSize="12" FontWeight="Medium"
+                                                           FontStyle="Italic"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Validation.ErrorTemplate>
+                    </components:BindablePasswordBox>
                 </Grid>
 
                 <Grid Grid.Row="4"
@@ -191,11 +263,28 @@
                               Text="Starting balance"/>
 
                     <TextBox Grid.Column="1"
-                               Padding="5"
+                               Padding="5,6,0,0"
                                Margin="20 0 0 0"
                                Width="210"
-                               Height="35"
-                               Text="{Binding StartingBalance, UpdateSourceTrigger=PropertyChanged}"/>
+                               Height="30"
+                               Text="{Binding StartingBalance, UpdateSourceTrigger=PropertyChanged}">
+                        <Validation.ErrorTemplate>
+                            <ControlTemplate>
+                                <StackPanel>
+                                    <AdornedElementPlaceholder/>
+                                    <ItemsControl ItemsSource="{Binding}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"
+                                                           FontSize="12" FontWeight="Medium"
+                                                           FontStyle="Italic"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Validation.ErrorTemplate>
+                    </TextBox>
                 </Grid>
 
             </Grid>

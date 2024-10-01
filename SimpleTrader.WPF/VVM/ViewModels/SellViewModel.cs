@@ -17,6 +17,8 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             {
                 _selectedAsset = value;
                 OnPropertyChanged(nameof(SelectedAsset));
+                OnPropertyChanged(nameof(Symbol));
+                
             }
         }
 
@@ -68,6 +70,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
                 _sharesToSell = value;
                 OnPropertyChanged(nameof(SharesToSell));
                 OnPropertyChanged(nameof(TotalPrice));
+                OnPropertyChanged(nameof(CanSellStock));
             }
         }
         public double TotalPrice
@@ -79,7 +82,12 @@ namespace SimpleTrader.WPF.VVM.ViewModels
                     return PricePerShare;
                 }
 
-                return Convert.ToInt32(SharesToSell) * PricePerShare;
+                if (!double.TryParse(SharesToSell, out double result))
+                {
+                    return PricePerShare;
+                }
+
+                return result * PricePerShare;
             }
         }
 
@@ -98,6 +106,28 @@ namespace SimpleTrader.WPF.VVM.ViewModels
 
         public ICommand SearchSymbolCommand { get; }
         public ICommand SellStockCommand { get; }
+
+        public bool CanSearchSymbol => 
+            !string.IsNullOrEmpty(Symbol);
+
+        public bool CanSellStock
+        {
+            get
+            {
+                if (!double.TryParse(SharesToSell, out double result))
+                {
+                    return false;
+                }
+
+                if(Convert.ToInt32(SharesToSell) <= 0)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
 
         public SellViewModel(AssetStore assetStore, 
                              IStockPriceService stockPriceService, 

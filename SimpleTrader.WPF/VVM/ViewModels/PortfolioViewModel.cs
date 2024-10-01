@@ -44,8 +44,8 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             }
         }
 
-        private ComboBoxOption _selelctedOption;
-        public ComboBoxOption SelectedOption
+        private ComboBoxOption? _selelctedOption;
+        public ComboBoxOption? SelectedOption
         {
             get => _selelctedOption;
             set

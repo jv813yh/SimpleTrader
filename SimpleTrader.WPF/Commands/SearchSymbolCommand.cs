@@ -2,6 +2,7 @@
 using SimpleTrader.Domain.Services.Interfaces;
 using SimpleTrader.WPF.State.Assets;
 using SimpleTrader.WPF.VVM.ViewModels;
+using System.ComponentModel;
 
 namespace SimpleTrader.WPF.Commands
 {
@@ -18,7 +19,24 @@ namespace SimpleTrader.WPF.Commands
             _viewModel = viewModel;
             _stockPriceService = stockPriceService;
             _assetStore = assetStore;
+
+            _viewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
+
+        private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(_viewModel.CanSearchSymbol))
+            {
+                OnRaiseCanExecuteChanged();
+            }
+        }
+
+        public override bool CanExecute(object? parameter)
+        {
+            return _viewModel.CanSearchSymbol &&
+                base.CanExecute(parameter);
+        }
+
 
         // 
         public override async Task ExecuteAsync(object? parameter)

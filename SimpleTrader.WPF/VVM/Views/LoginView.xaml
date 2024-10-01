@@ -102,6 +102,7 @@
                             Text="Username"/>
 
                     <TextBox Grid.Column="1"
+                             x:Name="txtBoxUserName"
                          Padding="5,10,0,0"
                          Margin="20 0 0 0"
                          Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
@@ -154,6 +155,7 @@
             </StackPanel>
 
             <TextBlock Text="{Binding Message}"
+                       x:Name="txtBlockErrorMessage"
                    DataContext="{Binding ErrorMessageViewModel}"
                    HorizontalAlignment="Center"
                    Foreground="DarkRed"

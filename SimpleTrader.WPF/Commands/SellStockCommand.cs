@@ -3,6 +3,7 @@ using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services.Interfaces.TransactionServices;
 using SimpleTrader.WPF.State.Accounts;
 using SimpleTrader.WPF.VVM.ViewModels;
+using System.ComponentModel;
 
 namespace SimpleTrader.WPF.Commands
 {
@@ -19,7 +20,22 @@ namespace SimpleTrader.WPF.Commands
             _sellViewModel = sellViewModel;
             _sellStockService = sellStockService;
             _accountStore = accountStore;
+
+            // Subscribe to the PropertyChanged event of the BuyViewModel property has changed
+            _sellViewModel.PropertyChanged += OnPropertyViewModelChanged;
         }
+
+        private void OnPropertyViewModelChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(_sellViewModel.CanSellStock))
+            {
+                OnRaiseCanExecuteChanged();
+            }
+        }
+
+        public override bool CanExecute(object? parameter)
+            => _sellViewModel.CanSellStock &&
+               base.CanExecute(parameter);
         public async override Task ExecuteAsync(object? parameter)
         {
             string sellSymbolToUpper = _sellViewModel.Symbol.ToUpper();

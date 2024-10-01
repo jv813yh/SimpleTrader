@@ -18,6 +18,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             {
                 _symbol = value;
                 OnPropertyChanged(nameof(Symbol));
+                OnPropertyChanged(nameof(CanSearchSymbol));
             }
         }
 
@@ -67,6 +68,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
                 OnPropertyChanged(nameof(SharesToBuy));
                 // Update the total price
                 OnPropertyChanged(nameof(TotalPrice));
+                OnPropertyChanged(nameof(CanBuyStock));
             }
         }
 
@@ -79,6 +81,7 @@ namespace SimpleTrader.WPF.VVM.ViewModels
             {
                 _sharesOwned = value;
                 OnPropertyChanged(nameof(SharesOwned));
+                OnPropertyChanged(nameof(CanBuyStock));
             }
         }
 
@@ -101,6 +104,12 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         }
         public ICommand SearchSymbolCommand { get; }
         public ICommand BuyStockCommand { get; }
+
+        public bool CanBuyStock 
+            => TotalPrice > 0;
+
+        public bool CanSearchSymbol => 
+            !string.IsNullOrEmpty(Symbol);
 
         public BuyViewModel(IStockPriceService stockPriceService,
             IBuyStockService buyStockService,

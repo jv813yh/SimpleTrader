@@ -1,8 +1,9 @@
-﻿using System.Windows.Input;
+﻿using System.ComponentModel;
+using System.Windows.Input;
 
 namespace SimpleTrader.WPF.VVM.ViewModels
 {
-    public interface ISearchSymbolViewModel
+    public interface ISearchSymbolViewModel : INotifyPropertyChanged
     {
         double PricePerShare { set; }
         string SearchResultSymbol { set; }
@@ -10,5 +11,6 @@ namespace SimpleTrader.WPF.VVM.ViewModels
         string SetStatusMessage { set; }
         string SharesOwned { set;}
         string Symbol { get;  }
+        bool CanSearchSymbol { get; }
     }
 }

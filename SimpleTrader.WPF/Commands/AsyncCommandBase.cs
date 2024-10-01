@@ -1,7 +1,9 @@
 ﻿
+using System.Windows.Input;
+
 namespace SimpleTrader.WPF.Commands
 {
-    public abstract class AsyncCommandBase : BaseCommand
+    public abstract class AsyncCommandBase : ICommand
     {
         public bool _isExecuting;
         public bool IsExecuting
@@ -14,11 +16,19 @@ namespace SimpleTrader.WPF.Commands
             }
         }
 
-        public override bool CanExecute(object? parameter)
-         => !IsExecuting &&
-            base.CanExecute(parameter);
+        public event EventHandler? CanExecuteChanged;
 
-        public override async void Execute(object? parameter)
+        public void OnRaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, System.EventArgs.Empty);
+        }
+
+        public virtual bool CanExecute(object? parameter)
+        {
+            return !IsExecuting;
+        }
+
+        public async void Execute(object? parameter)
         {
             IsExecuting = true;
 

@@ -21,7 +21,6 @@ namespace SimpleTrader.WPF.Commands
             _renavigator = renavigator;
         }
 
-
         public LoginCommand(LoginViewModel loginViewModel)
         {
             _loginViewModel = loginViewModel;

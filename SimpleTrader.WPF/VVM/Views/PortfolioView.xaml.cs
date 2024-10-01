@@ -27,6 +27,8 @@ namespace SimpleTrader.WPF.VVM.Views
             if(cbTop.SelectedItem != null)
             {
                 SelectedTopChangedCommand?.Execute(null);
+
+                cbTop.SelectedItem = null;
             }
         }
     }
