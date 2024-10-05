@@ -37,6 +37,11 @@ namespace SimpleTrader.FinancialModelingAPI
                     throw new Exception("Empty response from API");
                 }
 
+                if(rawContentJson.Contains("[]"))
+                {
+                    return default;
+                }
+
                 // Deserialize the raw content to T object and return it
                 return JsonConvert.DeserializeObject<T>(rawContentJson);
             }

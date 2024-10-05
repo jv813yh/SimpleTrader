@@ -26,7 +26,12 @@ namespace SimpleTrader.FinancialModelingAPI.Services
             string fullUriToMajorIndex = _majorIndexURIGlobal + GetMajorIndexTypeSuffix(majorIndexType);
 
             // Get the response message from the uri
-            MajorIndex majorIndex = await _financialModelingHttpClient.GetAsync<MajorIndex>(fullUriToMajorIndex);
+            MajorIndex? majorIndex = await _financialModelingHttpClient.GetAsync<MajorIndex>(fullUriToMajorIndex);
+
+            if(majorIndex == null)
+            {
+                majorIndex = new MajorIndex();
+            }
 
             // Set the major index type
             majorIndex.MajoxIndexType = majorIndexType;

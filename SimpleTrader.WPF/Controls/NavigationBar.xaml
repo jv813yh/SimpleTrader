@@ -25,12 +25,26 @@
 
             <TextBlock Text="Simple Trader"
                       Padding="15"
-                      FontSize="26"
                       HorizontalAlignment="Center"
                       FontWeight="Bold"
+                      FontSize="24"
                       Foreground="#f0f0f0"
                       Grid.Row="0"
-                      Margin="5"/>
+                      Margin="2">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="FontSize"
+                                    From="26" To="20" Duration="0:0:2"
+                                    AutoReverse="True"
+                                    RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
 
             <Grid MaxWidth="900">
                 <StackPanel Orientation="Vertical"
@@ -42,7 +56,7 @@
                            Height="25"/>
 
                     <StackPanel Orientation="Horizontal"
-                                Margin="5">
+                                Margin="2">
                         <TextBlock Text="Welcome "
                                    FontSize="15"
                                    FontWeight="DemiBold"
@@ -108,13 +122,13 @@
 
                             <Border x:Name="BorderElement" 
                                     CornerRadius="15"
-                                    BorderThickness="3"
+                                    BorderThickness="2"
                                     BorderBrush="White"
-                                    Margin="0,0,20,0">
+                                    Margin="0,0,40,0">
                                 <Image Source="/Images/logOutIcon.png"
                                        Width="20"
                                        Height="20"
-                                       Margin="5"/>
+                                       Margin="3"/>
                             </Border>
 
                             <ControlTemplate.Triggers>
