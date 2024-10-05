@@ -16,9 +16,11 @@
     <None Remove="Images\checkIcon.png" />
     <None Remove="Images\crownIcon.png" />
     <None Remove="Images\imageStockTrader.JPG" />
+    <None Remove="Images\logOutIcon.png" />
     <None Remove="Images\moneyIcon.png" />
     <None Remove="Images\purchasesIcon.png" />
     <None Remove="Images\salesIcon.png" />
+    <None Remove="Images\userIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +68,9 @@
     <Resource Include="Images\imageStockTrader.JPG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\logOutIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\moneyIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -73,6 +78,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\salesIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\userIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

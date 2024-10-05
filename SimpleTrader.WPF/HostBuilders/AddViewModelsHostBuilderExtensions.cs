@@ -30,7 +30,16 @@ namespace SimpleTrader.WPF.HostBuilders
                 services.AddTransient<AssetSummaryViewModel>();
                 services.AddTransient(CreateHomeViewModel);
                 // Register the MainViewModel as a Scoped service
-                services.AddTransient<MainViewModel>();
+                //services.AddTransient<MainViewModel>(services);
+                
+                services.AddTransient<MainViewModel>(services =>
+                {
+                    return new MainViewModel(
+                        services.GetRequiredService<INavigator>(),
+                        services.GetRequiredService<IAuthenticator>(),
+                        services.GetRequiredService<ISimpleTraderViewModelFactory>(),
+                        services.GetRequiredService<ViewModelDelegateRenavigator<LoginViewModel>>());
+                });
 
 
                 services.AddSingleton<ViewModelDelegateRenavigator<LoginViewModel>>();

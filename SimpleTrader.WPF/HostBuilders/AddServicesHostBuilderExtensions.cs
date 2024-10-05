@@ -2,19 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimpleTrader.Common.Interfaces;
-using SimpleTrader.Domain.Services.AuthentificationServices.Interfaces;
+using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services.AuthentificationServices;
-using SimpleTrader.Domain.Services.Interfaces.TransactionServices;
+using SimpleTrader.Domain.Services.AuthentificationServices.Interfaces;
 using SimpleTrader.Domain.Services.Interfaces;
+using SimpleTrader.Domain.Services.Interfaces.TransactionServices;
 using SimpleTrader.Domain.Services.TransactionProviders;
 using SimpleTrader.EntityFramework.Repositories;
 using SimpleTrader.FinancialModelingAPI.Services;
-using SimpleTrader.WPF.State.Accounts;
-using SimpleTrader.WPF.State.Assets;
-using SimpleTrader.WPF.State.Authenticators;
-using SimpleTrader.WPF.State.Authentificators;
-using SimpleTrader.WPF.State.Navigators;
-using SimpleTrader.Domain.Models;
 
 namespace SimpleTrader.WPF.HostBuilders
 {
