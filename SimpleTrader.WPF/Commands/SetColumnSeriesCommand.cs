@@ -41,6 +41,11 @@ namespace SimpleTrader.WPF.Commands
 
                     // Set chart visibility
                     SetChartVisibility();
+
+                    if(amountOfAssets.Count() == 0)
+                    {
+                        _portfolioViewModel.SetErrorMessage = "You don't have any assets";
+                    }
                 }
                 else
                 {
@@ -55,6 +60,11 @@ namespace SimpleTrader.WPF.Commands
 
                     // Set chart visibility
                     SetChartVisibility();
+
+                    if (amountOfMoney.Count() == 0)
+                    {
+                        _portfolioViewModel.SetErrorMessage = "You don't have any assets";
+                    }
                 }
             }
             catch (InvalidSymbolException)

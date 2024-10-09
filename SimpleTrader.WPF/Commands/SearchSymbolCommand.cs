@@ -58,6 +58,10 @@ namespace SimpleTrader.WPF.Commands
             {
                 _viewModel.SetErrorMessage = "Symbol does not exist";
             }
+            catch(NullReferenceException)
+            {
+                _viewModel.SetErrorMessage = "Stock does not exist";
+            }
             catch (Exception)
             {
                 _viewModel.SetErrorMessage = "Failed to load stock information";

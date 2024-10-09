@@ -25,35 +25,42 @@ namespace SimpleTrader.FinancialModelingAPI.Services
         /// <exception cref="Exception"></exception>
         public async Task<double> GetPriceAsync(string symbol)
         {
-            double returnFirstPrice;
+            double returnFirstPrice = 0;
             // uri to get the StockPriceResult according to the symbol
             string fullUriToMajorIndex = _stockRealTimeGlobal + symbol;
 
             // Get the response message from the uri
             StockPriceResult stockResult = await _financialModelingHttpClient.GetAsync<StockPriceResult>(fullUriToMajorIndex);
 
-            if (stockResult.CompaniesPriceList.Count == 0)
+            if(stockResult == null)
             {
-                throw new InvalidSymbolException(symbol);
+                throw new Exception("The stock does not exist");
             }
+            else
+            {
+                if (stockResult.CompaniesPriceList.Count == 0)
+                {
+                    throw new InvalidSymbolException(symbol);
+                }
 
-            try
-            {
-                returnFirstPrice = stockResult.CompaniesPriceList
-                    .Where(c => c.Symbol == symbol)
-                    .First().Price;
-            }
-            catch (NullReferenceException)
-            {
-                throw new Exception("The price of the stock is not available");
-            }
-            catch (InvalidOperationException)
-            {
-                throw new Exception("The price of the stock is not available");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{ex.Message}");
+                try
+                {
+                    returnFirstPrice = stockResult.CompaniesPriceList
+                        .Where(c => c.Symbol == symbol)
+                        .First().Price;
+                }
+                catch (NullReferenceException)
+                {
+                    throw new Exception("The price of the stock is not available");
+                }
+                catch (InvalidOperationException)
+                {
+                    throw new Exception("The price of the stock is not available");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"{ex.Message}");
+                }
             }
 
             // Return the price of stock
