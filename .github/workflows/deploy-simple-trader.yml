@@ -1,9 +1,7 @@
 name: "Deploy Simple Trader Demo"
 
 on:
-  push:
-    tags:
-      - "simple-trader/v*"
+  workflow_dispatch:
 
 env:
   PROJECT_PATH: SimpleTrader.WPF/SimpleTrader.WPF.csproj
@@ -19,7 +17,10 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - run: dotnet restore ${{ env.PROJECT_PATH }}
+      - name: Update Workload
+        run: dotnet workload update
+
+      - run: dotnet restore ${{ env.PROJECT_PATH }} --runtime win-x64
 
       - run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
 
@@ -38,4 +39,3 @@ jobs:
           github-token: ${{ secrets.MY_GITHUB_TOKEN }}
           pattern: SimpleTrader/SimpleTrader.WPF/bin/Release/net8.0-windows/win-x64/publish/*.exe
           release-url: ${{ steps.create_release.outputs.upload_url }}
-
