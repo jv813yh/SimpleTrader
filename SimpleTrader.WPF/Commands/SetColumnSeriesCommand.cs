@@ -16,6 +16,11 @@ namespace SimpleTrader.WPF.Commands
 
         }
 
+        /// <summary>
+        /// Execute the command asynchronously for the column series
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public override async Task ExecuteAsync(object? parameter)
         {
             // Clear the message for the x and y axis
