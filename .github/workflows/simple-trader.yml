@@ -1,9 +1,7 @@
 name: "Deploy Simple Trader Demo"
 
 on:
-  push:
-    tags:
-      - "simple-trader/v*"
+  workflow_dispatch:
 
 env:
   PROJECT_PATH: SimpleTrader.WPF/SimpleTrader.WPF.csproj
