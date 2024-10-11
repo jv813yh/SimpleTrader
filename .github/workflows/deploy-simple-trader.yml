@@ -39,5 +39,5 @@ jobs:
       - uses: csexton/release-asset-action@v2
         with:
           github-token: ${{ secrets.MY_GITHUB_TOKEN }}
-          pattern: SimpleTrader/SimpleTrader.WPF/bin/Release/net8.0-windows/win-x64/publish/*.exe
+          pattern: SimpleTrader.WPF/bin/Release/net8.0-windows/win-x64/publish/*.exe
           release-url: ${{ steps.create_release.outputs.upload_url }}
