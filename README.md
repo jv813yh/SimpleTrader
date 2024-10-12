@@ -40,28 +40,4 @@ After launching the application, users can:
 - **Buy/Sell assets**: Execute trades and update your portfolio.
 - **Login/Register**: Manage account information securely.
 
-## Getting Started
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/jv813yh/SimpleTrader.git
-2. Navigate to the project directory:
-   ```bash
-   cd SimpleTrader
-3. Restore dependencies:
-   ```bash
-   dotner restore
-5. Update EF migrations and apply the database:
-   ```bash
-   dotnet ef database update
-6. Run the application:
-   ```bash
-   dotnet run --project SimpleTrader.WPF/SimpleTrader.WPF.csproj
-
-### Running Tests
-The project includes unit tests for the Domain layer. To run the tests:
-  ```bash
-  dotnet test
 
