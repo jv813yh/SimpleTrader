@@ -2,6 +2,8 @@
 
 This project is a **Simple Trading Demo Application** built with WPF, MVVM architecture, and .NET. It features CRUD operations, live data visualization, and portfolio management using various technologies and patterns such as Entity Framework, Repository Pattern, Dependency Injection, and more. The application allows users to search for assets, buy and sell stocks, view portfolios, and manage accounts with login and registration functionalities.
 
+!!! **Warning**: in the appsettings.json file, you need to enter your own api key for **"FINANCE_API_KEY** in order to use the API service !!!
+
 ## Features
 
 - **CRUD Operations**: Full support for Create, Read, Update, Delete operations for managing user portfolios and stock transactions.
